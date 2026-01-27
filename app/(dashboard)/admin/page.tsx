@@ -6,7 +6,7 @@ import CountChart from "@/src/app/components/CountChart";
 import PayrollSummary from "@/src/app/components/PayrollSummary";
 import AttendanceActivity from "@/src/app/components/AttendanceActivity";
 import AttendanceChart from "@/src/app/components/AttendanceChart";
-import EventCalendar from "../../components/EventCalendar";
+import EventCalendar from "@/components/EventCalendar";
 
 export default function AdminPage() {
   return (

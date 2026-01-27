@@ -63,7 +63,7 @@ const Loginpage = () => {
               </label>
             </div>
 
-            <Link href="/dashbaord/admin">
+            <Link href="../admin">
            <button
               type="submit"
               className="w-full bg-[#153453] mb-4 text-gray-100 py-2 rounded-lg text-sm transition"
