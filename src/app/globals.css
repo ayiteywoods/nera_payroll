@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+ font-family: 'Poppins', system-ui, sans-serif;
+ 
+
+
+}
+
+
+
+.react-calendar {
+  border: 0px solid;
+  font-size:medium;
+  font-family:'Courier New', Courier, monospace
+}
+
+/* Remove outer border and background */
+.react-calendar {
+  border: none !important;
+  box-shadow: none !important;
+  background: #7d8fb0;
+}
+
+/* Remove borders around individual day tiles and header cells */
+.react-calendar__tile,
+.react-calendar__navigation button,
+.react-calendar__month-view__weekdays__weekday,
+.react-calendar__month-view__days__day,
+.react-calendar__year-view__months__month {
+  border: none !important;
+  box-shadow: none !important;
+ 
+}
+
+/* Remove focus outlines (keyboard focus) — keep accessibility in mind */
+.react-calendar button:focus,
+.react-calendar__tile:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* If using double view or view container */
+.react-calendar--doubleView .react-calendar__viewContainer,
+.react-calendar__viewContainer {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Optional: remove divider lines between header and body */
+.react-calendar__month-view__weekdays {
+  border-bottom: none !important;
+}
+
+
+.react-calendar__tile--active {
+  background: linear-gradient(135deg, #ff0000, #8B5CF6);
+  color: #0a0a0a;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(236, 72, 153, 0.35);
+}
+
+
+
+
+
+
