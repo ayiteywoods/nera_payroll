@@ -1,9 +1,12 @@
-import Image from "next/image";
+
+
+import { redirect } from "next/navigation";
+import React from "react";
+
 
 export default function Home() {
+  redirect ("/login")
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1 className="text-5xl">Welcome to Nera Payroll</h1>
-    </div>
+  <> </>
   );
 }
