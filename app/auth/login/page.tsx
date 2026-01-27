@@ -31,8 +31,8 @@ const Loginpage = () => {
       <div className='max-w-xl mx-auto w-full'>
       <section className='bg-teal-50 p-14 rounded-lg m-6'>    
         <h1 className="text-3xl mb-3 text-center">Sign In</h1>
-        <p className='text-gray-400 text-sm mb-4'>
-            Log In and get started.
+        <p className='text-gray-500 text-sm mb-4 text-center'>
+            Welcome back, Log in and get started.
           </p>
     
           <form className="space-y-6">
@@ -42,7 +42,7 @@ const Loginpage = () => {
                 type="email"
                 placeholder="Please enter your email"
                 className="w-full px-4 py-2 rounded-lg border border-neutral-300
-                 focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10 text-gray-400"
+                 focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
               />              
             </div>
 
