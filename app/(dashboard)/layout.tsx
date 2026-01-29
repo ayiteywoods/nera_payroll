@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
-import Menu from '@/src/app/components/Menu'
-import Navbar from '@/src/app/components/NavBar';
+import Menu from '@/components/Menu'
+import Navbar from '@/components/NavBar';
 export default function DashboardLayout({
   children,
 }: Readonly<{
