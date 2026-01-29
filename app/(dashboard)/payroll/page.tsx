@@ -1,15 +1,6 @@
 "use client";
 
-<<<<<<< HEAD
-import { useState, useMemo } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Search, Download, Loader2 } from "lucide-react";
-import PayrollCard from "@/components/PayrollCard"; // adjust path as needed
-=======
 import React, { useState } from "react";
->>>>>>> 745027874d68ba5e1d3623a3e80d05b5e45084b3
 
 // Sample payroll data - replace with your API data
 const initialPayrolls = [
