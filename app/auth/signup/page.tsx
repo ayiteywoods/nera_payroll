@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { HiEnvelope, HiEyeSlash, HiPhone, HiUserCircle } from 'react-icons/hi2'
+import { HiEnvelope, HiEyeSlash, HiPhone, HiShieldCheck, HiUserCircle } from 'react-icons/hi2'
 
 const Registerpage = () => {
   return (
@@ -24,21 +24,35 @@ const Registerpage = () => {
       <div className='lg:w-1/2 flex items-center justify-center p-8 lg:p-15 bg-gray-200'>
         <div className='max-w-xl mx-auto w-full'>
         <section className='bg-teal-50 p-14 rounded-lg m-6'>
-          <h1 className='text-3xl mb-3 text-center'>Register</h1>
+          <h1 className='text-3xl mb-3 text-center'>Sign Up</h1>
           <p className='text-gray-400 text-sm mb-4'>
             Create a new account to get started and enjoy seamless acess to our features.
           </p>
       
 
           <form className = "space-y-6" >
-          <div className='relative flex items-center'>
+          <div className='flex items-center gap-2'>  
+             
+          <div className='relative flex items-center flex-1'>
           <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
            <input
            type='text'
-           placeholder='Name '
+           placeholder='First '
            className="w-full px-4 py-2 rounded-lg border border-neutral-300
-           focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10 text-gray-400"
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
+          </div> 
+
+          <div className='relative flex items-center flex-1'>
+          <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='text'
+           placeholder='Surname'
+           className="w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
+
           </div> 
 
         <div className='flex items-center gap-2'> 
@@ -49,24 +63,9 @@ const Registerpage = () => {
            type='email'
            placeholder='Email '
            className=" w-full px-4 py-2 rounded-lg border border-neutral-300
-           focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10 text-gray-400"
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
           </div>
-
-
-          <div className='relative flex items-center flex-1'>
-          <HiEyeSlash size={20} className='absolute left-3 text-gray-400' />
-           <input
-           type='password'
-           placeholder='•••••••'
-           className=" w-full px-4 py-2 rounded-lg border border-neutral-300
-           focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10 text-gray-400"
-           />
-          </div>          
-          </div>
-
-
-          <div className='flex items-center gap-2'>
 
           <div className='relative flex items-center flex-1'>
           <HiPhone size={20} className='absolute left-3 text-gray-400' />
@@ -74,22 +73,36 @@ const Registerpage = () => {
            type='tel'
            placeholder='Telephone Number'
            className=" w-full px-4 py-2 rounded-lg border border-neutral-300
-           focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10 text-gray-400"
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div>                 
+          </div>
+
+
+          <div className='flex items-center gap-2'>
+
+           <div className='relative flex items-center flex-1'>
+          <HiEyeSlash size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='password'
+           placeholder='•••••••'
+           className=" w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
           </div> 
 
           <div className='relative flex items-center flex-1'>
-          <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
+          <HiShieldCheck size={20} className='absolute left-3 text-gray-400' />
            <input
-           type='text'
-           placeholder='Employee Position '
-           className="w-full px-4 py-2 rounded-lg border border-neutral-300
-           focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10 text-gray-400"
-           />  
-          </div>
+           type='password'
+           placeholder='•••••••'
+           className=" w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
           </div>
           
-          
+    
            <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-gray-500">
                 <input type="checkbox" className="accent-[#153453]" />
@@ -106,7 +119,8 @@ const Registerpage = () => {
 
            <p className='text-sm text-gray-500 mb-4 text-center'> 
             Already have an account?{" "}
-          <Link href="/login">
+          <Link href="../auth/login
+          ">
           <span className="text-[#153453] cursor-pointer hover:underline">
             Sign In
           </span>

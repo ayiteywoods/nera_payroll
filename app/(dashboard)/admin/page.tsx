@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import PayrollCard from "@/src/app/components/PayrollCard";
-import CountChart from "@/src/app/components/CountChart";
-import PayrollSummary from "@/src/app/components/PayrollSummary";
-import AttendanceActivity from "@/src/app/components/AttendanceActivity";
-import AttendanceChart from "@/src/app/components/AttendanceChart";
+import PayrollCard from "@/components/PayrollCard";
+import CountChart from "@/components/CountChart";
+import PayrollSummary from "@/components/PayrollSummary";
+import AttendanceActivity from "@/components/AttendanceActivity";
+import AttendanceChart from "@/components/AttendanceChart";
 import EventCalendar from "@/components/EventCalendar";
 
 export default function AdminPage() {

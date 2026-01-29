@@ -5,7 +5,7 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Search, Download, Loader2 } from "lucide-react";
-import PayrollCard from "@/src/app/components/PayrollCard"; // adjust path as needed
+import PayrollCard from "@/components/PayrollCard"; // adjust path as needed
 
 // ──────────────────────────────────────────────
 // Types & Schema
@@ -131,7 +131,7 @@ export default function PayrollPage() {
     `GH₵ ${n.toLocaleString("en-GH", { minimumFractionDigits: 0 })}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-6 md:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 px-4 py-6 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header – smaller */}
         <div className="mb-8">

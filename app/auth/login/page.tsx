@@ -52,7 +52,7 @@ const Loginpage = () => {
                 type="password"
                 placeholder="•••••••"
                 className="w-full px-4 py-2 rounded-lg border border-neutral-300
-                 focus:outline-none focus:ring-2 focus:ring-[#153453] pl-10"
+                 focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10"
               />
             </div>
 

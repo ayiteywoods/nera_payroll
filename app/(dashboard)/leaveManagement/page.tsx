@@ -314,7 +314,7 @@ export default function LeaveManagementPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[800px]">
+              <table className="w-full min-w-200">
                 <thead>
                   <tr className="border-b bg-gray-50 text-left text-sm font-medium text-gray-600">
                     <th className="px-6 py-4">Employee</th>
