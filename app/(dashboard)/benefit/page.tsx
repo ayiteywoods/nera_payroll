@@ -1,226 +1,195 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function EmployeePage() {
-  const [showForm, setShowForm] = useState(true); // form visible by default
-  const [cvPreview, setCvPreview] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
+export default function BenefitsAndDeductionsPage() {
+  const [activeTab, setActiveTab] = useState<"benefits" | "deductions">("benefits");
 
-  const handleFilePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setCvPreview(URL.createObjectURL(file));
-  };
+  // Mock data based on your tree structure
+  const benefitCategories = [
+    { id: 1, name: "Allowances", items: ["Housing Allowance", "Transport Allowance", "Meal Allowance"] },
+    { id: 2, name: "Compensation", items: ["Base Salary", "Performance Bonus", "Overtime Pay"] },
+    { id: 3, name: "Benefit Category", items: ["Health Insurance", "Life Insurance", "Education Support"] },
+    { id: 4, name: "Beneficiaries", items: ["Spouse", "Children", "Dependents"] },
+  ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
+  const deductionCategories = [
+    { id: 1, name: "Deductions Category", items: ["PAYE Tax", "Withholding Tax"] },
+    { id: 2, name: "SSNIT", items: ["Employee Contribution", "Employer Contribution"] },
+    { id: 3, name: "Pension", items: ["Tier 1", "Tier 2", "Tier 3"] },
+    { id: 4, name: "Other Deductions", items: ["Loan Repayment", "Union Dues", "Advances"] },
+  ];
 
-    const formData = new FormData(e.target as HTMLFormElement);
-    console.log("Saving Employee:", Object.fromEntries(formData));
-
-    setTimeout(() => {
-      setSaving(false);
-      alert("Employee created successfully ✅");
-      setShowForm(false);
-    }, 1000);
-  };
+  const currency = "GHS"; // or ₵ – you can pull from your Currency setup
 
   return (
-    <div className="w-full min-h-screen p-6 font-sans bg-gray-100">
-      <h1 className="text-3xl font-semibold mb-6 text-center" style={{ color: "#154667" }}>
-        Employee Management
-      </h1>
+    <div className="min-h-screen bg-gray-50 p-4 lg:p-6">
+      {/* Header – consistent with your dashboard */}
+      <div className="mb-6 lg:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Benefits & Deductions</h1>
+        <p className="text-sm md:text-base text-gray-600 mt-1">
+          Manage allowances, deductions, benefits, and compensation rules
+        </p>
+      </div>
 
-      {/* CREATE BUTTON */}
-      {!showForm && (
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={() => setShowForm(true)}
-            className="px-6 py-3 rounded-xl text-white"
-            style={{ backgroundColor: "#154667" }}
-          >
-            + Create Employee
-          </button>
+      {/* Quick Stats / Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-8">
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
+          <h3 className="text-sm font-medium text-gray-600">Total Allowances</h3>
+          <p className="text-2xl font-bold text-gray-900 mt-2">₵ 48,750</p>
+          <p className="text-xs text-gray-500 mt-1">This payroll cycle</p>
         </div>
-      )}
 
-      {/* EMPLOYEE FORM */}
-      {showForm && (
-        <div className="mt-6 max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl font-semibold" style={{ color: "#154667" }}>
-              Create Employee
-            </h1>
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
+          <h3 className="text-sm font-medium text-gray-600">Total Deductions</h3>
+          <p className="text-2xl font-bold text-red-600 mt-2">₵ 32,180</p>
+          <p className="text-xs text-gray-500 mt-1">Tax + SSNIT + Others</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
+          <h3 className="text-sm font-medium text-gray-600">Active Benefits</h3>
+          <p className="text-2xl font-bold text-green-600 mt-2">14</p>
+          <p className="text-xs text-gray-500 mt-1">Assigned to employees</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
+          <h3 className="text-sm font-medium text-gray-600">Currency</h3>
+          <p className="text-2xl font-bold text-indigo-700 mt-2">{currency}</p>
+          <p className="text-xs text-gray-500 mt-1">Default payroll currency</p>
+        </div>
+      </div>
+
+      {/* Main Content – Tabs + Sidebar-like tree + Table/List */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        {/* Tabs */}
+        <div className="border-b border-gray-200">
+          <div className="flex px-6 pt-4">
             <button
-              onClick={() => setShowForm(false)}
-              className="px-4 py-2 rounded-xl border"
+              onClick={() => setActiveTab("benefits")}
+              className={`pb-4 px-6 font-medium text-sm border-b-2 ${
+                activeTab === "benefits"
+                  ? "border-[#153453] text-[#153453]"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
             >
-              Cancel
+              Benefits & Allowances
+            </button>
+            <button
+              onClick={() => setActiveTab("deductions")}
+              className={`pb-4 px-6 font-medium text-sm border-b-2 ml-2 ${
+                activeTab === "deductions"
+                  ? "border-[#153453] text-[#153453]"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              Deductions
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12">
+          {/* Left Sidebar – Tree Navigation */}
+          <div className="lg:col-span-3 border-r border-gray-200 p-5 lg:p-6 bg-gray-50">
+            <h3 className="text-sm font-medium text-gray-700 mb-4">
+              {activeTab === "benefits" ? "Benefits Structure" : "Deductions Structure"}
+            </h3>
+
+            <ul className="space-y-3 text-sm">
+              {activeTab === "benefits" ? (
+                <>
+                  <li className="font-medium text-gray-800">Allowances</li>
+                  <li className="pl-4 text-gray-600">Allowance Category</li>
+                  <li className="font-medium text-gray-800 mt-4">Compensation</li>
+                  <li className="font-medium text-gray-800 mt-4">Benefit Category</li>
+                  <li className="font-medium text-gray-800 mt-4">Beneficiaries</li>
+                </>
+              ) : (
+                <>
+                  <li className="font-medium text-gray-800">Deductions Category</li>
+                  <li className="pl-4 text-gray-600">Tax</li>
+                  <li className="pl-4 text-gray-600">SSNIT</li>
+                  <li className="pl-4 text-gray-600">Pension</li>
+                  <li className="font-medium text-gray-800 mt-4">Other Deductions</li>
+                </>
+              )}
+            </ul>
+
+            <button className="mt-6 w-full bg-[#153453] hover:bg-[#0f2a45] text-white py-2.5 rounded-lg text-sm font-medium transition-colors">
+              + Add New Category
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="pb-32 space-y-6">
-            {/* RESPONSIVE GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              <Section title="Personal Information">
-                <Grid>
-                  <Input name="firstName" label="First Name" required />
-                  <Input name="lastName" label="Last Name" required />
-                  <Input name="otherNames" label="Other Names" />
-                  <Input name="email" label="Email" type="email" required />
-                  <Input name="phone" label="Phone Number" required />
-                  <Input name="dob" label="Date of Birth" type="date" />
-                  <Select name="gender" label="Gender">
-                    <option value="">Select</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                  </Select>
-                  <Input name="address" label="Residential Address" />
-                </Grid>
-              </Section>
+          {/* Main Content Area */}
+          <div className="lg:col-span-9 p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-lg font-semibold text-gray-800">
+                {activeTab === "benefits" ? "Active Benefits & Allowances" : "Active Deductions"}
+              </h2>
+              <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                + New {activeTab === "benefits" ? "Benefit" : "Deduction"}
+              </button>
+            </div>
 
-              <Section title="Employment Details">
-                <Grid>
-                  <Input name="employeeId" label="Employee ID" required />
-                  <Input name="jobTitle" label="Job Title" required />
-                  <Input name="department" label="Department" />
-                  <Select name="employmentType" label="Employment Type">
-                    <option>Full-Time</option>
-                    <option>Part-Time</option>
-                    <option>Contract</option>
-                  </Select>
-                  <Input name="hireDate" label="Hire Date" type="date" />
-                  <Select name="status" label="Employment Status">
-                    <option>Active</option>
-                    <option>On Leave</option>
-                    <option>Suspended</option>
-                  </Select>
-                </Grid>
-              </Section>
-
-              <Section title="Payroll Information">
-                <Grid>
-                  <Input name="basicSalary" label="Basic Salary" type="number" />
-                  <Select name="salaryType" label="Salary Type">
-                    <option>Monthly</option>
-                    <option>Hourly</option>
-                  </Select>
-                  <Input name="allowances" label="Allowances" type="number" />
-                  <Input name="taxNumber" label="Tax ID / TIN" />
-                  <Input name="ssnit" label="SSNIT Number" />
-                </Grid>
-              </Section>
-
-              <Section title="Bank & Payment">
-                <Grid>
-                  <Input name="bankName" label="Bank Name" required />
-                  <Input name="accountName" label="Account Name" required />
-                  <Input name="accountNumber" label="Account Number" required />
-                  <Select name="paymentMethod" label="Payment Method">
-                    <option>Bank Transfer</option>
-                    <option>Mobile Money</option>
-                  </Select>
-                </Grid>
-              </Section>
-
-              <Section title="Emergency Contact">
-                <Grid>
-                  <Input name="emergencyName" label="Contact Name" />
-                  <Input name="emergencyPhone" label="Contact Phone" />
-                  <Input name="relationship" label="Relationship" />
-                  <Select name="contactCategory" label="Contact Category">
-                    <option>Emergency</option>
-                    <option>Next of Kin</option>
-                    <option>Dependent</option>
-                  </Select>
-                </Grid>
-              </Section>
-
-              <Section title="Documents">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm mb-1">Upload CV</label>
-                    <input
-                      type="file"
-                      name="cv"
-                      accept=".pdf,.doc,.docx"
-                      onChange={handleFilePreview}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm mb-1">Upload ID</label>
-                    <input type="file" name="idCard" accept=".png,.jpg,.pdf" />
-                  </div>
-
-                  {cvPreview && (
-                    <iframe
-                      src={cvPreview}
-                      className="w-full h-48 rounded-xl border"
-                    />
+            {/* Table / List */}
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Type
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Amount / Rate
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {(activeTab === "benefits" ? benefitCategories : deductionCategories).flatMap(
+                    (cat) =>
+                      cat.items.map((item, idx) => (
+                        <tr key={`${cat.id}-${idx}`} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {item}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {cat.name}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {activeTab === "benefits" ? "GHS 500 / month" : "5.5%"}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="px-2.5 py-1 inline-flex text-xs leading-5 font-medium rounded-full bg-green-100 text-green-800">
+                              Active
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
+                            <button className="text-red-600 hover:text-red-900">Disable</button>
+                          </td>
+                        </tr>
+                      ))
                   )}
-                </div>
-              </Section>
+                </tbody>
+              </table>
             </div>
 
-            {/* STICKY SAVE BAR */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t px-6 py-4 flex justify-end gap-4 z-50">
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="px-6 py-3 rounded-xl border"
-              >
-                Cancel
-              </button>
-
-              <button
-                type="submit"
-                disabled={saving}
-                className="px-8 py-3 rounded-xl text-white"
-                style={{ backgroundColor: "#154667" }}
-              >
-                {saving ? "Saving..." : "Save Employee"}
+            <div className="mt-8 flex justify-end">
+              <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                Export to PDF
               </button>
             </div>
-          </form>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
-
-/* ---------- UI COMPONENTS ---------- */
-
-const Section = ({ title, children }: any) => (
-  <section className="bg-white p-6 rounded-2xl shadow h-fit">
-    <h2 className="text-lg font-medium mb-4" style={{ color: "#154667" }}>
-      {title}
-    </h2>
-    {children}
-  </section>
-);
-
-const Grid = ({ children }: any) => (
-  <div className="grid grid-cols-1 gap-4">{children}</div>
-);
-
-const Input = ({ label, ...props }: any) => (
-  <div>
-    <label className="block text-sm mb-1" style={{ color: "#154667" }}>
-      {label}
-    </label>
-    <input {...props} className="w-full border rounded-xl px-3 py-2" />
-  </div>
-);
-
-const Select = ({ label, children, ...props }: any) => (
-  <div>
-    <label className="block text-sm mb-1" style={{ color: "#154667" }}>
-      {label}
-    </label>
-    <select {...props} className="w-full border rounded-xl px-3 py-2">
-      {children}
-    </select>
-  </div>
-);

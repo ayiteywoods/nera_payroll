@@ -3,7 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Menu from '@/components/Menu'
 import Navbar from '@/components/NavBar';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 745027874d68ba5e1d3623a3e80d05b5e45084b3
 export default function DashboardLayout({
   children,
 }: Readonly<{
