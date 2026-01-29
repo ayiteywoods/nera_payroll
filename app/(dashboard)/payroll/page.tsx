@@ -170,7 +170,6 @@ export default function PayrollPage() {
   };
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-gray-100 px-4 py-6 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header – smaller */}
@@ -225,16 +224,6 @@ export default function PayrollPage() {
               placeholder="Search name or role..."
               className="w-full rounded-xl border border-gray-200 bg-white pl-10 pr-4 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#153361]/70 focus:ring-1 focus:ring-[#153361]/20 outline-none shadow-sm transition"
             />
-=======
-    <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
-      
-      {/* Header Section */}
-      <div className="mb-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Payroll Management</h1>
-            <p className="text-sm text-gray-600">Process, manage and approve employee payrolls</p>
->>>>>>> 745027874d68ba5e1d3623a3e80d05b5e45084b3
           </div>
           <div className="flex gap-3">
             <button
