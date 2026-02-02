@@ -334,7 +334,7 @@ export default function EmployeePage() {
           {/* Right side - Create Button */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="w-full sm:w-auto bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="w-full sm:w-auto bg-linear-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -354,7 +354,7 @@ export default function EmployeePage() {
             {/* Header with Avatar and Status */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-semibold text-lg">
+                <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-semibold text-lg">
                   {employee.firstName[0]}{employee.lastName[0]}
                 </div>
                 <div>
