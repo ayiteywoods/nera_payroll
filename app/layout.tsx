@@ -3,9 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import NavBar from "@/components/NavBar";
-import LandingNavBar from '@/components/LandingNavBar'
-
-
+import LandingNavBar from "@/components/LandingNavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* You can choose which navbar to show depending on route or logic */}
+        
+        {/* OR <LandingNavBar /> */}
 
-     
-
+        {/* Main content */}
+        <main>{children}</main>
       </body>
     </html>
   );

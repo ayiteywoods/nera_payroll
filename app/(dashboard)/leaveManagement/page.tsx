@@ -276,173 +276,11 @@ export default function LeaveManagementPage() {
               Create Leave Request
             </button>
           </div>
-<<<<<<< HEAD
-        )}
-
-        {/* Modal for Create/Edit */}
-        {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
-              <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-[#154667]">
-                  {editingId ? "Edit Leave Request" : "New Leave Request"}
-                </h2>
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Leave Type</label>
-                  <select
-                    {...register("type")}
-                    className="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-[#154667] focus:ring-1 focus:ring-[#154667]"
-                  >
-                    <option>Annual</option>
-                    <option>Sick</option>
-                    <option>Maternity</option>
-                    <option>Other</option>
-                  </select>
-                  {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type.message}</p>}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Start Date</label>
-                    <input
-                      type="date"
-                      {...register("startDate")}
-                      className="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-[#154667] focus:ring-1 focus:ring-[#154667]"
-                    />
-                    {errors.startDate && <p className="mt-1 text-sm text-red-600">{errors.startDate.message}</p>}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">End Date</label>
-                    <input
-                      type="date"
-                      {...register("endDate")}
-                      className="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-[#154667] focus:ring-1 focus:ring-[#154667]"
-                    />
-                    {errors.endDate && <p className="mt-1 text-sm text-red-600">{errors.endDate.message}</p>}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Reason</label>
-                  <textarea
-                    {...register("reason")}
-                    rows={4}
-                    className="mt-1.5 block w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-[#154667] focus:ring-1 focus:ring-[#154667]"
-                  />
-                  {errors.reason && <p className="mt-1 text-sm text-red-600">{errors.reason.message}</p>}
-                </div>
-
-                <div className="flex justify-end gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                    className="rounded-xl border border-gray-300 px-6 py-2.5 text-gray-700 hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#154667] px-6 py-2.5 font-medium text-white hover:bg-[#0f3b55] disabled:opacity-60"
-                  >
-                    {isSubmitting ? "Saving..." : editingId ? "Update" : "Create"}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* Leaves Table */}
-        <div className="rounded-2xl border bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-xl font-semibold text-[#154667]">Leave Requests</h2>
-
-          {loading ? (
-            <div className="flex justify-center py-16 text-gray-500">Loading...</div>
-          ) : leaves.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Calendar size={64} className="mb-6 text-gray-300" strokeWidth={1.2} />
-              <h3 className="mb-2 text-xl font-medium text-gray-700">No leave requests yet</h3>
-              <p className="max-w-md text-gray-500">Create a new request to get started.</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-200">
-                <thead>
-                  <tr className="border-b bg-gray-50 text-left text-sm font-medium text-gray-600">
-                    <th className="px-6 py-4">Employee</th>
-                    <th className="px-6 py-4">Type</th>
-                    <th className="px-6 py-4">Dates</th>
-                    <th className="px-6 py-4">Status</th>
-                    <th className="px-6 py-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {leaves.map((leave) => {
-                    const StatusIcon = statusIcons[leave.status];
-                    return (
-                      <tr key={leave.id} className="transition-colors hover:bg-gray-50/70">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <User size={16} className="text-gray-400" />
-                            {leave.employeeName}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-gray-600">{leave.type}</td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Clock size={16} className="text-gray-400" />
-                            {formatDate(leave.startDate)} - {formatDate(leave.endDate)}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span
-                            className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium ${statusColors[leave.status]}`}
-                          >
-                            <StatusIcon size={12} />
-                            {leave.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleEdit(leave.id)}
-                              className="p-2 text-blue-600 hover:bg-blue-50 rounded-full"
-                            >
-                              <Edit size={16} />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(leave.id)}
-                              className="p-2 text-red-600 hover:bg-red-50 rounded-full"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-=======
->>>>>>> 745027874d68ba5e1d3623a3e80d05b5e45084b3
         </div>
       </div>
 
       {/* Stats Cards */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
         <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl shadow-sm p-5 text-white">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full">Total</span>
@@ -510,7 +348,7 @@ export default function LeaveManagementPage() {
             Not approved
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* Filters Section */}
       <div className="bg-white rounded-2xl shadow-sm p-5 md:p-6 mb-6">
