@@ -34,7 +34,7 @@ const menuItems = [
     title: "Reports",
     items: [
       { icon: FiBarChart2, label: "Payroll Reports", href: "/reports/payrollreport", visible: ["admin", "finance"] },
-      { icon: MdOutlineReceiptLong, label: "Payslips", href: "/reports/payslips", visible: ["admin", "finance", "employee"] },
+      { icon: MdOutlineReceiptLong, label: "Payslips", href: "/reports/payslipreport", visible: ["admin", "finance", "employee"] },
       { icon: FiFileText, label: "Tax & Deductions", href: "/reports/tax", visible: ["admin", "finance"] },
     ],
   },
@@ -57,16 +57,16 @@ const Menu = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="h-full overflow-y-auto px-2 py-4">
-      <div className="flex flex-col gap-6 text-sm">
+    <aside className="h-full overflow-y-auto px-2 sm:px-3 py-3 sm:py-4">
+      <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6 text-sm">
         {menuItems.map((section) => (
           <div key={section.title}>
-            {/* Section title */}
-            <span className="hidden lg:block text-[11px] text-gray-400 mb-2 uppercase tracking-widest px-2">
+            {/* Section title - hidden on mobile, visible on md+ */}
+            <span className="hidden md:block text-[10px] sm:text-[11px] text-gray-400 mb-2 uppercase tracking-widest px-2">
               {section.title}
             </span>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-0.5 sm:gap-1">
               {section.items
                 .filter((item) => item.visible.includes(role))
                 .map((item) => {
@@ -78,27 +78,37 @@ const Menu = () => {
                       key={item.label}
                       href={item.href}
                       className={`
-                        group flex items-center gap-3
-                        px-3 py-2 rounded-lg
+                        group relative flex items-center gap-2 sm:gap-3
+                        px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg
                         transition-all duration-200
                         ${
                           isActive
                             ? "bg-[#e6edff] text-[#193570] font-medium"
                             : "text-gray-500 hover:bg-gray-100 hover:text-[#193570]"
                         }
-                        justify-center lg:justify-start
+                        justify-center md:justify-start
                       `}
+                      title={item.label} // Tooltip for icon-only view
                     >
                       <Icon
                         size={18}
-                        className={`${
-                          isActive
-                            ? "text-[#193570]"
-                            : "text-gray-400 group-hover:text-[#193570]"
-                        }`}
+                        className={`
+                          flex-shrink-0
+                          ${
+                            isActive
+                              ? "text-[#193570]"
+                              : "text-gray-400 group-hover:text-[#193570]"
+                          }
+                        `}
                       />
 
-                      <span className="hidden lg:block text-sm whitespace-nowrap">
+                      {/* Label - hidden on small screens, visible on md+ */}
+                      <span className="hidden md:block text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+                        {item.label}
+                      </span>
+
+                      {/* Tooltip for mobile - shows on hover */}
+                      <span className="md:hidden absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
                         {item.label}
                       </span>
                     </Link>

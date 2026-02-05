@@ -176,7 +176,7 @@ export default function EmployeePage() {
       
       {/* Header Section */}
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Employee Management</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-2">Employee Management</h1>
         <p className="text-sm text-gray-600">Manage your workforce and employee information</p>
       </div>
 
@@ -231,7 +231,7 @@ export default function EmployeePage() {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="w-full sm:w-auto bg-linear-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="w-full sm:w-auto bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -241,25 +241,46 @@ export default function EmployeePage() {
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5 pt-5 border-t border-gray-100">
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Total Employees</p>
-            <p className="text-2xl font-bold text-gray-900">{employees.length}</p>
-          </div>
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Active</p>
-            <p className="text-2xl font-bold text-green-600">{employees.filter(e => e.employmentStatus === "Active").length}</p>
-          </div>
-          <div>
-            <p className="text-xs text-gray-500 mb-1">On Leave</p>
-            <p className="text-2xl font-bold text-yellow-600">{employees.filter(e => e.employmentStatus === "On Leave").length}</p>
-          </div>
-          <div>
-            <p className="text-xs text-gray-500 mb-1">Filtered Results</p>
-            <p className="text-2xl font-bold text-[#2c4a6a]">{filteredEmployees.length}</p>
-          </div>
-        </div>
+       {/* Stats Row - Styled like your example */}
+
+
       </div>
+{/* Employee Stats Cards */}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+
+  {/* Total Employees */}
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">Total Employees</h3>
+    <p className="text-3xl font-bold text-black">{employees.length}</p>
+    <p className="text-xs text-black mt-1">All employees in system</p>
+  </div>
+
+  {/* Active Employees */}
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">Active</h3>
+    <p className="text-3xl font-bold text-black">
+      {employees.filter(e => e.employmentStatus === "Active").length}
+    </p>
+    <p className="text-xs text-black mt-1">Currently active employees</p>
+  </div>
+
+  {/* On Leave */}
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">On Leave</h3>
+    <p className="text-3xl font-bold text-black">
+      {employees.filter(e => e.employmentStatus === "On Leave").length}
+    </p>
+    <p className="text-xs text-black mt-1">Employees currently on leave</p>
+  </div>
+
+  {/* Filtered Results */}
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">Filtered Results</h3>
+    <p className="text-3xl font-bold text-black">{filteredEmployees.length}</p>
+    <p className="text-xs text-black mt-1">Results from current filters</p>
+  </div>
+
+</div>
 
       {/* Pagination Info and Controls (Top) */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
@@ -295,7 +316,7 @@ export default function EmployeePage() {
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-semibold text-lg">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-semibold text-lg">
                   {employee.firstName[0]}{employee.lastName[0]}
                 </div>
                 <div>

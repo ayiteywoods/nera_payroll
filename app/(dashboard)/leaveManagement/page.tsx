@@ -2,85 +2,58 @@
 
 import React, { useState } from "react";
 
-// Sample leave data - replace with your API data
-const initialLeaveRequests = [
-  {
-    id: "LR001",
-    employeeId: "EMP001",
-    employeeName: "John Mensah",
-    department: "Engineering",
-    leaveType: "Annual Leave",
-    startDate: "2025-02-15",
-    endDate: "2025-02-20",
-    totalDays: 6,
-    reason: "Family vacation",
-    status: "Approved",
-    appliedDate: "2025-01-28",
-    approvedBy: "Sarah Johnson",
-    approvedDate: "2025-01-29",
-  },
-  {
-    id: "LR002",
-    employeeId: "EMP002",
-    employeeName: "Abena Osei",
-    department: "HR",
-    leaveType: "Sick Leave",
-    startDate: "2025-02-05",
-    endDate: "2025-02-07",
-    totalDays: 3,
-    reason: "Medical appointment and recovery",
-    status: "Pending",
-    appliedDate: "2025-02-03",
-    approvedBy: null,
-    approvedDate: null,
-  },
-  {
-    id: "LR003",
-    employeeId: "EMP003",
-    employeeName: "Kwame Boateng",
-    department: "Sales",
-    leaveType: "Annual Leave",
-    startDate: "2025-03-10",
-    endDate: "2025-03-15",
-    totalDays: 6,
-    reason: "Personal matters",
-    status: "Pending",
-    appliedDate: "2025-01-30",
-    approvedBy: null,
-    approvedDate: null,
-  },
-  {
-    id: "LR004",
-    employeeId: "EMP005",
-    employeeName: "Kofi Owusu",
-    department: "Management",
-    leaveType: "Emergency Leave",
-    startDate: "2025-02-01",
-    endDate: "2025-02-02",
-    totalDays: 2,
-    reason: "Family emergency",
-    status: "Approved",
-    appliedDate: "2025-01-31",
-    approvedBy: "Sarah Johnson",
-    approvedDate: "2025-01-31",
-  },
-  {
-    id: "LR005",
-    employeeId: "EMP004",
-    employeeName: "Ama Asante",
-    department: "Engineering",
-    leaveType: "Maternity Leave",
-    startDate: "2025-03-01",
-    endDate: "2025-05-31",
-    totalDays: 92,
-    reason: "Maternity leave",
-    status: "Rejected",
-    appliedDate: "2025-01-25",
-    approvedBy: "Sarah Johnson",
-    approvedDate: "2025-01-27",
-    rejectionReason: "Insufficient notice period",
-  },
-];
+// Generate 1000 sample leave requests
+const generateLeaveRequests = () => {
+  const names = [
+    "John Mensah", "Abena Osei", "Kwame Boateng", "Ama Asante", "Kofi Owusu",
+    "Yaw Agyeman", "Akosua Frimpong", "Kwesi Darko", "Adjoa Amponsah", "Fiifi Atta",
+    "Esi Badu", "Kojo Ansah", "Adwoa Sarpong", "Kwabena Manu", "Afua Opoku",
+    "Yaa Kyei", "Kwaku Mensah", "Abena Adomako", "Kofi Asare", "Ama Boateng",
+    "Kwame Ofori", "Akua Bonsu", "Yaw Frimpong", "Adjoa Owusu", "Kwesi Agyei",
+    "Esi Appiah", "Kojo Baah", "Adwoa Konadu", "Kwabena Osei", "Afua Agyeman"
+  ];
+  
+  const departments = ["Engineering", "HR", "Sales", "Management", "Support", "Finance", "Marketing", "Operations"];
+  const leaveTypes = ["Annual Leave", "Sick Leave", "Emergency Leave", "Maternity Leave", "Paternity Leave", "Unpaid Leave"];
+  const statuses = ["Approved", "Pending", "Rejected"];
+  
+  const requests = [];
+  
+  for (let i = 1; i <= 1000; i++) {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const department = departments[Math.floor(Math.random() * departments.length)];
+    const leaveType = leaveTypes[Math.floor(Math.random() * leaveTypes.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    
+    const startMonth = Math.floor(Math.random() * 12) + 1;
+    const startDay = Math.floor(Math.random() * 28) + 1;
+    const totalDays = Math.floor(Math.random() * 20) + 1;
+    
+    const startDate = `2025-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`;
+    const endDay = startDay + totalDays;
+    const endDate = `2025-${String(startMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`;
+    
+    requests.push({
+      id: `LR${String(i).padStart(4, '0')}`,
+      employeeId: `EMP${String(i).padStart(4, '0')}`,
+      employeeName: name,
+      department: department,
+      leaveType: leaveType,
+      startDate: startDate,
+      endDate: endDate,
+      totalDays: totalDays,
+      reason: ["Family vacation", "Medical appointment", "Personal matters", "Family emergency", "Wedding ceremony", "House relocation"][Math.floor(Math.random() * 6)],
+      status: status,
+      appliedDate: `2025-${String(startMonth).padStart(2, '0')}-${String(Math.max(1, startDay - 3)).padStart(2, '0')}`,
+      approvedBy: status !== "Pending" ? ["Sarah Johnson", "Michael Owusu", "Peter Adu"][Math.floor(Math.random() * 3)] : null,
+      approvedDate: status !== "Pending" ? `2025-${String(startMonth).padStart(2, '0')}-${String(Math.max(1, startDay - 1)).padStart(2, '0')}` : null,
+    });
+  }
+  
+  return requests;
+};
+
+const initialLeaveRequests = generateLeaveRequests();
 
 export default function LeaveManagementPage() {
   const [leaveRequests, setLeaveRequests] = useState(initialLeaveRequests);
@@ -92,6 +65,10 @@ export default function LeaveManagementPage() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [filterType, setFilterType] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   // Form state for new leave request
   const [formData, setFormData] = useState({
@@ -107,7 +84,7 @@ export default function LeaveManagementPage() {
   });
 
   const leaveTypes = ["Annual Leave", "Sick Leave", "Emergency Leave", "Maternity Leave", "Paternity Leave", "Unpaid Leave"];
-  const departments = ["All", "Engineering", "Management", "Sales", "HR", "Support"];
+  const departments = ["All", "Engineering", "Management", "Sales", "HR", "Support", "Finance", "Marketing", "Operations"];
 
   // Filter logic
   React.useEffect(() => {
@@ -133,7 +110,14 @@ export default function LeaveManagementPage() {
     }
 
     setFilteredRequests(result);
+    setCurrentPage(1); // Reset to first page when filters change
   }, [searchTerm, filterStatus, filterType, leaveRequests]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentRequests = filteredRequests.slice(startIndex, endIndex);
 
   const getStatusColor = (status) => {
     switch(status) {
@@ -172,7 +156,7 @@ export default function LeaveManagementPage() {
     const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
 
     const newRequest = {
-      id: `LR${String(leaveRequests.length + 1).padStart(3, '0')}`,
+      id: `LR${String(leaveRequests.length + 1).padStart(4, '0')}`,
       employeeId: formData.employeeId,
       employeeName: formData.employeeName,
       department: formData.department,
@@ -246,6 +230,55 @@ export default function LeaveManagementPage() {
     return 0;
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleGoToPage = (e) => {
+    e.preventDefault();
+    const pageInput = parseInt(e.target.elements.pageNumber.value);
+    if (pageInput >= 1 && pageInput <= totalPages) {
+      handlePageChange(pageInput);
+    }
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+    
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
       
@@ -253,7 +286,7 @@ export default function LeaveManagementPage() {
       <div className="mb-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Leave Management</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-2">Leave Management</h1>
             <p className="text-sm text-gray-600">Manage employee leave requests and approvals</p>
           </div>
           <div className="flex gap-3">
@@ -279,76 +312,59 @@ export default function LeaveManagementPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-        <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl shadow-sm p-5 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full">Total</span>
-            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-          </div>
-          <h3 className="text-sm font-medium opacity-90 mb-1">All Requests</h3>
-          <p className="text-3xl font-bold mb-1">{leaveRequests.length}</p>
-          <p className="text-xs opacity-75">Total leave requests</p>
-          <div className="mt-4 pt-4 border-t border-white/20 text-xs opacity-75">
-            Complete history
-          </div>
-        </div>
+      {/* Stats Cards - Smaller version like PayrollReport */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
 
-        <div className="bg-gradient-to-br from-[#6b8ca3] to-[#4a6b82] rounded-2xl shadow-sm p-5 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full">Approved</span>
-            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-          <h3 className="text-sm font-medium opacity-90 mb-1">Approved Leaves</h3>
-          <p className="text-3xl font-bold mb-1">{leaveRequests.filter(r => r.status === "Approved").length}</p>
-          <p className="text-xs opacity-75">Confirmed requests</p>
-          <div className="mt-4 pt-4 border-t border-white/20 text-xs opacity-75">
-            Successfully approved
-          </div>
-        </div>
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">
+      Total Requests
+    </h3>
+    <p className="text-2xl md:text-3xl font-bold text-black">
+      {leaveRequests.length}
+    </p>
+    <p className="text-xs text-black mt-1">
+      All time generated
+    </p>
+  </div>
 
-        <div className="bg-gradient-to-br from-[#8ba3b8] to-[#6b8ca3] rounded-2xl shadow-sm p-5 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full">Pending</span>
-            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-          <h3 className="text-sm font-medium opacity-90 mb-1">Pending Review</h3>
-          <p className="text-3xl font-bold mb-1">{leaveRequests.filter(r => r.status === "Pending").length}</p>
-          <p className="text-xs opacity-75">Awaiting approval</p>
-          <div className="mt-4 pt-4 border-t border-white/20 text-xs opacity-75">
-            Requires action
-          </div>
-        </div>
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">
+      Approved Leaves
+    </h3>
+    <p className="text-2xl md:text-3xl font-bold text-black">
+      {leaveRequests.filter(r => r.status === "Approved").length}
+    </p>
+    <p className="text-xs text-black mt-1">
+      Confirmed requests
+    </p>
+  </div>
 
-        <div className="bg-gradient-to-br from-[#a4b9cc] to-[#8ba3b8] rounded-2xl shadow-sm p-5 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-medium bg-white/20 px-3 py-1 rounded-full">Rejected</span>
-            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </div>
-          </div>
-          <h3 className="text-sm font-medium opacity-90 mb-1">Rejected</h3>
-          <p className="text-3xl font-bold mb-1">{leaveRequests.filter(r => r.status === "Rejected").length}</p>
-          <p className="text-xs opacity-75">Declined requests</p>
-          <div className="mt-4 pt-4 border-t border-white/20 text-xs opacity-75">
-            Not approved
-          </div>
-        </div>
-      </div>
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">
+      Pending Review
+    </h3>
+    <p className="text-2xl md:text-3xl font-bold text-black">
+      {leaveRequests.filter(r => r.status === "Pending").length}
+    </p>
+    <p className="text-xs text-black mt-1">
+      Awaiting approval
+    </p>
+  </div>
+
+  <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 shadow-sm hover:shadow-md transition">
+    <h3 className="text-sm font-medium text-black mb-2">
+      Rejected
+    </h3>
+    <p className="text-2xl md:text-3xl font-bold text-black">
+      {leaveRequests.filter(r => r.status === "Rejected").length}
+    </p>
+    <p className="text-xs text-black mt-1">
+      Declined requests
+    </p>
+  </div>
+
+</div>
+
 
       {/* Filters Section */}
       <div className="bg-white rounded-2xl shadow-sm p-5 md:p-6 mb-6">
@@ -400,8 +416,8 @@ export default function LeaveManagementPage() {
       </div>
 
       {/* Leave Requests Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-        {filteredRequests.map((request) => (
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
+        {currentRequests.map((request) => (
           <div
             key={request.id}
             className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100"
@@ -544,6 +560,82 @@ export default function LeaveManagementPage() {
         </div>
       )}
 
+      {/* Pagination - Matching Screenshot Style */}
+      {filteredRequests.length > 0 && (
+        <div className="bg-white rounded-2xl shadow-sm p-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              Page {currentPage} of {totalPages}
+            </div>
+            
+            <div className="flex items-center gap-2">
+              {/* Previous Button */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-lg transition-colors ${
+                  currentPage === 1
+                    ? 'text-gray-300 cursor-not-allowed'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              {/* Page Numbers */}
+              {getPageNumbers().map((page, index) => (
+                page === '...' ? (
+                  <span key={`ellipsis-${index}`} className="px-3 py-2 text-gray-500">...</span>
+                ) : (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`min-w-[40px] h-10 px-3 rounded-lg text-sm font-medium transition-colors ${
+                      currentPage === page
+                        ? 'bg-[#2c4a6a] text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              ))}
+
+              {/* Next Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`p-2 rounded-lg transition-colors ${
+                  currentPage === totalPages
+                    ? 'text-gray-300 cursor-not-allowed'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Go to Page */}
+            <form onSubmit={handleGoToPage} className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Go to:</span>
+              <input
+                type="number"
+                name="pageNumber"
+                min="1"
+                max={totalPages}
+                defaultValue={currentPage}
+                className="w-16 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
+              />
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modals remain the same */}
       {/* Create Leave Request Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">

@@ -311,7 +311,7 @@ export default function RecruitmentPage() {
       <div className="mb-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Recruitment Management</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-2">Recruitment Management</h1>
             <p className="text-sm text-gray-600">Manage jobs, applications, and candidates</p>
           </div>
           <div className="flex gap-3">
