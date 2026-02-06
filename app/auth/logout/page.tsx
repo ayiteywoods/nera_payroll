@@ -12,7 +12,7 @@ const Logoutpage = () => {
         {/** Left Side Background Image */}
     <div className='lg:w-1/2 relative h-64 lg:h-auto'>
     <Image 
-     src="/image/bank.jpg"
+     src="/image/login.jpg"
      alt ="Logout Backround"
      fill
      className='object-coveer'

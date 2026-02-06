@@ -29,7 +29,7 @@ export default function PayrollSummary() {
   }, []);
 
   return (
-    <div className="bg-white p-6 max-w-md mx-auto">
+    <div className="bg-white p-6 max-w-md mx-auto rounded-2xl w-240 drop-shadow-sm">
       <h2 className="text-lg font-semibold mb-4">
         Expected Salary Payouts (this month)
       </h2>
