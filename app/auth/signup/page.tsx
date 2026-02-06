@@ -1,7 +1,6 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
-import { HiEnvelope, HiEyeSlash, HiPhone, HiShieldCheck, HiUserCircle } from 'react-icons/hi2'
+import { HiBriefcase, HiBuildingOffice, HiEnvelope, HiIdentification, HiMiniGlobeAlt, HiPhone, HiShieldCheck, HiUserCircle } from 'react-icons/hi2'
 
 const Registerpage = () => {
   return (
@@ -10,7 +9,7 @@ const Registerpage = () => {
        {/* Hero Section */}
     <div className=' flex flex-col lg:flex-row min-h-screen'>
       {/* Left side Background Image */}
-    <div className=' lg:w-1/2 relative h-64 lg:h-auto'>
+    <div className='lg:w-1/2 relative h-64 lg:h-auto'>
       <Image
         src="/image/bank.jpg"
         alt = "Signup Background"
@@ -24,20 +23,21 @@ const Registerpage = () => {
       <div className='lg:w-1/2 flex items-center justify-center p-8 lg:p-15 bg-gray-200'>
         <div className='max-w-xl mx-auto w-full'>
         <section className='bg-teal-50 p-14 rounded-lg m-6'>
-          <h1 className='text-3xl mb-3 text-center'>Sign Up</h1>
+          <h1 className='text-3xl mb-3 text-center'>Employee SignUp</h1>
           <p className='text-gray-400 text-sm mb-4'>
-            Create a new account to get started and enjoy seamless acess to our features.
+            Add new employees here and manage their access to the system.
           </p>
       
 
           <form className = "space-y-6" >
-          <div className='flex items-center gap-2'>  
-             
+
+
+          <div className='flex items-center gap-2'>   
           <div className='relative flex items-center flex-1'>
           <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
            <input
            type='text'
-           placeholder='First '
+           placeholder='Last_Name'
            className="w-full px-4 py-2 rounded-lg border border-neutral-300
            focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
@@ -47,7 +47,55 @@ const Registerpage = () => {
           <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
            <input
            type='text'
-           placeholder='Surname'
+           placeholder='First_Name'
+           className="w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
+          </div> 
+           
+
+
+          <div className='flex items-center gap-2'>     
+          <div className='relative flex items-center flex-1'>
+          <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='text'
+           placeholder='Maiden_Name'
+           className="w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
+
+          <div className='relative flex items-center flex-1'>
+          <HiUserCircle size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='text'
+           placeholder='Other_Name'
+           className="w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
+
+          </div> 
+
+          <div className='flex items-center gap-2'>  
+
+          <div className='relative flex items-center flex-1'>
+          <HiPhone size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='tel'
+           placeholder='Phone_Number'
+           className="w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
+
+          <div className='relative flex items-center flex-1'>
+          <HiEnvelope size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='text'
+           placeholder='Email'
            className="w-full px-4 py-2 rounded-lg border border-neutral-300
            focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
@@ -60,18 +108,18 @@ const Registerpage = () => {
           <div className='relative flex items-center flex-1'>
           <HiEnvelope size={20} className='absolute left-3 text-gray-400' />
            <input
-           type='email'
-           placeholder='Email '
+           type='text'
+           placeholder='Employment_Type'
            className=" w-full px-4 py-2 rounded-lg border border-neutral-300
            focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
           </div>
 
           <div className='relative flex items-center flex-1'>
-          <HiPhone size={20} className='absolute left-3 text-gray-400' />
+          <HiBriefcase size={20} className='absolute left-3 text-gray-400' />
            <input
-           type='tel'
-           placeholder='Telephone Number'
+           type='text'
+           placeholder='Job_Title'
            className=" w-full px-4 py-2 rounded-lg border border-neutral-300
            focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
@@ -82,10 +130,10 @@ const Registerpage = () => {
           <div className='flex items-center gap-2'>
 
            <div className='relative flex items-center flex-1'>
-          <HiEyeSlash size={20} className='absolute left-3 text-gray-400' />
+          <HiIdentification size={20} className='absolute left-3 text-gray-400' />
            <input
-           type='password'
-           placeholder='•••••••'
+           type='text'
+           placeholder='Reporting_Manager'
            className=" w-full px-4 py-2 rounded-lg border border-neutral-300
            focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
@@ -94,38 +142,49 @@ const Registerpage = () => {
           <div className='relative flex items-center flex-1'>
           <HiShieldCheck size={20} className='absolute left-3 text-gray-400' />
            <input
-           type='password'
-           placeholder='•••••••'
+           type='text'
+           placeholder='Grade'
+           className=" w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
+           />
+          </div> 
+          </div>
+
+
+
+          <div className='flex items-center gap-2'>
+
+          <div className='relative flex items-center flex-1'>
+          <HiBuildingOffice size={20} className='absolute left-3 text-gray-400' />
+
+          <select className="w-full px-4 py-2 rounded-lg border border-neutral-300
+           focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400">
+            <option value="">Select Department</option>
+            <option value="HR">Human Resources</option>
+            <option value="Finance">Finance</option>
+            <option value="IT">Information Technology</option>
+           
+            
+          </select>
+          </div> 
+
+          <div className='relative flex items-center flex-1'>
+          <HiMiniGlobeAlt size={20} className='absolute left-3 text-gray-400' />
+           <input
+           type='text'
+           placeholder='Work_Location'
            className=" w-full px-4 py-2 rounded-lg border border-neutral-300
            focus:outline-none focus:ring-1 focus:ring-blue-300 pl-10 text-gray-400"
            />
           </div> 
           </div>
           
-    
-           <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-gray-500">
-                <input type="checkbox" className="accent-[#153453]" />
-                I Agree With The Terms And Conditions   
-              </label>
-            </div>
-
           <button 
             type='submit'
             className="w-full bg-[#153453] text-gray-100 py-2 rounded-lg text-sm transition"
             >  
             Submit 
           </button>
-
-           <p className='text-sm text-gray-500 mb-4 text-center'> 
-            Already have an account?{" "}
-          <Link href="../auth/login
-          ">
-          <span className="text-[#153453] cursor-pointer hover:underline">
-            Sign In
-          </span>
-          </Link>
-          </p>
 
           </form>
         </section>

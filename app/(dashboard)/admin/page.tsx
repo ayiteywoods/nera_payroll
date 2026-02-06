@@ -89,7 +89,7 @@ export default function AdminPage() {
           </div>
 
           {/* Additional Chart Area (Placeholder for Future) */}
-          <div className="rounded-2xl bg-white p-5 xl:p-6 shadow-sm min-h-[350px]">
+          <div className="rounded-2xl bg-white p-5 xl:p-6 shadow-sm min-h-87.5">
             <div className="flex items-center justify-center h-full text-gray-400">
               <div className="text-center">
                 <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +109,7 @@ export default function AdminPage() {
           <div className="rounded-2xl bg-white p-5 xl:p-6 shadow-sm">
             <h3 className="text-sm font-semibold text-gray-700 mb-4">Quick Actions</h3>
             <div className="flex flex-col gap-3">
-              <button className="w-full cursor-pointer bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white py-3 rounded-lg text-sm font-medium transition-all shadow-sm">
+              <button className="w-full cursor-pointer bg-linear-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white py-3 rounded-lg text-sm font-medium transition-all shadow-sm">
                 Run Payroll
               </button>
               <button className="w-full bg-gray-100 hover:bg-gray-200 transition-colors py-3 rounded-lg text-sm font-medium">
@@ -132,7 +132,7 @@ export default function AdminPage() {
           </div>
 
           {/* Compliance Status */}
-          <div className="rounded-2xl bg-gradient-to-br from-[#2c4a6a]/5 to-[#1e3147]/5 p-5 xl:p-6 shadow-sm border border-[#2c4a6a]/10">
+          <div className="rounded-2xl bg-linear-to-br from-[#2c4a6a]/5 to-[#1e3147]/5 p-5 xl:p-6 shadow-sm border border-[#2c4a6a]/10">
             <h3 className="text-sm font-semibold text-[#2c4a6a] mb-4">Compliance Status</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex justify-between items-center py-2 border-b border-[#2c4a6a]/10">

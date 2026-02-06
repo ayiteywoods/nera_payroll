@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
 // Generate 1000 sample employees
@@ -229,6 +230,7 @@ export default function EmployeePage() {
             </select>
           </div>
 
+          <Link href="/auth/signup">
           <button
             onClick={() => setIsModalOpen(true)}
             className="w-full sm:w-auto bg-linear-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
@@ -238,6 +240,8 @@ export default function EmployeePage() {
             </svg>
             Add New Employee
           </button>
+          </Link>
+          
         </div>
 
         {/* Stats Row */}
@@ -391,7 +395,7 @@ export default function EmployeePage() {
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                       currentPage === page
-                        ? 'bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white shadow-sm'
+                        ? 'bg-linear-to-r from-[#2c4a6a] to-[#1e3147] text-white shadow-sm'
                         : 'text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -402,7 +406,7 @@ export default function EmployeePage() {
             </div>
 
             {/* Mobile: Current page only */}
-            <div className="sm:hidden px-3 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium">
+            <div className="sm:hidden px-3 py-2 bg-linear-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium">
               {currentPage}
             </div>
 
