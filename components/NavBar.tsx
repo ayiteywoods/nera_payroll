@@ -396,7 +396,7 @@ const Navbar = () => {
             {/* Full search input (desktop) */}
             <div className="hidden md:block relative flex-1">
               <div className="flex items-center gap-2 text-xs rounded-full ring-2 ring-gray-300 px-3 bg-white">
-                <HiMagnifyingGlass size={18} className="text-gray-400" />
+                <Image src="/search.png" height={24} width={24} className="text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search pages, employees, payrolls..."

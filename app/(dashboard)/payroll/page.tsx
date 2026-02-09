@@ -1,134 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import Link from "next/link";
 
-// Sample payroll data – exactly 100 realistic entries
+// Sample payroll data
 const initialPayrolls = [
   { id: "PAY001", month: "January 2024", period: "January 1 – January 31, 2024", totalEmployees: 84, totalGrossPay: 162400, totalDeductions: 18450, totalNetPay: 143950, status: "Completed", processedDate: "2024-01-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2024-01-27" },
   { id: "PAY002", month: "February 2024", period: "February 1 – February 29, 2024", totalEmployees: 85, totalGrossPay: 165200, totalDeductions: 18700, totalNetPay: 146500, status: "Completed", processedDate: "2024-02-27", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-02-26" },
   { id: "PAY003", month: "March 2024", period: "March 1 – March 31, 2024", totalEmployees: 86, totalGrossPay: 168900, totalDeductions: 19120, totalNetPay: 149780, status: "Completed", processedDate: "2024-03-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2024-03-28" },
-  { id: "PAY004", month: "April 2024", period: "April 1 – April 30, 2024", totalEmployees: 87, totalGrossPay: 172300, totalDeductions: 19580, totalNetPay: 152720, status: "Completed", processedDate: "2024-04-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-04-27" },
-  { id: "PAY005", month: "May 2024", period: "May 1 – May 31, 2024", totalEmployees: 88, totalGrossPay: 175800, totalDeductions: 19900, totalNetPay: 155900, status: "Completed", processedDate: "2024-05-30", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2024-05-29" },
-  { id: "PAY006", month: "June 2024", period: "June 1 – June 30, 2024", totalEmployees: 89, totalGrossPay: 179200, totalDeductions: 20350, totalNetPay: 158850, status: "Completed", processedDate: "2024-06-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-06-27" },
-  { id: "PAY007", month: "July 2024", period: "July 1 – July 31, 2024", totalEmployees: 90, totalGrossPay: 182700, totalDeductions: 20780, totalNetPay: 161920, status: "Completed", processedDate: "2024-07-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2024-07-28" },
-  { id: "PAY008", month: "August 2024", period: "August 1 – August 31, 2024", totalEmployees: 91, totalGrossPay: 186100, totalDeductions: 21120, totalNetPay: 164980, status: "Completed", processedDate: "2024-08-30", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-08-29" },
-  { id: "PAY009", month: "September 2024", period: "September 1 – September 30, 2024", totalEmployees: 90, totalGrossPay: 183500, totalDeductions: 20890, totalNetPay: 162610, status: "Completed", processedDate: "2024-09-27", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2024-09-26" },
-  { id: "PAY010", month: "October 2024", period: "October 1 – October 31, 2024", totalEmployees: 89, totalGrossPay: 180200, totalDeductions: 20450, totalNetPay: 159750, status: "Completed", processedDate: "2024-10-29", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-10-28" },
-  { id: "PAY011", month: "November 2024", period: "November 1 – November 30, 2024", totalEmployees: 88, totalGrossPay: 177800, totalDeductions: 20110, totalNetPay: 157690, status: "Completed", processedDate: "2024-11-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2024-11-27" },
-  { id: "PAY012", month: "December 2024", period: "December 1 – December 31, 2024", totalEmployees: 87, totalGrossPay: 174900, totalDeductions: 19780, totalNetPay: 155120, status: "Completed", processedDate: "2024-12-30", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-12-29" },
-  { id: "PAY013", month: "January 2025", period: "January 1 – January 31, 2025", totalEmployees: 86, totalGrossPay: 171600, totalDeductions: 19420, totalNetPay: 152180, status: "Completed", processedDate: "2025-01-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2025-01-27" },
-  { id: "PAY014", month: "February 2025", period: "February 1 – February 28, 2025", totalEmployees: 87, totalGrossPay: 174300, totalDeductions: 19750, totalNetPay: 154550, status: "Completed", processedDate: "2025-02-27", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2025-02-26" },
-  { id: "PAY015", month: "March 2025", period: "March 1 – March 31, 2025", totalEmployees: 88, totalGrossPay: 177000, totalDeductions: 20080, totalNetPay: 156920, status: "Completed", processedDate: "2025-03-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2025-03-27" },
-  { id: "PAY016", month: "April 2025", period: "April 1 – April 30, 2025", totalEmployees: 89, totalGrossPay: 179800, totalDeductions: 20410, totalNetPay: 159390, status: "Completed", processedDate: "2025-04-29", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2025-04-28" },
-  { id: "PAY017", month: "May 2025", period: "May 1 – May 31, 2025", totalEmployees: 90, totalGrossPay: 182500, totalDeductions: 20750, totalNetPay: 161750, status: "Completed", processedDate: "2025-05-30", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2025-05-29" },
-  { id: "PAY018", month: "June 2025", period: "June 1 – June 30, 2025", totalEmployees: 91, totalGrossPay: 185200, totalDeductions: 21090, totalNetPay: 164110, status: "Completed", processedDate: "2025-06-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2025-06-27" },
-  { id: "PAY019", month: "July 2025", period: "July 1 – July 31, 2025", totalEmployees: 90, totalGrossPay: 183900, totalDeductions: 20920, totalNetPay: 162980, status: "Completed", processedDate: "2025-07-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2025-07-28" },
-  { id: "PAY020", month: "August 2025", period: "August 1 – August 31, 2025", totalEmployees: 89, totalGrossPay: 181600, totalDeductions: 20650, totalNetPay: 160950, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY021", month: "September 2025", period: "September 1 – September 30, 2025", totalEmployees: 88, totalGrossPay: 179300, totalDeductions: 20380, totalNetPay: 158920, status: "Completed", processedDate: "2025-09-27", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2025-09-26" },
-  { id: "PAY022", month: "October 2025", period: "October 1 – October 31, 2025", totalEmployees: 87, totalGrossPay: 177000, totalDeductions: 20110, totalNetPay: 156890, status: "Completed", processedDate: "2025-10-29", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2025-10-28" },
-  { id: "PAY023", month: "November 2025", period: "November 1 – November 30, 2025", totalEmployees: 86, totalGrossPay: 174700, totalDeductions: 19840, totalNetPay: 154860, status: "Completed", processedDate: "2025-11-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2025-11-27" },
-  { id: "PAY024", month: "December 2025", period: "December 1 – December 31, 2025", totalEmployees: 85, totalGrossPay: 172400, totalDeductions: 19570, totalNetPay: 152830, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY025", month: "January 2023", period: "January 1 – January 31, 2023", totalEmployees: 80, totalGrossPay: 152000, totalDeductions: 17200, totalNetPay: 134800, status: "Completed", processedDate: "2023-01-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2023-01-27" },
-  { id: "PAY026", month: "February 2023", period: "February 1 – February 28, 2023", totalEmployees: 81, totalGrossPay: 154500, totalDeductions: 17500, totalNetPay: 137000, status: "Completed", processedDate: "2023-02-26", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2023-02-25" },
-  { id: "PAY027", month: "March 2023", period: "March 1 – March 31, 2023", totalEmployees: 81, totalGrossPay: 155200, totalDeductions: 17580, totalNetPay: 137620, status: "Completed", processedDate: "2023-03-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2023-03-27" },
-  { id: "PAY028", month: "April 2023", period: "April 1 – April 30, 2023", totalEmployees: 82, totalGrossPay: 156800, totalDeductions: 17750, totalNetPay: 139050, status: "Completed", processedDate: "2023-04-27", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2023-04-26" },
-  { id: "PAY029", month: "May 2023", period: "May 1 – May 31, 2023", totalEmployees: 82, totalGrossPay: 157400, totalDeductions: 17850, totalNetPay: 139550, status: "Completed", processedDate: "2023-05-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2023-05-28" },
-  { id: "PAY030", month: "June 2023", period: "June 1 – June 30, 2023", totalEmployees: 83, totalGrossPay: 158900, totalDeductions: 18020, totalNetPay: 140880, status: "Completed", processedDate: "2023-06-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2023-06-27" },
-  { id: "PAY031", month: "July 2023", period: "July 1 – July 31, 2023", totalEmployees: 83, totalGrossPay: 159600, totalDeductions: 18110, totalNetPay: 141490, status: "Completed", processedDate: "2023-07-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2023-07-27" },
-  { id: "PAY032", month: "August 2023", period: "August 1 – August 31, 2023", totalEmployees: 84, totalGrossPay: 161200, totalDeductions: 18280, totalNetPay: 142920, status: "Completed", processedDate: "2023-08-29", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2023-08-28" },
-  { id: "PAY033", month: "September 2023", period: "September 1 – September 30, 2023", totalEmployees: 84, totalGrossPay: 161800, totalDeductions: 18360, totalNetPay: 143440, status: "Completed", processedDate: "2023-09-27", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2023-09-26" },
-  { id: "PAY034", month: "October 2023", period: "October 1 – October 31, 2023", totalEmployees: 85, totalGrossPay: 163500, totalDeductions: 18550, totalNetPay: 144950, status: "Completed", processedDate: "2023-10-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2023-10-27" },
-  { id: "PAY035", month: "November 2023", period: "November 1 – November 30, 2023", totalEmployees: 85, totalGrossPay: 164100, totalDeductions: 18630, totalNetPay: 145470, status: "Completed", processedDate: "2023-11-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2023-11-27" },
-  { id: "PAY036", month: "December 2023", period: "December 1 – December 31, 2023", totalEmployees: 86, totalGrossPay: 165800, totalDeductions: 18820, totalNetPay: 146980, status: "Completed", processedDate: "2023-12-29", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2023-12-28" },
-  { id: "PAY037", month: "January 2022", period: "January 1 – January 31, 2022", totalEmployees: 75, totalGrossPay: 142000, totalDeductions: 16100, totalNetPay: 125900, status: "Completed", processedDate: "2022-01-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2022-01-27" },
-  { id: "PAY038", month: "February 2022", period: "February 1 – February 28, 2022", totalEmployees: 76, totalGrossPay: 143600, totalDeductions: 16280, totalNetPay: 127320, status: "Completed", processedDate: "2022-02-25", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2022-02-24" },
-  { id: "PAY039", month: "March 2022", period: "March 1 – March 31, 2022", totalEmployees: 76, totalGrossPay: 144200, totalDeductions: 16360, totalNetPay: 127840, status: "Completed", processedDate: "2022-03-29", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2022-03-28" },
-  { id: "PAY040", month: "April 2022", period: "April 1 – April 30, 2022", totalEmployees: 77, totalGrossPay: 145900, totalDeductions: 16550, totalNetPay: 129350, status: "Completed", processedDate: "2022-04-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2022-04-27" },
-  { id: "PAY041", month: "May 2022", period: "May 1 – May 31, 2022", totalEmployees: 77, totalGrossPay: 146500, totalDeductions: 16620, totalNetPay: 129880, status: "Completed", processedDate: "2022-05-30", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2022-05-29" },
-  { id: "PAY042", month: "June 2022", period: "June 1 – June 30, 2022", totalEmployees: 78, totalGrossPay: 148200, totalDeductions: 16810, totalNetPay: 131390, status: "Completed", processedDate: "2022-06-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2022-06-27" },
-  { id: "PAY043", month: "July 2022", period: "July 1 – July 31, 2022", totalEmployees: 78, totalGrossPay: 148800, totalDeductions: 16890, totalNetPay: 131910, status: "Completed", processedDate: "2022-07-29", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2022-07-28" },
-  { id: "PAY044", month: "August 2022", period: "August 1 – August 31, 2022", totalEmployees: 79, totalGrossPay: 150500, totalDeductions: 17080, totalNetPay: 133420, status: "Completed", processedDate: "2022-08-30", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2022-08-29" },
-  { id: "PAY045", month: "September 2022", period: "September 1 – September 30, 2022", totalEmployees: 79, totalGrossPay: 151100, totalDeductions: 17150, totalNetPay: 133950, status: "Completed", processedDate: "2022-09-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvalDate: "2022-09-27" },
-  { id: "PAY046", month: "October 2022", period: "October 1 – October 31, 2022", totalEmployees: 80, totalGrossPay: 152800, totalDeductions: 17340, totalNetPay: 135460, status: "Completed", processedDate: "2022-10-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2022-10-27" },
-  { id: "PAY047", month: "November 2022", period: "November 1 – November 30, 2022", totalEmployees: 80, totalGrossPay: 153400, totalDeductions: 17420, totalNetPay: 135980, status: "Completed", processedDate: "2022-11-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2022-11-27" },
-  { id: "PAY048", month: "December 2022", period: "December 1 – December 31, 2022", totalEmployees: 81, totalGrossPay: 155100, totalDeductions: 17610, totalNetPay: 137490, status: "Completed", processedDate: "2022-12-29", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2022-12-28" },
-  { id: "PAY049", month: "March 2026", period: "March 1 – March 31, 2026", totalEmployees: 91, totalGrossPay: 186500, totalDeductions: 21190, totalNetPay: 165310, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY050", month: "April 2026", period: "April 1 – April 30, 2026", totalEmployees: 90, totalGrossPay: 184200, totalDeductions: 20920, totalNetPay: 163280, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY051", month: "May 2026", period: "May 1 – May 31, 2026", totalEmployees: 89, totalGrossPay: 182100, totalDeductions: 20680, totalNetPay: 161420, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY052", month: "June 2026", period: "June 1 – June 30, 2026", totalEmployees: 88, totalGrossPay: 180000, totalDeductions: 20440, totalNetPay: 159560, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY053", month: "July 2026", period: "July 1 – July 31, 2026", totalEmployees: 87, totalGrossPay: 177900, totalDeductions: 20200, totalNetPay: 157700, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY054", month: "August 2026", period: "August 1 – August 31, 2026", totalEmployees: 86, totalGrossPay: 175800, totalDeductions: 19960, totalNetPay: 155840, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY055", month: "September 2026", period: "September 1 – September 30, 2026", totalEmployees: 85, totalGrossPay: 173700, totalDeductions: 19720, totalNetPay: 153980, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY056", month: "October 2026", period: "October 1 – October 31, 2026", totalEmployees: 84, totalGrossPay: 171600, totalDeductions: 19480, totalNetPay: 152120, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY057", month: "November 2026", period: "November 1 – November 30, 2026", totalEmployees: 83, totalGrossPay: 169500, totalDeductions: 19240, totalNetPay: 150260, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY058", month: "December 2026", period: "December 1 – December 31, 2026", totalEmployees: 82, totalGrossPay: 167400, totalDeductions: 19000, totalNetPay: 148400, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY059", month: "January 2027", period: "January 1 – January 31, 2027", totalEmployees: 81, totalGrossPay: 165300, totalDeductions: 18760, totalNetPay: 146540, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY060", month: "February 2027", period: "February 1 – February 28, 2027", totalEmployees: 80, totalGrossPay: 163200, totalDeductions: 18520, totalNetPay: 144680, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY061", month: "March 2027", period: "March 1 – March 31, 2027", totalEmployees: 79, totalGrossPay: 161100, totalDeductions: 18280, totalNetPay: 142820, status: "Processing", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY062", month: "April 2027", period: "April 1 – April 30, 2027", totalEmployees: 78, totalGrossPay: 159000, totalDeductions: 18040, totalNetPay: 140960, status: "Processing", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY063", month: "May 2027", period: "May 1 – May 31, 2027", totalEmployees: 77, totalGrossPay: 156900, totalDeductions: 17800, totalNetPay: 139100, status: "Completed", processedDate: "2027-05-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2027-05-27" },
-  { id: "PAY064", month: "June 2027", period: "June 1 – June 30, 2027", totalEmployees: 76, totalGrossPay: 154800, totalDeductions: 17560, totalNetPay: 137240, status: "Completed", processedDate: "2027-06-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2027-06-27" },
-  { id: "PAY065", month: "July 2027", period: "July 1 – July 31, 2027", totalEmployees: 75, totalGrossPay: 152700, totalDeductions: 17320, totalNetPay: 135380, status: "Completed", processedDate: "2027-07-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2027-07-28" },
-  { id: "PAY066", month: "August 2027", period: "August 1 – August 31, 2027", totalEmployees: 74, totalGrossPay: 150600, totalDeductions: 17080, totalNetPay: 133520, status: "Completed", processedDate: "2027-08-30", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2027-08-29" },
-  { id: "PAY067", month: "September 2027", period: "September 1 – September 30, 2027", totalEmployees: 73, totalGrossPay: 148500, totalDeductions: 16840, totalNetPay: 131660, status: "Completed", processedDate: "2027-09-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2027-09-27" },
-  { id: "PAY068", month: "October 2027", period: "October 1 – October 31, 2027", totalEmployees: 72, totalGrossPay: 146400, totalDeductions: 16600, totalNetPay: 129800, status: "Completed", processedDate: "2027-10-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2027-10-27" },
-  { id: "PAY069", month: "November 2027", period: "November 1 – November 30, 2027", totalEmployees: 71, totalGrossPay: 144300, totalDeductions: 16360, totalNetPay: 127940, status: "Completed", processedDate: "2027-11-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2027-11-27" },
-  { id: "PAY070", month: "December 2027", period: "December 1 – December 31, 2027", totalEmployees: 70, totalGrossPay: 142200, totalDeductions: 16120, totalNetPay: 126080, status: "Completed", processedDate: "2027-12-29", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2027-12-28" },
-  { id: "PAY071", month: "January 2021", period: "January 1 – January 31, 2021", totalEmployees: 70, totalGrossPay: 132000, totalDeductions: 14960, totalNetPay: 117040, status: "Completed", processedDate: "2021-01-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2021-01-27" },
-  { id: "PAY072", month: "February 2021", period: "February 1 – February 28, 2021", totalEmployees: 71, totalGrossPay: 133900, totalDeductions: 15180, totalNetPay: 118720, status: "Completed", processedDate: "2021-02-25", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2021-02-24" },
-  { id: "PAY073", month: "March 2021", period: "March 1 – March 31, 2021", totalEmployees: 71, totalGrossPay: 134500, totalDeductions: 15250, totalNetPay: 119250, status: "Completed", processedDate: "2021-03-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2021-03-28" },
-  { id: "PAY074", month: "April 2021", period: "April 1 – April 30, 2021", totalEmployees: 72, totalGrossPay: 136200, totalDeductions: 15440, totalNetPay: 120760, status: "Completed", processedDate: "2021-04-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2021-04-27" },
-  { id: "PAY075", month: "May 2021", period: "May 1 – May 31, 2021", totalEmployees: 72, totalGrossPay: 136800, totalDeductions: 15510, totalNetPay: 121290, status: "Completed", processedDate: "2021-05-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2021-05-27" },
-  { id: "PAY076", month: "June 2021", period: "June 1 – June 30, 2021", totalEmployees: 73, totalGrossPay: 138500, totalDeductions: 15700, totalNetPay: 122800, status: "Completed", processedDate: "2021-06-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2021-06-27" },
-  { id: "PAY077", month: "July 2021", period: "July 1 – July 31, 2021", totalEmployees: 73, totalGrossPay: 139100, totalDeductions: 15770, totalNetPay: 123330, status: "Completed", processedDate: "2021-07-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2021-07-28" },
-  { id: "PAY078", month: "August 2021", period: "August 1 – August 31, 2021", totalEmployees: 74, totalGrossPay: 140800, totalDeductions: 15960, totalNetPay: 124840, status: "Completed", processedDate: "2021-08-30", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2021-08-29" },
-  { id: "PAY079", month: "September 2021", period: "September 1 – September 30, 2021", totalEmployees: 74, totalGrossPay: 141400, totalDeductions: 16030, totalNetPay: 125370, status: "Completed", processedDate: "2021-09-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2021-09-27" },
-  { id: "PAY080", month: "October 2021", period: "October 1 – October 31, 2021", totalEmployees: 75, totalGrossPay: 143100, totalDeductions: 16220, totalNetPay: 126880, status: "Completed", processedDate: "2021-10-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2021-10-27" },
-  { id: "PAY081", month: "November 2021", period: "November 1 – November 30, 2021", totalEmployees: 75, totalGrossPay: 143700, totalDeductions: 16290, totalNetPay: 127410, status: "Completed", processedDate: "2021-11-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2021-11-27" },
-  { id: "PAY082", month: "December 2021", period: "December 1 – December 31, 2021", totalEmployees: 76, totalGrossPay: 145400, totalDeductions: 16480, totalNetPay: 128920, status: "Completed", processedDate: "2021-12-29", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2021-12-28" },
-  { id: "PAY083", month: "January 2020", period: "January 1 – January 31, 2020", totalEmployees: 65, totalGrossPay: 122000, totalDeductions: 13840, totalNetPay: 108160, status: "Completed", processedDate: "2020-01-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2020-01-27" },
-  { id: "PAY084", month: "February 2020", period: "February 1 – February 29, 2020", totalEmployees: 66, totalGrossPay: 123700, totalDeductions: 14030, totalNetPay: 109670, status: "Completed", processedDate: "2020-02-27", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2020-02-26" },
-  { id: "PAY085", month: "March 2020", period: "March 1 – March 31, 2020", totalEmployees: 66, totalGrossPay: 124300, totalDeductions: 14100, totalNetPay: 110200, status: "Completed", processedDate: "2020-03-28", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2020-03-27" },
-  { id: "PAY086", month: "April 2020", period: "April 1 – April 30, 2020", totalEmployees: 67, totalGrossPay: 126000, totalDeductions: 14290, totalNetPay: 111710, status: "Completed", processedDate: "2020-04-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2020-04-27" },
-  { id: "PAY087", month: "May 2020", period: "May 1 – May 31, 2020", totalEmployees: 67, totalGrossPay: 126600, totalDeductions: 14360, totalNetPay: 112240, status: "Completed", processedDate: "2020-05-29", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2020-05-28" },
-  { id: "PAY088", month: "June 2020", period: "June 1 – June 30, 2020", totalEmployees: 68, totalGrossPay: 128300, totalDeductions: 14550, totalNetPay: 113750, status: "Completed", processedDate: "2020-06-28", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2020-06-27" },
-  { id: "PAY089", month: "July 2020", period: "July 1 – July 31, 2020", totalEmployees: 68, totalGrossPay: 128900, totalDeductions: 14620, totalNetPay: 114280, status: "Completed", processedDate: "2020-07-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2020-07-28" },
-  { id: "PAY090", month: "August 2020", period: "August 1 – August 31, 2020", totalEmployees: 69, totalGrossPay: 130600, totalDeductions: 14810, totalNetPay: 115790, status: "Completed", processedDate: "2020-08-28", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2020-08-27" },
-  { id: "PAY091", month: "September 2020", period: "September 1 – September 30, 2020", totalEmployees: 69, totalGrossPay: 131200, totalDeductions: 14880, totalNetPay: 116320, status: "Completed", processedDate: "2020-09-28", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2020-09-27" },
-  { id: "PAY092", month: "October 2020", period: "October 1 – October 31, 2020", totalEmployees: 70, totalGrossPay: 132900, totalDeductions: 15070, totalNetPay: 117830, status: "Completed", processedDate: "2020-10-29", processedBy: "Ama Serwaa", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2020-10-28" },
-  { id: "PAY093", month: "November 2020", period: "November 1 – November 30, 2020", totalEmployees: 70, totalGrossPay: 133500, totalDeductions: 15140, totalNetPay: 118360, status: "Completed", processedDate: "2020-11-27", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2020-11-26" },
-  { id: "PAY094", month: "December 2020", period: "December 1 – December 31, 2020", totalEmployees: 71, totalGrossPay: 135200, totalDeductions: 15330, totalNetPay: 119870, status: "Completed", processedDate: "2020-12-29", processedBy: "Efua Addo", approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2020-12-28" },
-  { id: "PAY095", month: "May 2026", period: "May 1 – May 31, 2026", totalEmployees: 94, totalGrossPay: 192800, totalDeductions: 21920, totalNetPay: 170880, status: "Processing", processedDate: "2026-05-27", processedBy: "Kofi Boateng", approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY096", month: "June 2026", period: "June 1 – June 30, 2026", totalEmployees: 92, totalGrossPay: 188400, totalDeductions: 21400, totalNetPay: 167000, status: "Completed", processedDate: "2026-06-29", processedBy: "John Mensah", approvalStatus: "Approved", approvedBy: "Sarah Johnson", approvedDate: "2026-06-28" },
-  { id: "PAY097", month: "July 2026", period: "July 1 – July 31, 2026", totalEmployees: 93, totalGrossPay: 191100, totalDeductions: 21730, totalNetPay: 169370, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY098", month: "August 2026", period: "August 1 – August 31, 2026", totalEmployees: 92, totalGrossPay: 188800, totalDeductions: 21460, totalNetPay: 167340, status: "Processing", processedDate: "2026-08-25", processedBy: "Ama Serwaa", approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY099", month: "September 2026", period: "September 1 – September 30, 2026", totalEmployees: 91, totalGrossPay: 186500, totalDeductions: 21190, totalNetPay: 165310, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null },
-  { id: "PAY100", month: "October 2026", period: "October 1 – October 31, 2026", totalEmployees: 90, totalGrossPay: 184200, totalDeductions: 20920, totalNetPay: 163280, status: "Pending", processedDate: null, processedBy: null, approvalStatus: "Pending", approvedBy: null, approvedDate: null }
 ];
 
 export default function PayrollPage() {
   const [payrolls, setPayrolls] = useState(initialPayrolls);
   const [selectedPayroll, setSelectedPayroll] = useState(null);
-  const [isProcessModalOpen, setIsProcessModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
+  const [notification, setNotification] = useState(null);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  // Process Payroll Form State
-  const [processFormData, setProcessFormData] = useState({
-    month: "",
-    year: "",
-    startDate: "",
-    endDate: "",
-    includeBonuses: true,
-    includeAllowances: true,
-    deductTaxes: true,
-    deductSSNIT: true,
-  });
+  // Check for new payroll from session storage on mount
+  useEffect(() => {
+    const newPayrollData = sessionStorage.getItem('newPayroll');
+    if (newPayrollData) {
+      try {
+        const newPayroll = JSON.parse(newPayrollData);
+        setPayrolls(prev => [newPayroll, ...prev]);
+        
+        // Show success notification
+        setNotification({
+          type: 'success',
+          title: 'Payroll Processed Successfully! ✓',
+          message: `Payroll for ${newPayroll.totalEmployees} employees has been created and added to your list.`,
+          payrollId: newPayroll.id
+        });
+
+        // Auto-hide notification after 5 seconds
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+
+        // Clear the session storage
+        sessionStorage.removeItem('newPayroll');
+      } catch (error) {
+        console.error('Error processing new payroll:', error);
+      }
+    }
+  }, []);
 
   // Filter payrolls by status
   const filteredPayrolls = filterStatus === "All" 
@@ -165,61 +86,25 @@ export default function PayrollPage() {
     }
   };
 
-  // ────────────────────────────────────────────────
-  //                API / Action Handlers
-  // ────────────────────────────────────────────────
-
-  const handleFetchAllPayrolls = () => {
-    console.log("GET: Fetch all payrolls");
-    alert("Fetching all payrolls from API...");
-  };
-
-  const handleProcessPayroll = (e) => {
-    e.preventDefault();
-    console.log("POST: Process payroll for", processFormData);
-
-    const newPayroll = {
-      id: `PAY${String(payrolls.length + 1).padStart(3, '0')}`,
-      month: `${processFormData.month} ${processFormData.year}`,
-      period: `${processFormData.startDate} – ${processFormData.endDate}`,
-      totalEmployees: 89 + Math.floor(Math.random() * 5),
-      totalGrossPay: 182500 + Math.floor(Math.random() * 15000),
-      totalDeductions: 19100 + Math.floor(Math.random() * 3000),
-      totalNetPay: 0,
-      status: "Processing",
-      processedDate: new Date().toISOString().split('T')[0],
-      processedBy: "Current User",
-      approvalStatus: "Pending",
-      approvedBy: null,
-      approvedDate: null,
-    };
-    newPayroll.totalNetPay = newPayroll.totalGrossPay - newPayroll.totalDeductions;
-
-    setPayrolls([newPayroll, ...payrolls]);
-    setIsProcessModalOpen(false);
-    setProcessFormData({
-      month: "", year: "", startDate: "", endDate: "",
-      includeBonuses: true, includeAllowances: true,
-      deductTaxes: true, deductSSNIT: true,
-    });
-    
-    alert("Payroll processing initiated!");
-  };
-
   const handleFetchPayrollDetails = (payroll) => {
     setSelectedPayroll(payroll);
     setIsDetailModalOpen(true);
-  };
-
-  const handleUpdatePayroll = (payrollId) => {
-    alert(`Updating payroll ${payrollId} (placeholder)`);
   };
 
   const handleDeletePayroll = () => {
     setPayrolls(payrolls.filter(p => p.id !== selectedPayroll.id));
     setIsDeleteModalOpen(false);
     setSelectedPayroll(null);
-    alert("Payroll deleted!");
+    
+    setNotification({
+      type: 'success',
+      title: 'Payroll Deleted',
+      message: `Payroll ${selectedPayroll.id} has been successfully deleted.`
+    });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
 
   const handleApprovePayroll = (payrollId) => {
@@ -228,7 +113,16 @@ export default function PayrollPage() {
         ? { ...p, approvalStatus: "Approved", approvedBy: "Current User", approvedDate: new Date().toISOString().split('T')[0] }
         : p
     ));
-    alert("Payroll approved!");
+
+    setNotification({
+      type: 'success',
+      title: 'Payroll Approved ✓',
+      message: `Payroll ${payrollId} has been successfully approved.`
+    });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
 
   const handlePageChange = (page) => {
@@ -238,91 +132,94 @@ export default function PayrollPage() {
 
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
-      {/* ──────────────────────────────────────────────── */}
-      {/* Header + Actions */}
-      {/* ──────────────────────────────────────────────── */}
+      {/* Success Notification */}
+      {notification && (
+        <div className={`fixed top-6 right-6 max-w-md rounded-2xl shadow-2xl p-6 z-[100] animate-in fade-in slide-in-from-top-4 duration-300 ${
+          notification.type === 'success' 
+            ? 'bg-white border-2 border-green-500' 
+            : 'bg-white border-2 border-red-500'
+        }`}>
+          <div className="flex items-start gap-4">
+            <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
+              notification.type === 'success'
+                ? 'bg-green-100'
+                : 'bg-red-100'
+            }`}>
+              {notification.type === 'success' ? (
+                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+            <div className="flex-1">
+              <h3 className={`font-bold text-lg ${
+                notification.type === 'success' ? 'text-green-700' : 'text-red-700'
+              }`}>
+                {notification.title}
+              </h3>
+              <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
+              {notification.payrollId && (
+                <p className="text-xs text-gray-500 mt-2 font-mono">ID: {notification.payrollId}</p>
+              )}
+            </div>
+            <button
+              onClick={() => setNotification(null)}
+              className="flex-shrink-0 text-gray-400 hover:text-gray-600"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
       <div className="mb-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-2">Payroll Management</h1>
             <p className="text-sm text-gray-600">Process, manage and approve employee payrolls</p>
           </div>
-          <div className="flex gap-3">
-            <button
-              onClick={handleFetchAllPayrolls}
-              className="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2 shadow-sm"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Refresh
-            </button>
-            <button
-              onClick={() => setIsProcessModalOpen(true)}
-              className="px-5 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2 shadow-sm"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Process New Payroll
-            </button>
-          </div>
+          <Link
+            href="/payroll/create"
+            className="px-5 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2 shadow-sm w-fit"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Process New Payroll
+          </Link>
         </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-  
-  <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm hover:shadow-md transition">
-    <h3 className="text-sm font-medium text-black mb-2">
-      Total Allowances
-    </h3>
-    <p className="text-2xl md:text-3xl font-bold text-black">
-      ₵48,750
-    </p>
-    <p className="text-xs text-black mt-1">
-      This payroll cycle
-    </p>
-  </div>
-
-  <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm hover:shadow-md transition">
-    <h3 className="text-sm font-medium text-black mb-2">
-      Total Deductions
-    </h3>
-    <p className="text-2xl md:text-3xl font-bold text-black">
-      ₵32,180
-    </p>
-    <p className="text-xs text-black mt-1">
-      Tax + SSNIT + Others
-    </p>
-  </div>
-
-  <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm hover:shadow-md transition">
-    <h3 className="text-sm font-medium text-black mb-2">
-      Active Benefits
-    </h3>
-    <p className="text-2xl md:text-3xl font-bold text-black">
-      14
-    </p>
-    <p className="text-xs text-black mt-1">
-      Assigned to employees
-    </p>
-  </div>
-
-  <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm hover:shadow-md transition">
-    <h3 className="text-sm font-medium text-black mb-2">
-      Currency
-    </h3>
-    <p className="text-2xl md:text-3xl font-bold text-black">
-      ₵
-    </p>
-    <p className="text-xs text-black mt-1">
-      Default payroll currency
-    </p>
-  </div>
-
-</div>
-
+        <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-black mb-2">Total Employees</h3>
+          <p className="text-3xl font-bold text-black">1000</p>
+          <p className="text-xs text-black mt-1">In system</p>
+        </div>
+        <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-black mb-2">Total Payrolls</h3>
+          <p className="text-3xl font-bold text-black">{payrolls.length}</p>
+          <p className="text-xs text-black mt-1">Processed</p>
+        </div>
+        <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-black mb-2">Total Deductions</h3>
+          <p className="text-3xl font-bold text-black">₵32,180</p>
+          <p className="text-xs text-black mt-1">This cycle</p>
+        </div>
+        <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 shadow-sm">
+          <h3 className="text-sm font-medium text-black mb-2">Departments</h3>
+          <p className="text-3xl font-bold text-black">10</p>
+          <p className="text-xs text-black mt-1">Active</p>
+        </div>
+      </div>
 
       {/* Filter Tabs */}
       <div className="bg-white rounded-2xl shadow-sm p-1.5 mb-6 inline-flex gap-1">
@@ -442,16 +339,6 @@ export default function PayrollPage() {
                         </svg>
                       </button>
 
-                      <button
-                        onClick={() => handleUpdatePayroll(payroll.id)}
-                        className="p-2 hover:bg-[#6b8ca3]/10 rounded-lg transition-colors group"
-                        title="Update"
-                      >
-                        <svg className="w-5 h-5 text-[#6b8ca3] group-hover:text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </button>
-
                       {payroll.approvalStatus === "Pending" && (
                         <button
                           onClick={() => handleApprovePayroll(payroll.id)}
@@ -509,7 +396,6 @@ export default function PayrollPage() {
               </div>
               
               <div className="flex items-center gap-2">
-                {/* Previous Button */}
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
@@ -524,7 +410,6 @@ export default function PayrollPage() {
                   </svg>
                 </button>
 
-                {/* Page Numbers */}
                 <div className="flex items-center gap-1">
                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                     let pageNum;
@@ -554,7 +439,6 @@ export default function PayrollPage() {
                   })}
                 </div>
 
-                {/* Next Button */}
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
@@ -574,129 +458,13 @@ export default function PayrollPage() {
         )}
       </div>
 
-      {/* Process Payroll Modal */}
-      {isProcessModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
-              <h2 className="text-xl font-bold">Process New Payroll</h2>
-              <button onClick={() => setIsProcessModalOpen(false)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <form onSubmit={handleProcessPayroll} className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Month *</label>
-                  <select 
-                    value={processFormData.month} 
-                    onChange={e => setProcessFormData({...processFormData, month: e.target.value})} 
-                    required 
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                  >
-                    <option value="">Select Month</option>
-                    {["January","February","March","April","May","June","July","August","September","October","November","December"].map(m => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Year *</label>
-                  <select 
-                    value={processFormData.year} 
-                    onChange={e => setProcessFormData({...processFormData, year: e.target.value})} 
-                    required 
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                  >
-                    <option value="">Select Year</option>
-                    {[2024, 2025, 2026].map(y => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Start Date *</label>
-                  <input
-                    type="date"
-                    value={processFormData.startDate}
-                    onChange={e => setProcessFormData({...processFormData, startDate: e.target.value})}
-                    required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">End Date *</label>
-                  <input
-                    type="date"
-                    value={processFormData.endDate}
-                    onChange={e => setProcessFormData({...processFormData, endDate: e.target.value})}
-                    required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Payroll Options</label>
-                <div className="space-y-3">
-                  {[
-                    { key: 'includeBonuses', label: 'Include Bonuses' },
-                    { key: 'includeAllowances', label: 'Include Allowances' },
-                    { key: 'deductTaxes', label: 'Deduct Taxes' },
-                    { key: 'deductSSNIT', label: 'Deduct SSNIT' }
-                  ].map(({ key, label }) => (
-                    <label key={key} className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={processFormData[key]}
-                        onChange={e => setProcessFormData({...processFormData, [key]: e.target.checked})}
-                        className="w-5 h-5 text-[#2c4a6a] rounded focus:ring-[#2c4a6a]"
-                      />
-                      <span className="text-sm text-gray-700">{label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-6">
-                <div className="flex gap-3">
-                  <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-sm text-blue-800">Processing payroll will calculate salaries for all active employees based on the selected period and options.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-3 justify-end">
-                <button 
-                  type="button" 
-                  onClick={() => setIsProcessModalOpen(false)} 
-                  className="px-6 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
-                >
-                  Process Payroll
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
       {/* Detail Modal */}
       {isDetailModalOpen && selectedPayroll && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between z-10">
               <h2 className="text-xl font-bold">Payroll Details - {selectedPayroll.id}</h2>
-              <button onClick={() => setIsDetailModalOpen(false)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+              <button onClick={() => setIsDetailModalOpen(false)} className="p-2 hover:bg-white/10 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -710,64 +478,17 @@ export default function PayrollPage() {
                   <p className="text-base font-semibold text-gray-900">{selectedPayroll.month}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500 mb-1">Period</p>
-                  <p className="text-base font-semibold text-gray-900">{selectedPayroll.period}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm text-gray-500 mb-1">Total Employees</p>
                   <p className="text-base font-semibold text-gray-900">{selectedPayroll.totalEmployees}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500 mb-1">Status</p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(selectedPayroll.status)}`}>
-                    {selectedPayroll.status}
-                  </span>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <p className="text-sm text-gray-500 mb-1">Gross Pay</p>
                   <p className="text-base font-semibold text-gray-900">₵ {selectedPayroll.totalGrossPay.toLocaleString()}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500 mb-1">Deductions</p>
-                  <p className="text-base font-semibold text-red-600">₵ {selectedPayroll.totalDeductions.toLocaleString()}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg col-span-2">
                   <p className="text-sm text-gray-500 mb-1">Net Pay</p>
-                  <p className="text-xl font-bold text-[#2c4a6a]">₵ {selectedPayroll.totalNetPay.toLocaleString()}</p>
+                  <p className="text-base font-semibold text-[#2c4a6a]">₵ {selectedPayroll.totalNetPay.toLocaleString()}</p>
                 </div>
-                {selectedPayroll.processedDate && (
-                  <>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-500 mb-1">Processed Date</p>
-                      <p className="text-base font-semibold text-gray-900">{selectedPayroll.processedDate}</p>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-500 mb-1">Processed By</p>
-                      <p className="text-base font-semibold text-gray-900">{selectedPayroll.processedBy}</p>
-                    </div>
-                  </>
-                )}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500 mb-1">Approval Status</p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getApprovalColor(selectedPayroll.approvalStatus)}`}>
-                    {selectedPayroll.approvalStatus}
-                  </span>
-                </div>
-                {selectedPayroll.approvedBy && (
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500 mb-1">Approved By</p>
-                    <p className="text-base font-semibold text-gray-900">{selectedPayroll.approvedBy}</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex gap-3 justify-end pt-4 border-t">
-                <button
-                  onClick={() => setIsDetailModalOpen(false)}
-                  className="px-6 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div>
