@@ -264,7 +264,7 @@ export default function DashboardPage() {
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
       {/* Header Section - Compact */}
       <div className="mb-8">
-        <div className="flex items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-blue-100 transition-all">
+        <div className="flex items-center justify-between gap-4  backdrop-blur-md p-4 rounded-2xl  border-blue-100 transition-all">
           
           {/* Left Section - Welcome Card */}
           <div className="flex items-center gap-4 flex-1 min-w-0">

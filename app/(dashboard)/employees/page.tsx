@@ -230,7 +230,7 @@ export default function EmployeePage() {
             </select>
           </div>
 
-          <Link href="/auth/signup">
+          <Link href="/employees/create">
           <button
             onClick={() => setIsModalOpen(true)}
             className="w-full sm:w-auto bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
