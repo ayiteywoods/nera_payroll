@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { HiEyeSlash, HiShieldCheck, HiUserCircle } from 'react-icons/hi2'
 
@@ -23,7 +24,7 @@ const Logoutpage = () => {
     {/**  RIGHT - LOGOUT FORM **/}
     <div className='lg:w-1/2 flex items-center justify-center p-8 lg:p-15 bg-gray-200'>
       <div className='max-w-xl mx-auto w-full'>
-      <section className='bg-blue-50 p-14 rounded-lg m-6'>
+      <section className='bg-teal-50 p-14 rounded-lg m-6'>
         <h1 className='text-3xl mb-3 text-center'>Logout</h1>
         <p className='text-gray-400 text-sm mb-4'>
             You are about to logout. Are you sure
@@ -66,12 +67,15 @@ const Logoutpage = () => {
 
       </div>
 
+
+      <Link href="../auth/login"> 
        <button
          type='submit'
-         className='w-full bg-[#153453] mb-4 text-gragit y-100 py-2 rounded-lg text-sm transition'
+         className='w-full bg-[#153453] mb-4 text-gray-100 py-2 rounded-lg text-sm transition'
        >
          Logout
        </button>
+       </Link>
 
        </form>
       

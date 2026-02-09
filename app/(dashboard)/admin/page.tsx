@@ -282,7 +282,6 @@ export default function DashboardPage() {
               <h1 className="text-xl md:text-2xl font-bold text-[#153453] leading-tight">
                 Welcome back, Ama!
               </h1>
-              <h3 className="text-sm font-light text-gray-400">Here is what is going on in  your company today</h3>
               <div className="flex items-center gap-3 mt-1">
                 <p className="text-lg font-bold text-[#2c4a6a] whitespace-nowrap">{timeStr}</p>
                 <span className="text-xs text-gray-500">GMT</span>
