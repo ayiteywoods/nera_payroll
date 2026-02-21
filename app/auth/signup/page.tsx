@@ -11,7 +11,7 @@ const Registerpage = () => {
       {/* Left side Background Image */}
     <div className='lg:w-1/2 relative h-64 lg:h-auto'>
       <Image
-        src="/image/bank.jpg"
+        src="/NeraApadminLogo.ong"
         alt = "Signup Background"
         fill
         className="object-cover"

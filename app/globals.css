@@ -1,89 +1,139 @@
 @import "tailwindcss";
 
+/* ===== THEME COLORS ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Main palette */
+  --primary: #3B82F6;
+  --secondary: #64748B;
+  --dark: #1E293B;
+
+  /* Backgrounds */
+  --background: #F8FAFC;
+  --card-bg: #FFFFFF;
+  --border: #E2E8F0;
+
+  /* Text */
+  --foreground: #0F172A;
+  --text-muted: #64748B;
+
+  /* Status colors */
+  --success: #22C55E;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+
+  /* Light status backgrounds */
+  --success-light: #DCFCE7;
+  --danger-light: #FEE2E2;
+  --warning-light: #FEF3C7;
+  --info-light: #DBEAFE;
+
+  /* ===== FONT VARIABLES ===== */
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-headings: 'Roboto', system-ui, sans-serif;
+  --font-code: 'Geist Mono', monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* ===== DARK MODE ===== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0B1120;
+    --card-bg: #111827;
+    --foreground: #E5E7EB;
+    --border: #1F2937;
+    --text-muted: #9CA3AF;
   }
 }
 
+/* ===== GLOBAL BODY ===== */
 body {
   background: var(--background);
   color: var(--foreground);
- font-family: 'Poppins', system-ui, sans-serif;
- 
-
-
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
 }
 
-
-
-.react-calendar {
-  border: 0px solid;
-  font-size:medium;
-  font-family:'Courier New', Courier, monospace
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
 }
 
-/* Remove outer border and background */
+/* ===== CODE BLOCKS ===== */
+code, pre {
+  font-family: var(--font-code);
+  background: var(--card-bg);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* ===== COMMON CARD STYLE ===== */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+/* ===== STATUS HELPERS ===== */
+.success-card {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.danger-card {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.warning-card {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.info-card {
+  background: var(--info-light);
+  color: var(--info);
+}
+
+/* ===== NICE GRADIENT ===== */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+/* ===== REACT CALENDAR CLEANUP ===== */
 .react-calendar {
   border: none !important;
   box-shadow: none !important;
-  background: #7d8fb0;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 10px;
+  font-family: var(--font-body);
 }
 
-/* Remove borders around individual day tiles and header cells */
+/* Remove borders everywhere */
+.react-calendar button,
 .react-calendar__tile,
-.react-calendar__navigation button,
-.react-calendar__month-view__weekdays__weekday,
-.react-calendar__month-view__days__day,
-.react-calendar__year-view__months__month {
+.react-calendar__navigation button {
   border: none !important;
   box-shadow: none !important;
- 
 }
 
-/* Remove focus outlines (keyboard focus) — keep accessibility in mind */
-.react-calendar button:focus,
-.react-calendar__tile:focus {
+/* Focus cleanup */
+.react-calendar button:focus {
   outline: none !important;
-  box-shadow: none !important;
 }
 
-/* If using double view or view container */
-.react-calendar--doubleView .react-calendar__viewContainer,
-.react-calendar__viewContainer {
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* Optional: remove divider lines between header and body */
-.react-calendar__month-view__weekdays {
-  border-bottom: none !important;
-}
-
-
+/* Selected day */
 .react-calendar__tile--active {
-  background: linear-gradient(135deg, #ff0000, #8B5CF6);
-  color: #0a0a0a;
-  border-radius: 0.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 10px;
   font-weight: 600;
-  box-shadow: 0 4px 10px rgba(236, 72, 153, 0.35);
 }
 
-
-
-
-
-
+/* Hover effect */
+.react-calendar__tile:hover {
+  background: var(--info-light);
+  border-radius: 8px;
+}

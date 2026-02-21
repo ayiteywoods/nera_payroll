@@ -256,7 +256,7 @@ export default function CreatePayrollPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6 xl:p-8">
       {/* Processing Notification */}
       {isProcessing && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
@@ -280,12 +280,12 @@ export default function CreatePayrollPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] animate-in fade-in duration-300">
           <div className="bg-white rounded-2xl p-8 max-w-md shadow-2xl animate-in zoom-in duration-300">
             <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <div className="w-16 h-16 rounded-full bg-[#2c4a6a]/10 flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-[#2c4a6a]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-green-600 mb-2">✓ Done!</h3>
+              <h3 className="text-2xl font-bold text-[#2c4a6a] mb-2">✓ Done!</h3>
               <p className="text-gray-900 font-semibold mb-1">Payroll Created Successfully</p>
               <p className="text-gray-600 text-sm mb-4">
                 {selectedEmployees.size} employees with ₵{(totalSelectedSalary / 1000).toFixed(0)}K gross pay
@@ -299,37 +299,34 @@ export default function CreatePayrollPage() {
       )}
 
       {/* Header */}
-      <div className="max-w-7xl mx-auto mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900">Create New Payroll</h1>
-            <p className="text-gray-600 mt-2">Configure payroll settings and select employees to process</p>
-          </div>
-          {!isProcessing && !showNotification && (
-            <Link
-              href="/payroll"
-              className="p-3 hover:bg-gray-200/50 rounded-lg transition-colors"
-            >
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-4">
+            <Link href="/payroll" className="p-2 hover:bg-gray-200 rounded-lg transition-colors">
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </Link>
-          )}
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-[#153453]">Create New Payroll</h1>
+              <p className="text-sm text-gray-600 mt-1">Configure payroll settings and select employees to process</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <form onSubmit={handleProcessPayroll} className="max-w-7xl mx-auto space-y-8">
+      <form onSubmit={handleProcessPayroll} className="space-y-6">
         {/* Settings Section */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Payroll Period Settings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+          <h2 className="text-lg font-bold text-[#153453] mb-5">Payroll Period Settings</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Month *</label>
               <select 
                 value={processFormData.month} 
                 onChange={e => setProcessFormData({...processFormData, month: e.target.value})} 
                 required 
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
               >
                 <option value="">Select Month</option>
                 {["January","February","March","April","May","June","July","August","September","October","November","December"].map(m => (
@@ -343,7 +340,7 @@ export default function CreatePayrollPage() {
                 value={processFormData.year} 
                 onChange={e => setProcessFormData({...processFormData, year: e.target.value})} 
                 required 
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
               >
                 <option value="">Select Year</option>
                 {[2024, 2025, 2026].map(y => (
@@ -358,7 +355,7 @@ export default function CreatePayrollPage() {
                 value={processFormData.startDate}
                 onChange={e => setProcessFormData({...processFormData, startDate: e.target.value})}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
               />
             </div>
             <div>
@@ -368,32 +365,32 @@ export default function CreatePayrollPage() {
                 value={processFormData.endDate}
                 onChange={e => setProcessFormData({...processFormData, endDate: e.target.value})}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
               />
             </div>
           </div>
         </div>
 
         {/* Payroll Options */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Payroll Options</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+          <h2 className="text-lg font-bold text-[#153453] mb-5">Payroll Options</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { key: 'includeBonuses', label: 'Include Bonuses', desc: 'Add performance bonuses to payroll' },
               { key: 'includeAllowances', label: 'Include Allowances', desc: 'Add housing, transport allowances' },
               { key: 'deductTaxes', label: 'Deduct Taxes', desc: 'Calculate and deduct income tax' },
               { key: 'deductSSNIT', label: 'Deduct SSNIT', desc: 'Calculate SSNIT contributions' }
             ].map(({ key, label, desc }) => (
-              <label key={key} className="flex items-start gap-3 cursor-pointer p-4 rounded-lg hover:bg-gray-50 border border-transparent hover:border-gray-200">
+              <label key={key} className="flex items-start gap-3 cursor-pointer p-4 rounded-lg hover:bg-gray-50 border border-gray-100 hover:border-gray-200">
                 <input
                   type="checkbox"
                   checked={processFormData[key]}
                   onChange={e => setProcessFormData({...processFormData, [key]: e.target.checked})}
-                  className="w-6 h-6 text-[#2c4a6a] rounded focus:ring-[#2c4a6a] mt-0.5"
+                  className="w-5 h-5 text-[#2c4a6a] rounded focus:ring-[#2c4a6a] mt-0.5"
                 />
                 <div>
-                  <p className="font-semibold text-gray-900">{label}</p>
-                  <p className="text-sm text-gray-600">{desc}</p>
+                  <p className="font-semibold text-gray-900 text-sm">{label}</p>
+                  <p className="text-xs text-gray-600">{desc}</p>
                 </div>
               </label>
             ))}
@@ -401,18 +398,18 @@ export default function CreatePayrollPage() {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Left - Department Filter */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-fit">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Departments ({departments.length})</h3>
+          <div className="bg-white rounded-2xl p-5 border border-gray-100 h-fit">
+            <h3 className="text-base font-bold text-gray-900 mb-4">Departments ({departments.length})</h3>
             <div className="space-y-2">
               <button
                 type="button"
                 onClick={() => setSelectedDepartmentFilter("All")}
-                className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   selectedDepartmentFilter === "All"
                     ? "bg-[#2c4a6a] text-white"
-                    : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    : "bg-gray-50 text-gray-900 hover:bg-gray-100"
                 }`}
               >
                 All Departments
@@ -422,14 +419,14 @@ export default function CreatePayrollPage() {
                   key={dept}
                   type="button"
                   onClick={() => setSelectedDepartmentFilter(dept)}
-                  className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between ${
+                  className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-between ${
                     selectedDepartmentFilter === dept
                       ? "bg-[#2c4a6a] text-white"
-                      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                      : "bg-gray-50 text-gray-900 hover:bg-gray-100"
                   }`}
                 >
-                  <span>{dept}</span>
-                  <span className="text-xs bg-white/20 px-2 py-1 rounded">
+                  <span className="truncate">{dept}</span>
+                  <span className="text-xs bg-white/20 px-2 py-0.5 rounded flex-shrink-0 ml-2">
                     {departmentStats[dept]?.selected}/{departmentStats[dept]?.total}
                   </span>
                 </button>
@@ -438,18 +435,18 @@ export default function CreatePayrollPage() {
 
             {/* Bulk Actions */}
             <div className="mt-6 pt-6 border-t border-gray-200 space-y-2">
-              <p className="text-xs font-semibold text-gray-600 mb-3">BULK ACTIONS</p>
+              <p className="text-xs font-semibold text-gray-500 mb-3">BULK ACTIONS</p>
               <button
                 type="button"
                 onClick={selectAllEmployees}
-                className="w-full px-4 py-2.5 text-sm font-medium text-[#2c4a6a] bg-[#2c4a6a]/10 rounded-lg hover:bg-[#2c4a6a]/20 transition-colors"
+                className="w-full px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] rounded-lg hover:from-[#1e3147] hover:to-[#2c4a6a] transition-colors"
               >
                 Select All 1000
               </button>
               <button
                 type="button"
                 onClick={deselectAllEmployees}
-                className="w-full px-4 py-2.5 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                className="w-full px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >
                 Deselect All
               </button>
@@ -458,16 +455,16 @@ export default function CreatePayrollPage() {
                   <button
                     type="button"
                     onClick={() => selectDepartment(selectedDepartmentFilter)}
-                    className="w-full px-4 py-2.5 text-sm font-medium text-green-600 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                    className="w-full px-3 py-2 text-sm font-medium text-[#2c4a6a] bg-[#2c4a6a]/10 rounded-lg hover:bg-[#2c4a6a]/20 transition-colors"
                   >
-                    Select {selectedDepartmentFilter}
+                    Select Dept
                   </button>
                   <button
                     type="button"
                     onClick={() => deselectDepartment(selectedDepartmentFilter)}
-                    className="w-full px-4 py-2.5 text-sm font-medium text-orange-600 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
+                    className="w-full px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                   >
-                    Deselect {selectedDepartmentFilter}
+                    Deselect Dept
                   </button>
                 </>
               )}
@@ -475,10 +472,10 @@ export default function CreatePayrollPage() {
           </div>
 
           {/* Middle - Employee List */}
-          <div className="xl:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <div className="mb-6">
+          <div className="lg:col-span-3 bg-white rounded-2xl p-5 border border-gray-100">
+            <div className="mb-5">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-gray-900">Select Employees</h3>
+                <h3 className="text-base font-bold text-gray-900">Select Employees</h3>
                 <div className="text-sm">
                   <span className="font-bold text-[#2c4a6a]">{selectedEmployees.size}</span>
                   <span className="text-gray-600">/{sampleEmployees.length}</span>
@@ -487,7 +484,7 @@ export default function CreatePayrollPage() {
 
               {/* Search Bar */}
               <div className="relative mb-4">
-                <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -511,14 +508,14 @@ export default function CreatePayrollPage() {
                   <button
                     type="button"
                     onClick={selectAllInFilter}
-                    className="px-3 py-1 text-xs font-medium text-[#2c4a6a] bg-[#2c4a6a]/10 rounded hover:bg-[#2c4a6a]/20"
+                    className="px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] rounded hover:from-[#1e3147] hover:to-[#2c4a6a]"
                   >
                     Select Page
                   </button>
                   <button
                     type="button"
                     onClick={deselectAllInFilter}
-                    className="px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded hover:bg-red-100"
+                    className="px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200"
                   >
                     Deselect Page
                   </button>
@@ -527,7 +524,7 @@ export default function CreatePayrollPage() {
             </div>
 
             {/* Employee Grid */}
-            <div className="border border-gray-200 rounded-lg max-h-[600px] overflow-y-auto bg-gray-50">
+            <div className="border border-gray-200 rounded-lg max-h-[550px] overflow-y-auto">
               <div className="divide-y divide-gray-200">
                 {paginatedEmployees.length === 0 ? (
                   <div className="p-8 text-center">
@@ -537,7 +534,7 @@ export default function CreatePayrollPage() {
                   paginatedEmployees.map((employee) => (
                     <label
                       key={employee.id}
-                      className="flex items-center gap-3 p-4 hover:bg-gray-100 cursor-pointer transition-colors"
+                      className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors"
                     >
                       <input
                         type="checkbox"
@@ -557,10 +554,10 @@ export default function CreatePayrollPage() {
                       </div>
                       <div className="text-right flex-shrink-0">
                         <p className="text-sm font-semibold text-[#2c4a6a]">₵{Math.round(employee.salary).toLocaleString()}</p>
-                        <span className={`text-xs font-medium px-2 py-1 rounded ${
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded ${
                           employee.status === "Active" 
-                            ? "bg-green-100 text-green-700"
-                            : "bg-yellow-100 text-yellow-700"
+                            ? "bg-[#2c4a6a]/10 text-[#2c4a6a]"
+                            : "bg-gray-200 text-gray-700"
                         }`}>
                           {employee.status}
                         </span>
@@ -580,7 +577,7 @@ export default function CreatePayrollPage() {
                     type="button"
                     onClick={() => setEmployeeListPage(p => Math.max(1, p - 1))}
                     disabled={employeeListPage === 1}
-                    className="px-3 py-1 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    className="px-3 py-1.5 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 text-sm"
                   >
                     Prev
                   </button>
@@ -588,7 +585,7 @@ export default function CreatePayrollPage() {
                     type="button"
                     onClick={() => setEmployeeListPage(p => Math.min(totalEmployeePages, p + 1))}
                     disabled={employeeListPage === totalEmployeePages}
-                    className="px-3 py-1 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    className="px-3 py-1.5 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 text-sm"
                   >
                     Next
                   </button>
@@ -599,9 +596,36 @@ export default function CreatePayrollPage() {
 
           {/* Right - Summary */}
           <div className="space-y-6">
+            {/* Payroll Summary */}
+            <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-5 text-white border border-gray-100">
+              <h3 className="text-base font-bold mb-4">Payroll Summary</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-white/80 text-sm">Employees</span>
+                  <span className="text-xl font-bold">{selectedEmployees.size}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-white/80 text-sm">Coverage</span>
+                  <span className="text-xl font-bold">{Math.round((selectedEmployees.size / sampleEmployees.length) * 100)}%</span>
+                </div>
+                <div className="border-t border-white/20 pt-3 flex items-center justify-between">
+                  <span className="text-white/80 text-sm">Gross Pay</span>
+                  <span className="text-xl font-bold">₵{(totalSelectedSalary / 1000).toFixed(0)}K</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-white/80 text-sm">Deductions</span>
+                  <span className="text-base font-bold text-white/70">₵{Math.round(totalSelectedSalary * 0.11 / 1000).toFixed(0)}K</span>
+                </div>
+                <div className="border-t border-white/20 pt-3 flex items-center justify-between">
+                  <span className="text-white/80 text-sm">Net Pay</span>
+                  <span className="text-lg font-bold text-white">₵{Math.round(totalSelectedSalary * 0.89 / 1000).toFixed(0)}K</span>
+                </div>
+              </div>
+            </div>
+
             {/* Department Breakdown */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">Department Breakdown</h3>
+            <div className="bg-white rounded-2xl p-5 border border-gray-100">
+              <h3 className="text-base font-bold text-gray-900 mb-4">Breakdown</h3>
               <div className="space-y-3 max-h-80 overflow-y-auto">
                 {departments.map(dept => {
                   const stats = departmentStats[dept];
@@ -609,10 +633,10 @@ export default function CreatePayrollPage() {
                   return (
                     <div key={dept} className="p-3 bg-gray-50 rounded-lg border border-gray-100">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-semibold text-gray-900">{dept}</span>
+                        <span className="text-xs font-semibold text-gray-900 truncate">{dept}</span>
                         <span className="text-xs font-bold text-[#2c4a6a]">{stats.selected}/{stats.total}</span>
                       </div>
-                      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-gradient-to-r from-[#2c4a6a] to-[#1e3147]"
                           style={{ width: `${percentage}%` }}
@@ -624,56 +648,29 @@ export default function CreatePayrollPage() {
               </div>
             </div>
 
-            {/* Payroll Summary */}
-            <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 shadow-sm text-white">
-              <h3 className="text-lg font-bold mb-4">Payroll Summary</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-white/80 text-sm">Total Employees</span>
-                  <span className="text-2xl font-bold">{selectedEmployees.size}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-white/80 text-sm">Coverage</span>
-                  <span className="text-2xl font-bold">{Math.round((selectedEmployees.size / sampleEmployees.length) * 100)}%</span>
-                </div>
-                <div className="border-t border-white/20 pt-3 flex items-center justify-between">
-                  <span className="text-white/80 text-sm">Gross Salary</span>
-                  <span className="text-2xl font-bold">₵{(totalSelectedSalary / 1000).toFixed(0)}K</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-white/80 text-sm">Deductions (11%)</span>
-                  <span className="text-lg font-bold text-red-300">₵{Math.round(totalSelectedSalary * 0.11 / 1000).toFixed(0)}K</span>
-                </div>
-                <div className="border-t border-white/20 pt-3 flex items-center justify-between">
-                  <span className="text-white/80 text-sm">Net Pay</span>
-                  <span className="text-xl font-bold text-green-300">₵{Math.round(totalSelectedSalary * 0.89 / 1000).toFixed(0)}K</span>
-                </div>
-              </div>
-            </div>
-
             {/* Excluded Count */}
             {removedEmployees.length > 0 && (
-              <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
-                <p className="text-xs font-medium text-blue-900 mb-2">EXCLUDED EMPLOYEES</p>
-                <p className="text-2xl font-bold text-blue-700">{removedEmployees.length}</p>
-                <p className="text-xs text-blue-600 mt-1">Not included in payroll</p>
+              <div className="bg-gray-100 border border-gray-200 rounded-2xl p-4">
+                <p className="text-xs font-medium text-gray-700 mb-1">EXCLUDED</p>
+                <p className="text-2xl font-bold text-gray-900">{removedEmployees.length}</p>
+                <p className="text-xs text-gray-600 mt-1">Not in payroll</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-4 sticky bottom-6">
+        <div className="flex gap-4">
           <Link
             href="/payroll"
-            className="flex-1 px-6 py-4 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors text-center"
+            className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors text-center"
           >
             Cancel
           </Link>
           <button
             type="submit"
             disabled={selectedEmployees.size === 0 || isProcessing || showNotification}
-            className={`flex-1 px-6 py-4 rounded-lg text-base font-medium transition-all ${
+            className={`flex-1 px-6 py-3 rounded-lg text-sm font-medium transition-all ${
               selectedEmployees.size === 0 || isProcessing || showNotification
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white hover:from-[#1e3147] hover:to-[#2c4a6a]'

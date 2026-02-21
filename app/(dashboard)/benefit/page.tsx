@@ -198,11 +198,11 @@ export default function BenefitsAndDeductionsPage() {
         ].map((card, i) => (
           <div
             key={i}
-            className="bg-blue-50 rounded-xl p-6 shadow-md border border-blue-200 hover:shadow-lg transition-shadow"
+            className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-6  transition-shadow"
           >
-            <h3 className="text-sm font-medium text-black">{card.label}</h3>
-            <p className="text-3xl font-bold mt-2 text-black">{card.value}</p>
-            <p className="text-xs text-black mt-1">{card.sub}</p>
+            <h3 className="text-sm font-medium text-white/70">{card.label}</h3>
+            <p className="text-3xl font-bold mt-2 text-white">{card.value}</p>
+            <p className="text-xs text-white/50 mt-1">{card.sub}</p>
           </div>
         ))}
       </div>

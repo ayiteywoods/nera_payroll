@@ -586,7 +586,7 @@ const Navbar = () => {
                 alt="Profile"
                 width={36}
                 height={36}
-                className="rounded-full cursor-pointer hover:ring-2 hover:ring-[#2c4a6a] transition"
+                className="rounded-[900] cursor-pointer hover:ring-2 hover:ring-[#2c4a6a] transition"
               />
             </button>
           </div>
