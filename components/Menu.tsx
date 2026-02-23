@@ -60,7 +60,8 @@ const Menu = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="h-full flex flex-col bg-white rounded-2xl">
+    <aside className="h-full flex flex-col justify-between bg-white rounded-2xl">
+      
       {/* Logo Section */}
       <div className="p-4 border-b border-gray-100">
         <Link href="/" className="flex items-center justify-center lg:justify-start gap-2">
@@ -80,75 +81,60 @@ const Menu = () => {
       </div>
 
       {/* Menu Items */}
-      <div className="flex-1 overflow-y-auto px-2 sm:px-3 py-3 sm:py-4">
-        <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6 text-sm">
-          {menuItems.map((section) => (
-            <div key={section.title}>
-              {/* Section title */}
-              <span className="hidden md:block text-[10px] sm:text-[11px] text-[#2c4a6a]/50 mb-2 uppercase tracking-widest px-2 font-semibold">
-                {section.title}
-              </span>
+      <div className="flex-1 flex flex-col px-3 pt-3 gap-2 text-sm">
+        {menuItems.map((section) => (
+          <div key={section.title}>
+            <span className="hidden md:block text-[10px] text-[#2c4a6a]/50 mb-1 uppercase tracking-wider font-semibold px-2">
+              {section.title}
+            </span>
 
-              <div className="flex flex-col gap-0.5 sm:gap-1">
-                {section.items
-                  .filter((item) => item.visible.includes(role))
-                  .map((item) => {
-                    const Icon = item.icon;
-                    const isActive = pathname === item.href;
+            <div className="flex flex-col gap-1">
+              {section.items
+                .filter((item) => item.visible.includes(role))
+                .map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
 
-                    return (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className={`
-                          group relative flex items-center gap-2 sm:gap-3
-                          px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg
-                          transition-all duration-200
-                          ${
-                            isActive
-                              ? "bg-gradient-to-r from-[#2c4a6a]/10 to-[#2c4a6a]/5 text-[#1e3147] font-medium border border-[#2c4a6a]/20"
-                              : "text-gray-500 hover:bg-[#c3d2e9]/30 hover:text-[#1e3147]"
-                          }
-                          justify-center md:justify-start
-                        `}
-                        title={item.label}
-                      >
-                        <Icon
-                          size={18}
-                          className={`
-                            flex-shrink-0
-                            ${
-                              isActive
-                                ? "text-[#2c4a6a]"
-                                : "text-gray-400 group-hover:text-[#2c4a6a]"
-                            }
-                          `}
-                        />
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className={`
+                        group relative flex items-center gap-2 px-3 py-2 rounded-md
+                        transition-all duration-200
+                        ${isActive
+                          ? "bg-gradient-to-r from-[#2c4a6a]/10 to-[#2c4a6a]/5 text-[#1e3147] font-medium border border-[#2c4a6a]/20"
+                          : "text-gray-500 hover:bg-[#c3d2e9]/30 hover:text-[#1e3147]"
+                        }
+                        justify-center md:justify-start
+                      `}
+                      title={item.label}
+                    >
+                      <Icon
+                        size={18}
+                        className={`flex-shrink-0 ${isActive ? "text-[#2c4a6a]" : "text-gray-400 group-hover:text-[#2c4a6a]"}`}
+                      />
 
-                        {/* Label */}
-                        <span className="hidden md:block text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-                          {item.label}
-                        </span>
+                      <span className="hidden md:block whitespace-nowrap overflow-hidden text-ellipsis">
+                        {item.label}
+                      </span>
 
-                        {/* Active indicator */}
-                        {isActive && (
-                          <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-[#2c4a6a]"></div>
-                        )}
+                      {isActive && (
+                        <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-[#2c4a6a]"></div>
+                      )}
 
-                        {/* Tooltip for mobile */}
-                        <span className="md:hidden absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
-                          {item.label}
-                        </span>
-                      </Link>
-                    );
-                  })}
-              </div>
+                      <span className="md:hidden absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
+                        {item.label}
+                      </span>
+                    </Link>
+                  );
+                })}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
-      {/* Footer - User Profile (Optional) */}
+      {/* Footer - User Profile */}
       <div className="p-3 border-t border-gray-100">
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-[#c3d2e9]/40 to-[#d4dff0]/40 border border-[#2c4a6a]/10">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">

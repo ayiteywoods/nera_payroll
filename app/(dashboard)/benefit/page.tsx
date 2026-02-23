@@ -64,8 +64,6 @@ export default function BenefitsAndDeductionsPage() {
     { id: 4, name: "Other Deductions" },
   ];
 
-  const currency = "GHS";
-
   const getCurrentData = () => {
     return activeTab === "benefits" ? benefits : deductions;
   };
@@ -163,62 +161,41 @@ export default function BenefitsAndDeductionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] p-4 lg:p-6">
+    <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen overflow-x-hidden">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[#153453]">Benefits & Deductions</h1>
-        <p className="text-gray-600 mt-1">
-          Manage allowances, deductions, benefits, and compensation rules
-        </p>
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-1">Benefits & Deductions</h1>
+        <p className="text-sm text-gray-600">Manage allowances, deductions, benefits, and compensation rules</p>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
-          {
-            label: "Active Benefit Types",
-            value: "12",
-            sub: "Allowances + Compensation + Insurance",
-          },
-          {
-            label: "Active Deduction Rules",
-            value: "9",
-            sub: "Tax + SSNIT + Pension + Others",
-          },
-          {
-            label: "Configured Categories",
-            value: `${benefitCategories.length + deductionCategories.length}`,
-            sub: "Benefits & Deductions groups",
-          },
-          {
-            label: "Last Configuration Update",
-            value: "Feb 01, 2026",
-            sub: "by Kwakye Admin",
-          },
+          { label: "Active Benefit Types", value: "12", sub: "Allowances + Compensation + Insurance" },
+          { label: "Active Deduction Rules", value: "9", sub: "Tax + SSNIT + Pension + Others" },
+          { label: "Configured Categories", value: `${benefitCategories.length + deductionCategories.length}`, sub: "Benefits & Deductions groups" },
+          { label: "Last Configuration Update", value: "Feb 01, 2026", sub: "by Kwakye Admin" },
         ].map((card, i) => (
-          <div
-            key={i}
-            className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-6  transition-shadow"
-          >
-            <h3 className="text-sm font-medium text-white/70">{card.label}</h3>
-            <p className="text-3xl font-bold mt-2 text-white">{card.value}</p>
+          <div key={i} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5">
+            <p className="text-xs text-white/70 mb-1">{card.label}</p>
+            <p className="text-3xl font-bold text-white">{card.value}</p>
             <p className="text-xs text-white/50 mt-1">{card.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Main Card */}
-      <div className="bg-white rounded-2xl shadow border border-gray-200">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
         {/* Tabs */}
-        <div className="border-b border-gray-200 px-6 pt-4 flex">
+        <div className="border-b border-gray-100 px-6 pt-4 flex">
           {["benefits", "deductions"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`pb-4 px-6 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab
-                  ? "border-[#153453] text-[#153453]"
-                  : "border-transparent text-gray-600 hover:text-gray-800"
+                  ? "border-[#2c4a6a] text-[#2c4a6a]"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
               {tab === "benefits" ? "Benefits & Allowances" : "Deductions"}
@@ -228,14 +205,14 @@ export default function BenefitsAndDeductionsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12">
           {/* Sidebar */}
-          <div className="lg:col-span-3 border-r border-gray-200 p-6 bg-[#f1f5f9]">
-            <h3 className="text-sm font-medium text-[#153453] mb-4">
+          <div className="lg:col-span-3 border-r border-gray-100 p-6 bg-gray-50">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">
               {activeTab === "benefits" ? "Benefits Structure" : "Deductions Structure"}
             </h3>
 
             <ul className="space-y-2 text-sm text-gray-700">
               {getCurrentCategories().map((cat) => (
-                <li key={cat.id} className="font-medium">
+                <li key={cat.id} className="font-medium py-1.5 px-3 rounded-lg hover:bg-white transition-colors">
                   {cat.name}
                 </li>
               ))}
@@ -243,93 +220,85 @@ export default function BenefitsAndDeductionsPage() {
 
             <button 
               onClick={() => setIsCategoryModalOpen(true)}
-              className="mt-8 w-full bg-[#153453] hover:bg-[#0f243f] text-white py-2.5 rounded-lg text-sm transition-colors"
+              className="mt-6 w-full bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white py-2.5 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2"
             >
-              + Add New Category
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Add Category
             </button>
           </div>
 
           {/* Table area */}
           <div className="lg:col-span-9 p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-[#153453]">
+              <h2 className="text-lg font-semibold text-gray-900">
                 {activeTab === "benefits" ? "Active Benefits & Allowances" : "Active Deductions"}
               </h2>
               <button 
                 onClick={() => setIsCreateModalOpen(true)}
-                className="bg-[#153453] hover:bg-[#0f2a45] text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2"
               >
-                + New {activeTab === "benefits" ? "Benefit" : "Deduction"}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                New {activeTab === "benefits" ? "Benefit" : "Deduction"}
               </button>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     {["Name", "Type", "Amount / Rate", "Status", "Actions"].map((h) => (
                       <th
                         key={h}
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase"
+                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                       >
                         {h}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-100">
                   {getCurrentData().map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-[#153453]">{item.name}</td>
-                      <td className="px-6 py-4 text-gray-600">{item.type}</td>
-                      <td className="px-6 py-4 text-gray-600">{item.amount}</td>
+                    <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4">
-                        <span className={`px-2 py-1 text-xs rounded-full ${
+                        <p className="text-sm font-semibold text-gray-900">{item.name}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm text-gray-600">{item.type}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-medium text-[#2c4a6a]">{item.amount}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${
                           item.status === "Active" 
-                            ? "bg-green-100 text-green-700" 
-                            : "bg-red-100 text-red-700"
+                            ? "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]" 
+                            : "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]"
                         }`}>
                           {item.status}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
                           <button 
                             onClick={() => handleEdit(item)}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors group"
+                            className="p-2 hover:bg-[#eef3f9] rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]"
                             title="Edit"
                           >
-                            <svg 
-                              className="w-5 h-5 text-[#153453] group-hover:text-[#0f243f]" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" 
-                              />
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                           </button>
                           <button 
                             onClick={() => handleDisable(item)}
-                            className="p-2 hover:bg-red-50 rounded-lg transition-colors group"
+                            className="p-2 hover:bg-red-50 rounded-lg transition-colors text-gray-600 hover:text-red-600"
                             title="Disable"
                           >
-                            <svg 
-                              className="w-5 h-5 text-red-600 group-hover:text-red-700" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M6 18L18 6M6 6l12 12" 
-                              />
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                           </button>
                         </div>
@@ -343,8 +312,11 @@ export default function BenefitsAndDeductionsPage() {
             <div className="mt-6 flex justify-end">
               <button 
                 onClick={handleExportPDF}
-                className="bg-gray-100 hover:bg-gray-200 px-5 py-2.5 rounded-lg text-sm transition-colors"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
               >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
                 Export to PDF
               </button>
             </div>
@@ -354,9 +326,9 @@ export default function BenefitsAndDeductionsPage() {
 
       {/* Create/Add Modal */}
       {isCreateModalOpen && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-[#153453] to-[#0f243f] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
               <h2 className="text-xl font-bold">
                 Create New {activeTab === "benefits" ? "Benefit" : "Deduction"}
               </h2>
@@ -380,7 +352,7 @@ export default function BenefitsAndDeductionsPage() {
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
                     placeholder={`Enter ${activeTab === "benefits" ? "benefit" : "deduction"} name`}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453]"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
                   />
                 </div>
 
@@ -390,7 +362,7 @@ export default function BenefitsAndDeductionsPage() {
                     value={formData.type}
                     onChange={(e) => setFormData({...formData, type: e.target.value})}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453] bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
                   >
                     <option value="">Select category</option>
                     {getCurrentCategories().map(cat => (
@@ -407,7 +379,7 @@ export default function BenefitsAndDeductionsPage() {
                     onChange={(e) => setFormData({...formData, amount: e.target.value})}
                     required
                     placeholder="e.g., GHS 500 / month or 5.5%"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453]"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
                   />
                 </div>
 
@@ -416,7 +388,7 @@ export default function BenefitsAndDeductionsPage() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({...formData, status: e.target.value})}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453] bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -434,7 +406,7 @@ export default function BenefitsAndDeductionsPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#153453] to-[#0f243f] text-white rounded-lg text-sm font-medium hover:from-[#0f243f] hover:to-[#153453] transition-all"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
                 >
                   Create {activeTab === "benefits" ? "Benefit" : "Deduction"}
                 </button>
@@ -446,9 +418,9 @@ export default function BenefitsAndDeductionsPage() {
 
       {/* Edit Modal */}
       {isEditModalOpen && selectedItem && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-[#153453] to-[#0f243f] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
               <h2 className="text-xl font-bold">
                 Edit {activeTab === "benefits" ? "Benefit" : "Deduction"}
               </h2>
@@ -474,7 +446,7 @@ export default function BenefitsAndDeductionsPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453]"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
                   />
                 </div>
 
@@ -484,7 +456,7 @@ export default function BenefitsAndDeductionsPage() {
                     value={formData.type}
                     onChange={(e) => setFormData({...formData, type: e.target.value})}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453] bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
                   >
                     {getCurrentCategories().map(cat => (
                       <option key={cat.id} value={cat.name}>{cat.name}</option>
@@ -499,7 +471,7 @@ export default function BenefitsAndDeductionsPage() {
                     value={formData.amount}
                     onChange={(e) => setFormData({...formData, amount: e.target.value})}
                     required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453]"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
                   />
                 </div>
 
@@ -508,7 +480,7 @@ export default function BenefitsAndDeductionsPage() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({...formData, status: e.target.value})}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453] bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -529,7 +501,7 @@ export default function BenefitsAndDeductionsPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#153453] to-[#0f243f] text-white rounded-lg text-sm font-medium hover:from-[#0f243f] hover:to-[#153453] transition-all"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
                 >
                   Update
                 </button>
@@ -541,8 +513,8 @@ export default function BenefitsAndDeductionsPage() {
 
       {/* Delete/Disable Confirmation Modal */}
       {isDeleteModalOpen && selectedItem && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-md">
             <div className="p-6">
               <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -579,9 +551,9 @@ export default function BenefitsAndDeductionsPage() {
 
       {/* Add Category Modal */}
       {isCategoryModalOpen && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
-            <div className="sticky top-0 bg-gradient-to-r from-[#153453] to-[#0f243f] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-lg">
+            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
               <h2 className="text-xl font-bold">Add New Category</h2>
               <button
                 onClick={() => setIsCategoryModalOpen(false)}
@@ -603,7 +575,7 @@ export default function BenefitsAndDeductionsPage() {
                     onChange={(e) => setCategoryFormData({...categoryFormData, name: e.target.value})}
                     required
                     placeholder="Enter category name"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453]"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
                   />
                 </div>
 
@@ -614,7 +586,7 @@ export default function BenefitsAndDeductionsPage() {
                     onChange={(e) => setCategoryFormData({...categoryFormData, description: e.target.value})}
                     rows={3}
                     placeholder="Enter category description (optional)"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#153453]"
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
                   />
                 </div>
               </div>
@@ -629,7 +601,7 @@ export default function BenefitsAndDeductionsPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#153453] to-[#0f243f] text-white rounded-lg text-sm font-medium hover:from-[#0f243f] hover:to-[#153453] transition-all"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
                 >
                   Add Category
                 </button>

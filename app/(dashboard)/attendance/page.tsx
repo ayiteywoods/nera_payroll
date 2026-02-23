@@ -14,7 +14,7 @@ export default function AttendancePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
-  const generateQRCode = async () => {
+  const openAttendanceModal = async () => {
     const attendanceUrl = `https://nerapay.com/attendance/checkin/${new Date().toISOString().split('T')[0]}`;
     try {
       const qrUrl = await QRCode.toDataURL(attendanceUrl, {
@@ -29,6 +29,28 @@ export default function AttendancePage() {
       setShowQRModal(true);
     } catch (err) {
       console.error('Error generating QR code:', err);
+    }
+  };
+
+  const shareQRCode = async () => {
+    if (navigator.share) {
+      try {
+        const response = await fetch(qrCodeUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `attendance-qr-${new Date().toISOString().split('T')[0]}.png`, { type: 'image/png' });
+        
+        await navigator.share({
+          title: 'Attendance QR Code',
+          text: `Scan this QR code to mark attendance for ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}`,
+          files: [file],
+        });
+      } catch (err) {
+        console.log('Error sharing:', err);
+      }
+    } else {
+      const attendanceUrl = `https://nerapay.com/attendance/checkin/${new Date().toISOString().split('T')[0]}`;
+      navigator.clipboard.writeText(attendanceUrl);
+      alert('Link copied to clipboard!');
     }
   };
 
@@ -107,6 +129,15 @@ export default function AttendancePage() {
     s === "late" ? "bg-[#e8eef4] text-[#4a6b8a] border-[#c3d2e9]" :
     s === "onLeave" ? "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]" :
     "bg-gray-100 text-gray-700 border-gray-200";
+
+  // Helper function to get initials from name
+  const getInitials = (name: string) => {
+    const parts = name.split(' ');
+    if (parts.length >= 2) {
+      return parts[0][0] + parts[1][0];
+    }
+    return name[0] + (name[1] || '');
+  };
 
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen overflow-x-hidden">
@@ -201,13 +232,13 @@ export default function AttendancePage() {
               </button>
             </div>
             <button
-              onClick={generateQRCode}
+              onClick={openAttendanceModal}
               className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
-              Generate QR
+              Take Attendance
             </button>
           </div>
         </div>
@@ -243,7 +274,7 @@ export default function AttendancePage() {
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden relative">
                     <img src={emp.image} alt="" className="w-full h-full object-cover absolute inset-0" onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
-                    <span className="text-base font-bold z-10">{emp.name[0]}</span>
+                    <span className="text-base font-bold z-10">{getInitials(emp.name)}</span>
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 text-sm">{emp.name}</p>
@@ -309,7 +340,7 @@ export default function AttendancePage() {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden relative">
                           <img src={emp.image} alt="" className="w-full h-full object-cover absolute inset-0" onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
-                          <span className="text-sm font-bold z-10">{emp.name[0]}</span>
+                          <span className="text-sm font-bold z-10">{getInitials(emp.name)}</span>
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-gray-900">{emp.name}</p>
@@ -433,12 +464,15 @@ export default function AttendancePage() {
         </div>
       )}
 
-      {/* QR Modal */}
+      {/* QR Modal - Enhanced with Download & Share */}
       {showQRModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md">
+          <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md shadow-2xl">
             <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
-              <h2 className="text-xl font-bold">Daily Attendance QR Code</h2>
+              <div>
+                <h2 className="text-xl font-bold">Take Attendance</h2>
+                <p className="text-sm text-white/70 mt-1">Scan QR code to check in</p>
+              </div>
               <button onClick={() => setShowQRModal(false)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -446,18 +480,30 @@ export default function AttendancePage() {
               </button>
             </div>
             <div className="p-6">
-              <div className="bg-gray-50 rounded-xl p-6 mb-4">
-                <img src={qrCodeUrl} alt="QR Code" className="w-full" />
+              {/* QR Code Display */}
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 mb-4 border-2 border-dashed border-gray-200">
+                <img src={qrCodeUrl} alt="QR Code" className="w-full rounded-lg" />
               </div>
-              <div className="bg-[#2c4a6a]/10 border border-[#2c4a6a]/30 rounded-lg p-4 mb-4">
-                <p className="text-sm text-gray-900 text-center">
-                  <strong>Scan this QR code</strong> to mark your attendance for today
-                </p>
-                <p className="text-xs text-gray-600 text-center mt-2">
-                  {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-                </p>
+              
+              {/* Info Box */}
+              <div className="bg-[#2c4a6a]/10 border border-[#2c4a6a]/30 rounded-lg p-4 mb-5">
+                <div className="flex items-start gap-3">
+                  <div className="bg-[#2c4a6a] rounded-full p-1.5 flex-shrink-0">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-gray-900 mb-1">How to use this QR code</p>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      Employees can scan this QR code with their phone camera to quickly mark their attendance for today. The code is valid for {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-3">
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => {
                     const link = document.createElement('a');
@@ -465,17 +511,66 @@ export default function AttendancePage() {
                     link.href = qrCodeUrl;
                     link.click();
                   }}
-                  className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all"
                 >
-                  Download QR
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download
                 </button>
                 <button
-                  onClick={() => setShowQRModal(false)}
-                  className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
+                  onClick={shareQRCode}
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
                 >
-                  Close
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                  </svg>
+                  Share
                 </button>
               </div>
+
+              {/* Alternative: Print option */}
+              <button
+                onClick={() => {
+                  const printWindow = window.open('', '_blank');
+                  printWindow?.document.write(`
+                    <html>
+                      <head>
+                        <title>Attendance QR Code - ${new Date().toLocaleDateString()}</title>
+                        <style>
+                          body { 
+                            font-family: Arial, sans-serif; 
+                            display: flex; 
+                            flex-direction: column; 
+                            align-items: center; 
+                            justify-content: center; 
+                            min-height: 100vh;
+                            margin: 0;
+                            padding: 20px;
+                          }
+                          h1 { color: #2c4a6a; margin-bottom: 10px; }
+                          p { color: #666; margin-bottom: 20px; }
+                          img { max-width: 400px; border: 2px solid #2c4a6a; padding: 20px; border-radius: 10px; }
+                        </style>
+                      </head>
+                      <body>
+                        <h1>Daily Attendance QR Code</h1>
+                        <p>${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                        <img src="${qrCodeUrl}" alt="Attendance QR Code" />
+                        <p style="margin-top: 20px; font-size: 14px;">Scan this code to mark your attendance</p>
+                      </body>
+                    </html>
+                  `);
+                  printWindow?.document.close();
+                  printWindow?.print();
+                }}
+                className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-all"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print QR Code
+              </button>
             </div>
           </div>
         </div>

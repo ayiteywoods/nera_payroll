@@ -232,7 +232,7 @@ export default function EmployeePage() {
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                 <div>
                   <p className="text-[10px] text-gray-400 mb-0.5">Basic Salary</p>
-                  <p className="text-base font-bold text-[#2c4a6a]">₵{emp.basicSalary.toLocaleString()}</p>
+                  <p className="text-base font-bold text-[#2c4a6a]">GHs{emp.basicSalary.toLocaleString()}</p>
                 </div>
                 <div className="flex gap-2">
                   <Link href="/employees/profile" onClick={() => handleViewEmployee(emp)} className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors">
@@ -291,7 +291,7 @@ export default function EmployeePage() {
                       <p className="text-xs text-gray-400">{emp.phone}</p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <p className="text-sm font-bold text-[#2c4a6a]">₵{emp.basicSalary.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-[#2c4a6a]">GHS {emp.basicSalary.toLocaleString()}</p>
                       <p className="text-xs text-gray-400">Monthly</p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap"><span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(emp.employmentStatus)}`}>{emp.employmentStatus}</span></td>

@@ -293,7 +293,7 @@ export default function AdminDashboardPage() {
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-1">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-[#153453]">Dashboard</h1>
         <p className="text-sm text-gray-600 mt-1">Overview of your workforce and system metrics</p>
       </div>
 
@@ -386,7 +386,7 @@ export default function AdminDashboardPage() {
 
           <div className="my-6">
             <p className="text-sm text-white/70">Monthly Payroll</p>
-            <h1 className="text-3xl font-bold tracking-wide mt-1">₵{(stats.totalPayroll / 1000).toFixed(1)}K</h1>
+            <h1 className="text-3xl font-bold tracking-wide mt-1">GHS {(stats.totalPayroll / 1000).toFixed(1)}K</h1>
             <p className="text-xs text-white/60 mt-1">↑ 1.9% vs last month</p>
           </div>
 
@@ -439,7 +439,7 @@ export default function AdminDashboardPage() {
             <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <h3 className="text-xs font-medium text-[#2c4a6a]/70 mb-1">Avg. Salary</h3>
-          <p className="text-2xl font-bold text-[#1e3147]">₵{stats.avgSalary.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-[#1e3147]">GHS {stats.avgSalary.toLocaleString()}</p>
           <p className="text-xs text-[#2c4a6a]/60 mt-1">Per employee</p>
         </div>
 
@@ -684,7 +684,7 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-[#2c4a6a]">₵{(dept.budget / 1000).toFixed(0)}K</p>
+                    <p className="text-sm font-bold text-[#2c4a6a]">GHS {(dept.budget / 1000).toFixed(0)}K</p>
                     <p className="text-xs text-gray-500">Budget</p>
                   </div>
                 </div>

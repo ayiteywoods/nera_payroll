@@ -248,21 +248,8 @@ export default function PayrollPage() {
 
       {/* Header */}
       <div className="mb-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-2">Payroll Management</h1>
-            <p className="text-sm text-gray-600">Process, manage and approve employee payrolls</p>
-          </div>
-          <Link
-            href="/payroll/create"
-            className="px-5 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2 w-fit"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            Process New Payroll
-          </Link>
-        </div>
+        <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-1">Payroll Management</h1>
+        <p className="text-sm text-gray-600">Process, manage and approve employee payrolls</p>
       </div>
 
       {/* Stats Cards */}
@@ -279,7 +266,7 @@ export default function PayrollPage() {
         </div>
         <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5">
           <p className="text-xs text-white/70 mb-1">Total Deductions</p>
-          <p className="text-3xl font-bold text-white">₵32,180</p>
+          <p className="text-3xl font-bold text-white">GHS 32,180</p>
           <p className="text-xs text-white/50 mt-1">This cycle</p>
         </div>
         <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5">
@@ -340,6 +327,15 @@ export default function PayrollPage() {
                 </svg>
               </button>
             </div>
+            <Link
+              href="/payroll/create"
+              className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Process Payroll
+            </Link>
           </div>
         </div>
       </div>
@@ -398,10 +394,10 @@ export default function PayrollPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <p className="text-sm font-semibold text-gray-900">₵{payroll.totalGrossPay.toLocaleString()}</p>
+                      <p className="text-sm font-semibold text-gray-900">GHS {payroll.totalGrossPay.toLocaleString()}</p>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <p className="text-base font-bold text-[#2c4a6a]">₵{payroll.totalNetPay.toLocaleString()}</p>
+                      <p className="text-base font-bold text-[#2c4a6a]">GHS {payroll.totalNetPay.toLocaleString()}</p>
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className={`inline-block px-3 py-1.5 rounded-full text-xs font-semibold border ${getStatusColor(payroll.status)}`}>
