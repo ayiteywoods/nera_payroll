@@ -60,89 +60,122 @@ const Menu = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="h-full flex flex-col justify-between bg-white rounded-2xl">
-      
-      {/* Logo Section */}
-      <div className="p-4 border-b border-gray-100">
-        <Link href="/" className="flex items-center justify-center lg:justify-start gap-2">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#c3d2e9] to-[#d4dff0] border border-[#2c4a6a]/10 flex items-center justify-center flex-shrink-0">
+    <aside className="h-full flex flex-col bg-white rounded-2xl border border-gray-100">
+      {/* Logo Section - Reduced padding */}
+      <div className="px-3 py-4 sm:px-4 border-b border-gray-100">
+        <Link href="/" className="flex items-center justify-center lg:justify-start gap-2.5">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center flex-shrink-0 shadow-sm">
             <Image 
               src="/eye.png" 
               alt="logo" 
-              height={20} 
-              width={20}
-              className="object-contain"
+              height={18} 
+              width={18}
+              className="object-contain brightness-0 invert"
             />
           </div>
-          <span className="hidden lg:block font-extrabold text-[#1e3147] text-2xl">
+          <span className="hidden lg:block font-bold text-[#1e3147] text-lg tracking-tight">
             NeraAdmin
           </span>
         </Link>
       </div>
 
-      {/* Menu Items */}
-      <div className="flex-1 flex flex-col px-3 pt-3 gap-2 text-sm">
-        {menuItems.map((section) => (
-          <div key={section.title}>
-            <span className="hidden md:block text-[10px] text-[#2c4a6a]/50 mb-1 uppercase tracking-wider font-semibold px-2">
-              {section.title}
-            </span>
+      {/* Menu Items - Compact spacing */}
+      <div 
+        className="flex-1 overflow-y-auto px-2 sm:px-3 py-3 custom-scrollbar"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
+        <style jsx>{`
+          .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
 
-            <div className="flex flex-col gap-1">
-              {section.items
-                .filter((item) => item.visible.includes(role))
-                .map((item) => {
-                  const Icon = item.icon;
-                  const isActive = pathname === item.href;
+        <div className="flex flex-col gap-4 text-sm">
+          {menuItems.map((section, sectionIndex) => (
+            <div key={section.title}>
+              {/* Section title - More compact */}
+              <div className={`hidden md:block px-3 mb-1.5 ${sectionIndex > 0 ? 'pt-2' : ''}`}>
+                <span className="text-[10px] text-[#2c4a6a]/60 uppercase tracking-wider font-semibold">
+                  {section.title}
+                </span>
+              </div>
 
-                  return (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className={`
-                        group relative flex items-center gap-2 px-3 py-2 rounded-md
-                        transition-all duration-200
-                        ${isActive
-                          ? "bg-gradient-to-r from-[#2c4a6a]/10 to-[#2c4a6a]/5 text-[#1e3147] font-medium border border-[#2c4a6a]/20"
-                          : "text-gray-500 hover:bg-[#c3d2e9]/30 hover:text-[#1e3147]"
-                        }
-                        justify-center md:justify-start
-                      `}
-                      title={item.label}
-                    >
-                      <Icon
-                        size={18}
-                        className={`flex-shrink-0 ${isActive ? "text-[#2c4a6a]" : "text-gray-400 group-hover:text-[#2c4a6a]"}`}
-                      />
+              {/* Menu items with tighter spacing */}
+              <div className="flex flex-col gap-0.5">
+                {section.items
+                  .filter((item) => item.visible.includes(role))
+                  .map((item) => {
+                    const Icon = item.icon;
+                    const isActive = pathname === item.href;
 
-                      <span className="hidden md:block whitespace-nowrap overflow-hidden text-ellipsis">
-                        {item.label}
-                      </span>
+                    return (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className={`
+                          group relative flex items-center gap-3
+                          px-3 py-2.5 mx-1 rounded-lg
+                          transition-all duration-200
+                          ${
+                            isActive
+                              ? "bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white font-medium shadow-sm"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-[#2c4a6a]"
+                          }
+                          justify-center md:justify-start
+                        `}
+                        title={item.label}
+                      >
+                        <Icon
+                          size={18}
+                          className={`
+                            flex-shrink-0
+                            ${
+                              isActive
+                                ? "text-white"
+                                : "text-gray-400 group-hover:text-[#2c4a6a]"
+                            }
+                          `}
+                        />
 
-                      {isActive && (
-                        <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-[#2c4a6a]"></div>
-                      )}
+                        {/* Label - Professional typography */}
+                        <span className="hidden md:block text-[13px] font-medium whitespace-nowrap overflow-hidden text-ellipsis">
+                          {item.label}
+                        </span>
 
-                      <span className="md:hidden absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
-                        {item.label}
-                      </span>
-                    </Link>
-                  );
-                })}
+                        {/* Tooltip for mobile */}
+                        <span className="md:hidden absolute left-full ml-3 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity shadow-lg">
+                          {item.label}
+                        </span>
+                      </Link>
+                    );
+                  })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Footer - User Profile */}
-      <div className="p-3 border-t border-gray-100">
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-[#c3d2e9]/40 to-[#d4dff0]/40 border border-[#2c4a6a]/10">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+      {/* Footer - User Profile - Compact */}
+      <div className="px-3 py-3 border-t border-gray-100 bg-gray-50/50">
+        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-white border border-gray-200 hover:border-[#2c4a6a]/30 transition-colors cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-sm">
             {role === "admin" ? "A" : role === "hr" ? "H" : "F"}
           </div>
           <div className="hidden lg:block flex-1 min-w-0">
-            <p className="text-xs font-semibold text-[#1e3147] truncate capitalize">{role}</p>
-            <p className="text-[10px] text-gray-500 truncate">Admin User</p>
+            <p className="text-xs font-semibold text-[#1e3147] truncate capitalize leading-tight">
+              {role}
+            </p>
+            <p className="text-[10px] text-gray-500 truncate leading-tight mt-0.5">
+              Admin User
+            </p>
+          </div>
+          <div className="hidden lg:block">
+            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
           </div>
         </div>
       </div>
