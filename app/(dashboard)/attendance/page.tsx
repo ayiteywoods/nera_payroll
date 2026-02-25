@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import QRCode from "qrcode";
 
 export default function AttendancePage() {
@@ -273,7 +274,12 @@ export default function AttendancePage() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden relative">
-                    <img src={emp.image} alt="" className="w-full h-full object-cover absolute inset-0" onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                    <Image
+                      src={emp.image}
+                      alt={`${emp.name}'s profile`}
+                      fill
+                      className="object-cover"
+                    />
                     <span className="text-base font-bold z-10">{getInitials(emp.name)}</span>
                   </div>
                   <div>
@@ -339,7 +345,12 @@ export default function AttendancePage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden relative">
-                          <img src={emp.image} alt="" className="w-full h-full object-cover absolute inset-0" onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                          <Image
+                            src={emp.image}
+                            alt={`${emp.name}'s profile`}
+                            fill
+                            className="object-cover"
+                          />
                           <span className="text-sm font-bold z-10">{getInitials(emp.name)}</span>
                         </div>
                         <div>
@@ -482,7 +493,7 @@ export default function AttendancePage() {
             <div className="p-6">
               {/* QR Code Display */}
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 mb-4 border-2 border-dashed border-gray-200">
-                <img src={qrCodeUrl} alt="QR Code" className="w-full rounded-lg" />
+                <Image src={qrCodeUrl} alt="QR Code" width={300} height={300} className="w-full rounded-lg" />
               </div>
               
               {/* Info Box */}

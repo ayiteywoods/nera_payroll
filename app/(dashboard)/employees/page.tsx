@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const generateEmployees = () => {
@@ -212,7 +213,12 @@ export default function EmployeePage() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden relative">
-                    <img src={emp.profileImage} alt="" className="w-full h-full object-cover absolute inset-0" onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                    <Image
+                      src={emp.profileImage}
+                      alt={`${emp.firstName} ${emp.lastName}`}
+                      fill
+                      className="object-cover"
+                    />
                     <span className="text-base font-bold z-10">{emp.firstName[0]}{emp.lastName[0]}</span>
                   </div>
                   <div>
@@ -272,7 +278,12 @@ export default function EmployeePage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm flex-shrink-0 overflow-hidden relative">
-                          <img src={emp.profileImage} alt="" className="w-full h-full object-cover absolute inset-0" onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                          <Image
+                            src={emp.profileImage}
+                            alt={`${emp.firstName} ${emp.lastName}`}
+                            fill
+                            className="object-cover"
+                          />
                           <span className="text-sm font-bold z-10">{emp.firstName[0]}{emp.lastName[0]}</span>
                         </div>
                         <div>

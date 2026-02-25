@@ -1,0 +1,255 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Department {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @unique
+  budget      Float?
+  utilization Float?
+  manager     Employee?  @relation("DepartmentManager", fields: [managerId], references: [id])
+  managerId   String?    @unique @db.Uuid
+  employees   Employee[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([managerId])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+}
+
+enum EmploymentStatus {
+  ACTIVE
+  ON_LEAVE
+  SUSPENDED
+}
+
+enum SalaryType {
+  MONTHLY
+  HOURLY
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  MOBILE_MONEY
+  CHEQUE
+}
+
+model Employee {
+  id                           String           @id @default(uuid()) @db.Uuid
+  employeeId                   String           @unique
+  firstName                    String
+  lastName                     String
+  otherNames                   String?
+  email                        String           @unique
+  phone                        String?
+  jobTitle                     String?
+  employmentStatus             EmploymentStatus @default(ACTIVE)
+  profileImage                 String?
+  hireDate                     DateTime
+  basicSalary                  Float
+  performanceScore             Float?
+  department                   Department?      @relation(fields: [departmentId], references: [id])
+  departmentId                 String?          @db.Uuid
+  dateOfBirth                  DateTime?
+  gender                       Gender?
+  residentialAddress           String?
+  employmentType               EmploymentType   @default(FULL_TIME)
+  salaryType                   SalaryType       @default(MONTHLY)
+  allowances                   Float            @default(0)
+  taxId                        String?
+  ssnitId                      String?
+  bankName                     String?
+  accountName                  String?
+  accountNumber                String?
+  paymentMethod                PaymentMethod    @default(BANK_TRANSFER)
+  emergencyContactName         String?
+  emergencyContactPhone        String?
+  emergencyContactRelationship String?
+  resume                       String?
+  idDocument                   String?
+  tasksCompleted               Int              @default(0)
+  projectsCount                Int              @default(0)
+  // ── Relations ────────────────────────────────────────────────────────
+  managedDepartment            Department?      @relation("DepartmentManager")
+  // Leaves this employee has REQUESTED
+  leaves                       LeaveRequest[]   @relation("EmployeeLeaves")
+  // Leaves this employee has APPROVED
+  approvedLeaves               LeaveRequest[]   @relation("LeaveApprover")
+  attendances                  Attendance[]
+  tasksAssigned                Task[]           @relation("AssignedTasks")
+  tasksCreated                 Task[]           @relation("CreatedTasks")
+  payrolls                     Payroll[]
+  activities                   ActivityLog[]
+  createdAt                    DateTime         @default(now())
+  updatedAt                    DateTime         @updatedAt
+
+  @@index([departmentId])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  ON_LEAVE
+  REMOTE
+}
+
+model Attendance {
+  id         String           @id @default(uuid()) @db.Uuid
+  employee   Employee         @relation(fields: [employeeId], references: [id])
+  employeeId String           @db.Uuid
+  date       DateTime
+  clockIn    DateTime?
+  clockOut   DateTime?
+  status     AttendanceStatus @default(PRESENT)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([employeeId, date])
+  @@index([employeeId])
+}
+
+enum LeaveType {
+  ANNUAL
+  SICK
+  EMERGENCY
+  MATERNITY
+  OTHER
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model LeaveRequest {
+  id           String      @id @default(uuid()) @db.Uuid
+  employee     Employee    @relation("EmployeeLeaves", fields: [employeeId], references: [id])
+  employeeId   String      @db.Uuid
+  type         LeaveType
+  startDate    DateTime
+  endDate      DateTime
+  days         Int
+  status       LeaveStatus @default(PENDING)
+  reason       String?
+  // Who approved this leave request
+  approvedBy   Employee?   @relation("LeaveApprover", fields: [approvedById], references: [id])
+  approvedById String?     @db.Uuid
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([employeeId])
+  @@index([approvedById])
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum TaskCategory {
+  GENERAL
+  PAYROLL
+  REVIEW
+  LEAVE
+  ADMIN
+  TRAINING
+  COMPLIANCE
+  BENEFITS
+  MEETING
+}
+
+model Task {
+  id          String       @id @default(uuid()) @db.Uuid
+  title       String
+  description String?
+  assignee    Employee     @relation("AssignedTasks", fields: [assigneeId], references: [id])
+  assigneeId  String       @db.Uuid
+  createdBy   Employee     @relation("CreatedTasks", fields: [createdById], references: [id])
+  createdById String       @db.Uuid
+  dueDate     DateTime
+  priority    TaskPriority @default(MEDIUM)
+  category    TaskCategory @default(GENERAL)
+  status      TaskStatus   @default(PENDING)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([assigneeId])
+  @@index([createdById])
+}
+
+enum PayrollStatus {
+  PENDING
+  PROCESSED
+  PAID
+  ERROR
+}
+
+model Payroll {
+  id          String        @id @default(uuid()) @db.Uuid
+  employee    Employee      @relation(fields: [employeeId], references: [id])
+  employeeId  String        @db.Uuid
+  period      DateTime // Changed to DateTime for better querying (e.g., first day of the month)
+  basicSalary Float
+  allowances  Float
+  deductions  Float
+  tax         Float
+  ssnit       Float?
+  netPay      Float
+  status      PayrollStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([employeeId, period])
+  @@index([employeeId])
+}
+
+enum ActivityType {
+  PAYROLL
+  LEAVE
+  EMPLOYEE
+  SYSTEM
+  OTHER
+}
+
+model ActivityLog {
+  id         String       @id @default(uuid()) @db.Uuid
+  type       ActivityType
+  action     String
+  details    String?
+  user       String
+  employee   Employee?    @relation(fields: [employeeId], references: [id])
+  employeeId String?      @db.Uuid
+  image      String?
+  time       DateTime     @default(now())
+  status     String       @default("completed")
+  createdAt  DateTime     @default(now())
+
+  @@index([employeeId])
+}

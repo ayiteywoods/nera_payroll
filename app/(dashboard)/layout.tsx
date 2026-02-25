@@ -1,4 +1,3 @@
-// app/(dashboard)/layout.tsx
 import Menu from "@/components/Menu";
 import Navbar from "@/components/NavBar";
 
@@ -8,26 +7,29 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-gray-50">
-      <div className="flex h-screen max-w-[100vw]">
-        {/* Sidebar - Responsive widths */}
-        <div className="hidden md:block md:w-16 lg:w-60 xl:w-64 flex-shrink-0 h-full overflow-y-auto p-2">
+    <div className="min-h-screen w-full bg-gray-50">
+      <div className="flex h-screen w-full">
+
+        {/* Sidebar */}
+        <div className="hidden md:block md:w-16 lg:w-56 xl:w-60 flex-shrink-0 h-full overflow-y-auto">
           <Menu />
         </div>
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0 h-full">
+
           {/* Navbar */}
-          <div className="flex-shrink-0 w-full">
+          <div className="w-full">
             <Navbar />
           </div>
 
-          {/* Page Content - Scrollable with proper constraints */}
-          <div className="flex-1 overflow-x-hidden overflow-y-auto w-full">
-            <div className="w-full max-w-full">
+          {/* Page Content */}
+          <div className="flex-1 overflow-y-auto w-full">
+            <div className="px-4 sm:px-5 lg:px-6 py-6 w-full">
               {children}
             </div>
           </div>
+
         </div>
       </div>
     </div>

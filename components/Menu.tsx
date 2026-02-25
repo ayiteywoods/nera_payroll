@@ -61,30 +61,31 @@ const Menu = () => {
 
   return (
     <aside className="h-full flex flex-col bg-white rounded-2xl border border-gray-100">
-      {/* Logo Section - Reduced padding */}
-      <div className="px-3 py-4 sm:px-4 border-b border-gray-100">
-        <Link href="/" className="flex items-center justify-center lg:justify-start gap-2.5">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center flex-shrink-0 shadow-sm">
-            <Image 
-              src="/eye.png" 
-              alt="logo" 
-              height={18} 
-              width={18}
+      
+      {/* Logo Section */}
+      <div className="px-3 py-3 border-b border-gray-100">
+        <Link href="/" className="flex items-center justify-center lg:justify-start gap-2">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center shadow-sm">
+            <Image
+              src="/eye.png"
+              alt="logo"
+              height={16}
+              width={16}
               className="object-contain brightness-0 invert"
             />
           </div>
-          <span className="hidden lg:block font-bold text-[#1e3147] text-lg tracking-tight">
+          <span className="hidden lg:block font-bold text-[#1e3147] text-base tracking-tight">
             NeraAdmin
           </span>
         </Link>
       </div>
 
-      {/* Menu Items - Compact spacing */}
-      <div 
-        className="flex-1 overflow-y-auto px-2 sm:px-3 py-3 custom-scrollbar"
+      {/* Menu Items */}
+      <div
+        className="flex-1 overflow-y-auto px-2 py-2 custom-scrollbar"
         style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         }}
       >
         <style jsx>{`
@@ -93,18 +94,23 @@ const Menu = () => {
           }
         `}</style>
 
-        <div className="flex flex-col gap-4 text-sm">
+        <div className="flex flex-col gap-2.5 text-sm">
           {menuItems.map((section, sectionIndex) => (
             <div key={section.title}>
-              {/* Section title - More compact */}
-              <div className={`hidden md:block px-3 mb-1.5 ${sectionIndex > 0 ? 'pt-2' : ''}`}>
+              
+              {/* Section Title */}
+              <div
+                className={`hidden md:block px-3 mb-1 ${
+                  sectionIndex > 0 ? "pt-1.5" : ""
+                }`}
+              >
                 <span className="text-[10px] text-[#2c4a6a]/60 uppercase tracking-wider font-semibold">
                   {section.title}
                 </span>
               </div>
 
-              {/* Menu items with tighter spacing */}
-              <div className="flex flex-col gap-0.5">
+              {/* Items */}
+              <div className="flex flex-col gap-0">
                 {section.items
                   .filter((item) => item.visible.includes(role))
                   .map((item) => {
@@ -117,8 +123,8 @@ const Menu = () => {
                         href={item.href}
                         className={`
                           group relative flex items-center gap-3
-                          px-3 py-2.5 mx-1 rounded-lg
-                          transition-all duration-200
+                          px-2.5 py-2 mx-1 rounded-lg
+                          transition-all duration-200 overflow-hidden
                           ${
                             isActive
                               ? "bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white font-medium shadow-sm"
@@ -128,10 +134,23 @@ const Menu = () => {
                         `}
                         title={item.label}
                       >
+                        {isActive && (
+                          <div className="absolute inset-0 opacity-10">
+                            <div
+                              className="absolute inset-0"
+                              style={{
+                                backgroundImage:
+                                  "radial-gradient(circle, white 1px, transparent 1px)",
+                                backgroundSize: "15px 15px",
+                              }}
+                            ></div>
+                          </div>
+                        )}
+
                         <Icon
-                          size={18}
+                          size={17}
                           className={`
-                            flex-shrink-0
+                            flex-shrink-0 relative z-10
                             ${
                               isActive
                                 ? "text-white"
@@ -140,13 +159,11 @@ const Menu = () => {
                           `}
                         />
 
-                        {/* Label - Professional typography */}
-                        <span className="hidden md:block text-[13px] font-medium whitespace-nowrap overflow-hidden text-ellipsis">
+                        <span className="hidden md:block text-[13px] font-medium whitespace-nowrap overflow-hidden text-ellipsis relative z-10">
                           {item.label}
                         </span>
 
-                        {/* Tooltip for mobile */}
-                        <span className="md:hidden absolute left-full ml-3 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity shadow-lg">
+                        <span className="md:hidden absolute left-full ml-3 px-3 py-1 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity shadow-lg">
                           {item.label}
                         </span>
                       </Link>
@@ -158,10 +175,10 @@ const Menu = () => {
         </div>
       </div>
 
-      {/* Footer - User Profile - Compact */}
-      <div className="px-3 py-3 border-t border-gray-100 bg-gray-50/50">
-        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-white border border-gray-200 hover:border-[#2c4a6a]/30 transition-colors cursor-pointer">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-sm">
+      {/* Footer Profile */}
+      <div className="px-3 py-2.5 border-t border-gray-100 bg-gray-50/50">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-200 hover:border-[#2c4a6a]/30 transition-colors cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-xs font-bold shadow-sm">
             {role === "admin" ? "A" : role === "hr" ? "H" : "F"}
           </div>
           <div className="hidden lg:block flex-1 min-w-0">
@@ -171,11 +188,6 @@ const Menu = () => {
             <p className="text-[10px] text-gray-500 truncate leading-tight mt-0.5">
               Admin User
             </p>
-          </div>
-          <div className="hidden lg:block">
-            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
           </div>
         </div>
       </div>

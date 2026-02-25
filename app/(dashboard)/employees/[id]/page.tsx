@@ -56,6 +56,7 @@ const attendanceRecords = generateAttendance();
 export default function EmployeeProfilePage() {
   const [activeTab, setActiveTab] = useState("overview");
   const [employee, setEmployee] = useState<any>(FALLBACK_EMPLOYEE);
+  const [imageError, setImageError] = useState(false);
 
   // Modal states
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -211,14 +212,22 @@ export default function EmployeeProfilePage() {
 
         <div className="px-6 pb-6">
           <div className="flex flex-col sm:flex-row items-start gap-4 -mt-10 mb-5">
-            <div className="w-20 h-20 rounded-xl border-4 border-white bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0 z-10 relative overflow-hidden">
-              <span className="text-2xl font-bold absolute inset-0 flex items-center justify-center">
-                {employee.firstName?.[0]}{employee.lastName?.[0]}
-              </span>
-              <img src={employee.profileImage} alt={employee.firstName}
-                className="w-full h-full object-cover absolute inset-0 z-10"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+            {/* FIXED: Profile Image with proper fallback */}
+            <div className="w-20 h-20 rounded-2xl border-4 border-white shadow-lg flex-shrink-0 relative overflow-hidden bg-white">
+              {!imageError && employee.profileImage ? (
+                <img 
+                  src={employee.profileImage} 
+                  alt={`${employee.firstName} ${employee.lastName}`}
+                  className="w-full h-full object-cover"
+                  onError={() => setImageError(true)}
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-2xl font-bold">
+                  {employee.firstName?.[0]}{employee.lastName?.[0]}
+                </div>
+              )}
             </div>
+
             <div className="flex-1 min-w-0 pt-10 sm:pt-12">
               <div className="flex flex-wrap items-center gap-2 mb-1">
                 <h1 className="text-xl font-bold text-[#1e3147]">
