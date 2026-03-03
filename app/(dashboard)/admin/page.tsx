@@ -43,25 +43,25 @@ export default function AdminDashboardPage() {
       id: 2,
       title: "Payroll Processing",
       message: "February payroll has been successfully processed",
-      gradient: "from-[#4a6b82] to-[#2c4a6a]"
+      gradient: "from-[#2c4a6a] to-[#1e3147]"
     },
     {
       id: 3,
       title: "New Employees",
       message: "23 new hires onboarded this month",
-      gradient: "from-[#6b8ca3] to-[#4a6b82]"
+      gradient: "from-[#2c4a6a] to-[#1e3147]"
     },
     {
       id: 4,
       title: "Department Update",
       message: "Engineering team completed 8 projects this quarter",
-      gradient: "from-[#8badc3] to-[#6b8ca3]"
+      gradient: "from-[#2c4a6a] to-[#1e3147]"
     },
     {
       id: 5,
       title: "System Notification",
       message: "All systems operating normally - 99.9% uptime",
-      gradient: "from-[#a3c2d7] to-[#8badc3]"
+      gradient: "from-[#2c4a6a] to-[#1e3147]"
     },
   ];
 
@@ -126,7 +126,7 @@ export default function AdminDashboardPage() {
     activeEmployees: 1189,
     onLeave: 58,
     newHires: 23,
-    totalPayroll: 2847500,
+    totalPayroll: '2,847,534.04',
     lastMonthPayroll: 2795300,
     pendingApprovals: 15,
     processingPayroll: 2,
@@ -313,7 +313,7 @@ export default function AdminDashboardPage() {
               />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#1e3147]">Welcome back, Ama!</h1>
+              <h1 className="text-2xl font-bold text-[#2c4a6a]">Welcome back, Ama!</h1>
               <p className="text-sm text-gray-600 font-mono">{formatTime(currentTime)} GMT</p>
               <p className="text-xs text-gray-500">{formatDate(currentTime)}</p>
             </div>
@@ -475,7 +475,7 @@ export default function AdminDashboardPage() {
           </div>
           <div className="my-6 relative z-10">
             <p className="text-sm text-white/70">Monthly Payroll</p>
-            <h1 className="text-3xl font-bold tracking-wide mt-1">₵{(stats.totalPayroll / 1000).toFixed(1)}K</h1>
+            <h1 className="text-3xl font-bold tracking-wide mt-1">GHS {(stats.totalPayroll)}</h1>
             <p className="text-xs text-white/60 mt-1">↑ 1.9% vs last month</p>
           </div>
           <div className="text-xs text-white/60 border-t border-white/20 pt-3 flex items-center gap-2 relative z-10">
@@ -534,7 +534,7 @@ export default function AdminDashboardPage() {
             <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <h3 className="text-xs font-medium text-[#2c4a6a]/70 mb-1 relative z-10">Avg. Salary</h3>
-          <p className="text-2xl font-bold text-[#1e3147] relative z-10">₵{stats.avgSalary.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-[#1e3147] relative z-10">GHS {stats.avgSalary.toLocaleString()}</p>
           <p className="text-xs text-[#2c4a6a]/60 mt-1 relative z-10">Per employee</p>
         </div>
 
@@ -691,29 +691,6 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        <div className="space-y-3">
-          {currentAttendance.details.slice(0, 8).map((emp, index) => (
-            <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100">
-              <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-white">
-                <Image src={emp.image} alt={emp.name} fill className="object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900">{emp.name}</h3>
-                <p className="text-sm text-gray-500">{emp.dept}</p>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="font-medium">{emp.time}</span>
-              </div>
-              <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 border ${getStatusColor(emp.status)}`}>
-                {getStatusIcon(emp.status)}
-                {emp.status === 'onLeave' ? 'On Leave' : emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}
-              </span>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Top Performers and Recent Activities */}
@@ -1257,4 +1234,4 @@ export default function AdminDashboardPage() {
       )}
     </div>
   );
-}
+}  

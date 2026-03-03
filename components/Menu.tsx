@@ -75,7 +75,7 @@ const Menu = () => {
             />
           </div>
           <span className="hidden lg:block font-bold text-[#1e3147] text-base tracking-tight">
-            NeraAdmin
+            Neraadmin
           </span>
         </Link>
       </div>

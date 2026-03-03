@@ -18,7 +18,7 @@ const Navbar = () => {
   const [notificationModalOpen, setNotificationModalOpen] = useState(false);
   
   // Email states
-  const [emailView, setEmailView] = useState('inbox'); // 'inbox', 'compose', 'drafts', 'sent'
+  const [emailView, setEmailView] = useState('inbox');
   const [emails, setEmails] = useState([
     { id: 1, from: "Abena Osei", subject: "Payroll Review Needed", preview: "Please review the payroll for March 2025...", date: "2 hours ago", read: false, important: true },
     { id: 2, from: "Kofi Owusu", subject: "Leave Request Approved", preview: "Your annual leave request has been approved...", date: "1 day ago", read: true, important: false },
@@ -41,11 +41,11 @@ const Navbar = () => {
   
   // Profile states
   const [profileData, setProfileData] = useState({
-    name: "John Doe",
-    position: "HR",
-    email: "john.doe@company.com",
+    name: "Admin User",
+    position: "Administrator",
+    email: "admin@company.com",
     phone: "+233 24 123 4567",
-    department: "Human Resources",
+    department: "Management",
     avatar: "/profile.png"
   });
   const [editingProfile, setEditingProfile] = useState(false);
@@ -67,48 +67,62 @@ const Navbar = () => {
   const fileInputRef = useRef(null);
   const router = useRouter();
 
-  // Comprehensive search data
+  // Comprehensive search data - Updated with actual existing pages
   const searchableContent = [
-    { id: 1, title: "Dashboard", type: "page", path: "/dashboard", description: "View analytics and overview" },
-    { id: 2, title: "Total Payroll", type: "metric", path: "/dashboard", description: "₵ 125,430 - Net salaries paid" },
-    { id: 3, title: "Employee Statistics", type: "metric", path: "/dashboard", description: "87 employees paid this month" },
-    { id: 4, title: "Employee Management", type: "page", path: "/employees", description: "Manage workforce and employee information" },
-    { id: 5, title: "Add New Employee", type: "action", path: "/employees?action=add", description: "Create new employee record" },
-    { id: 6, title: "John Mensah", type: "employee", path: "/employees?id=EMP001", description: "Senior Software Engineer - Engineering" },
-    { id: 7, title: "Ama Asante", type: "employee", path: "/employees?id=EMP004", description: "Product Designer - Engineering" },
-    { id: 8, title: "Abena Osei", type: "employee", path: "/employees?id=EMP002", description: "HR Manager - HR" },
-    { id: 9, title: "Kofi Owusu", type: "employee", path: "/employees?id=EMP005", description: "Accountant - Management" },
-    { id: 10, title: "Kwame Boateng", type: "employee", path: "/employees?id=EMP003", description: "Sales Executive - Sales" },
-    { id: 11, title: "Payroll Management", type: "page", path: "/payroll", description: "Process and manage employee payrolls" },
-    { id: 12, title: "Process New Payroll", type: "action", path: "/payroll?action=process", description: "Run payroll for current period" },
-    { id: 13, title: "March 2025 Payroll", type: "payroll", path: "/payroll?id=PAY001", description: "₵ 157,230 - 87 employees - Completed" },
-    { id: 14, title: "February 2025 Payroll", type: "payroll", path: "/payroll?id=PAY002", description: "₵ 151,400 - 85 employees - Completed" },
-    { id: 15, title: "Payroll Reports", type: "report", path: "/reports/payroll", description: "Generate payroll reports" },
-    { id: 16, title: "Leave Management", type: "page", path: "/leave", description: "Manage employee leave requests" },
-    { id: 17, title: "Create Leave Request", type: "action", path: "/leave?action=create", description: "Submit new leave request" },
-    { id: 18, title: "Pending Leave Requests", type: "filter", path: "/leave?filter=pending", description: "View all pending leave requests" },
-    { id: 19, title: "Approved Leaves", type: "filter", path: "/leave?filter=approved", description: "View approved leave requests" },
-    { id: 20, title: "Annual Leave", type: "leave-type", path: "/leave?type=annual", description: "Annual leave requests" },
-    { id: 21, title: "Sick Leave", type: "leave-type", path: "/leave?type=sick", description: "Sick leave requests" },
-    { id: 22, title: "Recruitment", type: "page", path: "/recruitment", description: "Manage jobs, applications, and candidates" },
-    { id: 23, title: "Create New Job", type: "action", path: "/recruitment/jobs?action=create", description: "Post a new job opening" },
-    { id: 24, title: "Senior Software Engineer", type: "job", path: "/recruitment/jobs?id=JOB001", description: "Engineering - Full-Time - Open" },
-    { id: 25, title: "HR Manager", type: "job", path: "/recruitment/jobs?id=JOB002", description: "HR - Full-Time - Open" },
-    { id: 26, title: "Sales Executive", type: "job", path: "/recruitment/jobs?id=JOB003", description: "Sales - Contract - Closed" },
-    { id: 27, title: "Applications", type: "filter", path: "/recruitment?tab=applications", description: "View all job applications" },
-    { id: 28, title: "Candidates", type: "filter", path: "/recruitment?tab=candidates", description: "View talent pool" },
-    { id: 29, title: "Benefits & Deductions", type: "page", path: "/benefits", description: "Manage employee benefits and deductions" },
-    { id: 30, title: "SSNIT Contributions", type: "deduction", path: "/benefits?type=ssnit", description: "Social security contributions" },
-    { id: 31, title: "Tax Deductions", type: "deduction", path: "/benefits?type=tax", description: "PAYE tax deductions" },
-    { id: 32, title: "Health Insurance", type: "benefit", path: "/benefits?type=health", description: "Employee health benefits" },
-    { id: 33, title: "Payroll Reports", type: "report", path: "/reports/payroll", description: "Generate and download payroll reports" },
-    { id: 34, title: "Payslips", type: "report", path: "/reports/payslips", description: "Generate employee payslips" },
-    { id: 35, title: "Tax & Deductions Report", type: "report", path: "/reports/tax", description: "Tax and deduction reports" },
-    { id: 36, title: "SSNIT / Tax Compliance", type: "page", path: "/compliance", description: "Manage compliance and submissions" },
-    { id: 37, title: "PAYE Submissions", type: "compliance", path: "/compliance?type=paye", description: "Tax submissions and status" },
-    { id: 38, title: "Settings", type: "page", path: "/settings", description: "Application settings and preferences" },
-    { id: 39, title: "Profile Settings", type: "setting", path: "/settings/profile", description: "Update your profile information" },
-    { id: 40, title: "Company Settings", type: "setting", path: "/settings/company", description: "Configure company details" },
+    // Pages - Actual routes
+    { id: 1, title: "Dashboard", type: "page", path: "/admin", description: "View analytics and overview" },
+    { id: 2, title: "Employee Management", type: "page", path: "/employees", description: "Manage workforce" },
+    { id: 3, title: "Attendance", type: "page", path: "/attendance", description: "Track employee attendance" },
+    { id: 4, title: "Payroll Management", type: "page", path: "/payroll", description: "Process payrolls" },
+    { id: 5, title: "Benefits & Deductions", type: "page", path: "/benefit", description: "Manage benefits" },
+    { id: 6, title: "Recruitment", type: "page", path: "/recruitment", description: "Manage jobs and candidates" },
+    { id: 7, title: "Leave Management", type: "page", path: "/leaveManagement", description: "Manage leave requests" },
+    { id: 8, title: "Payroll Reports", type: "page", path: "/reports/payrollreport", description: "Generate reports" },
+    { id: 9, title: "Payslips", type: "page", path: "/reports/payslipreport", description: "Employee payslips" },
+    { id: 10, title: "Tax & Deductions", type: "page", path: "/reports/tax", description: "Tax reports" },
+    { id: 11, title: "SSNIT / Tax Compliance", type: "page", path: "/compliance", description: "Manage compliance" },
+    { id: 12, title: "Settings", type: "page", path: "/settings", description: "App settings" },
+    
+    // Employees - Actual from your data
+    { id: 13, title: "Kwame Boateng", type: "employee", path: "/employees", description: "Software Engineer - Engineering" },
+    { id: 14, title: "John Mensah", type: "employee", path: "/employees", description: "Finance Manager - Engineering" },
+    { id: 15, title: "Ama Asante", type: "employee", path: "/employees", description: "HR Specialist - HR" },
+    { id: 16, title: "Abena Osei", type: "employee", path: "/employees", description: "Finance - Finance" },
+    { id: 17, title: "Kofi Boateng", type: "employee", path: "/employees", description: "Sales - Sales" },
+    { id: 18, title: "Sarah Johnson", type: "employee", path: "/employees", description: "Admin Officer - Operations" },
+    { id: 19, title: "Kwame Owusu", type: "employee", path: "/employees", description: "Marketing - Marketing" },
+    { id: 20, title: "Emmanuel Agyei", type: "employee", path: "/employees", description: "Engineering" },
+    { id: 21, title: "Grace Appiah", type: "employee", path: "/employees", description: "Sales" },
+    { id: 22, title: "Efua Addo", type: "employee", path: "/employees", description: "Employee" },
+    { id: 23, title: "Ama Serwaa", type: "employee", path: "/employees", description: "Payroll Specialist" },
+    
+    // Metrics
+    { id: 24, title: "Total Employees", type: "metric", path: "/admin", description: "1,247 employees" },
+    { id: 25, title: "Active Employees", type: "metric", path: "/admin", description: "1,189 active" },
+    { id: 26, title: "Monthly Payroll", type: "metric", path: "/admin", description: "₵2,847.5K" },
+    { id: 27, title: "Pending Approvals", type: "metric", path: "/admin", description: "15 items" },
+    { id: 28, title: "Average Salary", type: "metric", path: "/admin", description: "₵2,284/employee" },
+    { id: 29, title: "On Leave Today", type: "metric", path: "/admin", description: "58 employees" },
+    { id: 30, title: "New Hires", type: "metric", path: "/admin", description: "23 this month" },
+    
+    // Payrolls
+    { id: 31, title: "February 2026 Payroll", type: "payroll", path: "/payroll", description: "₵2,847,500 - 1,247 employees" },
+    { id: 32, title: "January 2026 Payroll", type: "payroll", path: "/payroll", description: "₵2,795,300 - Completed" },
+    { id: 33, title: "December 2025 Payroll", type: "payroll", path: "/payroll", description: "₵2,795,300 - Completed" },
+    
+    // Actions
+    { id: 34, title: "Add New Employee", type: "action", path: "/employees", description: "Create employee record" },
+    { id: 35, title: "Process Payroll", type: "action", path: "/payroll", description: "Run payroll" },
+    { id: 36, title: "Create Leave Request", type: "action", path: "/leaveManagement", description: "Submit leave" },
+    { id: 37, title: "Assign Task", type: "action", path: "/admin", description: "Create task" },
+    
+    // Departments
+    { id: 38, title: "Engineering Dept", type: "department", path: "/admin", description: "342 employees" },
+    { id: 39, title: "Sales Dept", type: "department", path: "/admin", description: "218 employees" },
+    { id: 40, title: "Marketing Dept", type: "department", path: "/admin", description: "156 employees" },
+    { id: 41, title: "HR Dept", type: "department", path: "/admin", description: "89 employees" },
+    { id: 42, title: "Finance Dept", type: "department", path: "/admin", description: "124 employees" },
+    { id: 43, title: "Operations Dept", type: "department", path: "/admin", description: "198 employees" },
   ];
 
   // Search function
@@ -197,12 +211,10 @@ const Navbar = () => {
   // Message functions
   const handleSelectChat = (message) => {
     setSelectedChat(message);
-    // Simulate loading chat history
     setChatMessages([
       { id: 1, text: message.lastMessage, sender: "them", time: message.time },
       { id: 2, text: "Sure, let's schedule it!", sender: "me", time: "10:35 AM" },
     ]);
-    // Mark as read
     setMessages(messages.map(m => m.id === message.id ? { ...m, unread: 0 } : m));
   };
 
@@ -219,7 +231,6 @@ const Navbar = () => {
     setChatMessages([...chatMessages, newMsg]);
     setNewMessage("");
 
-    // Update last message in conversation list
     setMessages(messages.map(m => 
       m.id === selectedChat.id 
         ? { ...m, lastMessage: newMessage, time: "Just now" } 
@@ -323,6 +334,18 @@ const Navbar = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         );
+      case "department":
+        return (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+        );
+      case "metric":
+        return (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        );
       default:
         return (
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -340,9 +363,8 @@ const Navbar = () => {
       payroll: "bg-green-100 text-green-700",
       action: "bg-orange-100 text-orange-700",
       report: "bg-indigo-100 text-indigo-700",
-      job: "bg-pink-100 text-pink-700",
-      filter: "bg-cyan-100 text-cyan-700",
       metric: "bg-yellow-100 text-yellow-700",
+      department: "bg-rose-100 text-rose-700",
     };
     return colors[type] || "bg-gray-100 text-gray-700";
   };
@@ -382,8 +404,8 @@ const Navbar = () => {
       <nav className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
         <div className="flex items-center justify-between p-4 h-16">
 
-          {/* ===== Left Section: Search ===== */}
-          <div className="flex items-center gap-2 flex-1 max-w-xl" ref={searchRef}>
+          {/* ===== Left Section: Search (Shorter Width) ===== */}
+          <div className="flex items-center gap-2 flex-1 max-w-md" ref={searchRef}>
             {/* Mobile: search icon only */}
             <button
               className="md:hidden p-2 rounded-full hover:bg-gray-100 transition"
@@ -393,16 +415,16 @@ const Navbar = () => {
               <HiMagnifyingGlass size={20} className="text-gray-600" />
             </button>
 
-            {/* Full search input (desktop) */}
+            {/* Full search input (desktop) - Enhanced Design */}
             <div className="hidden md:block relative flex-1">
-              <div className="flex items-center gap-2 text-xs rounded-full ring-2 ring-gray-300 px-3 bg-white">
-                <Image src="/search.png" height={24} width={24} className="text-gray-400" />
+              <div className="flex items-center gap-2 rounded-xl ring-2 ring-[#2c4a6a]/20 px-4 py-2 bg-white shadow-sm hover:ring-[#2c4a6a]/40 transition-all">
+                <HiMagnifyingGlass size={18} className="text-[#2c4a6a]" />
                 <input
                   type="text"
-                  placeholder="Search pages, employees, payrolls..."
+                  placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full p-2 bg-transparent outline-none text-sm"
+                  className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
                 />
                 {searchQuery && (
                   <button
@@ -419,57 +441,59 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* Search Results Dropdown */}
+              {/* Search Results Dropdown - Enhanced Design */}
               {searchQuery && searchResults.length > 0 && (
-                <div className="absolute top-full mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-200 max-h-96 overflow-y-auto z-50">
-                  <div className="p-3 border-b border-gray-100">
-                    <p className="text-xs font-semibold text-gray-500">
+                <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-2xl border border-[#2c4a6a]/20 max-h-96 overflow-hidden z-50">
+                  <div className="p-3 border-b border-gray-100 bg-gradient-to-r from-[#2c4a6a]/5 to-transparent">
+                    <p className="text-xs font-semibold text-[#2c4a6a]">
                       {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found
                     </p>
                   </div>
-                  <div className="p-2">
-                    {searchResults.slice(0, 10).map((result) => (
+                  <div className="p-2 max-h-80 overflow-y-auto">
+                    {searchResults.slice(0, 8).map((result) => (
                       <button
                         key={result.id}
                         onClick={() => handleResultClick(result.path)}
-                        className="w-full text-left p-3 hover:bg-gray-50 rounded-xl transition-colors flex items-start gap-3 group"
+                        className="w-full text-left p-3 hover:bg-[#2c4a6a]/5 rounded-lg transition-all flex items-start gap-3 group"
                       >
-                        <div className={`w-10 h-10 rounded-lg ${getTypeBadge(result.type)} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                        <div className={`w-9 h-9 rounded-lg ${getTypeBadge(result.type)} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-sm`}>
                           {getTypeIcon(result.type)}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
+                          <div className="flex items-center gap-2 mb-0.5">
                             <p className="text-sm font-semibold text-gray-900 truncate">{result.title}</p>
-                            <span className={`text-xs px-2 py-0.5 rounded-full ${getTypeBadge(result.type)}`}>
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${getTypeBadge(result.type)} font-medium`}>
                               {result.type}
                             </span>
                           </div>
                           <p className="text-xs text-gray-600 truncate">{result.description}</p>
                         </div>
-                        <svg className="w-5 h-5 text-gray-400 flex-shrink-0 group-hover:text-gray-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-gray-300 flex-shrink-0 group-hover:text-[#2c4a6a] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
                     ))}
                   </div>
-                  {searchResults.length > 10 && (
-                    <div className="p-3 border-t border-gray-100 text-center">
+                  {searchResults.length > 8 && (
+                    <div className="p-3 border-t border-gray-100 text-center bg-gray-50">
                       <p className="text-xs text-gray-500">
-                        Showing 10 of {searchResults.length} results
+                        Showing 8 of {searchResults.length} results
                       </p>
                     </div>
                   )}
                 </div>
               )}
 
-              {/* No Results */}
+              {/* No Results - Enhanced Design */}
               {searchQuery && searchResults.length === 0 && !isSearching && (
-                <div className="absolute top-full mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 text-center z-50">
-                  <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-2xl border border-[#2c4a6a]/20 p-8 text-center z-50">
+                  <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gray-100 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
                   <p className="text-sm font-semibold text-gray-900 mb-1">No results found</p>
-                  <p className="text-xs text-gray-500">Try searching for something else</p>
+                  <p className="text-xs text-gray-500">Try a different search term</p>
                 </div>
               )}
             </div>
@@ -477,14 +501,14 @@ const Navbar = () => {
             {/* Mobile expanded search */}
             {searchOpen && (
               <div className="md:hidden absolute top-16 left-0 right-0 z-50 bg-white shadow-lg p-4">
-                <div className="flex items-center gap-2 text-xs rounded-full ring-2 ring-gray-300 px-3 bg-white">
-                  <HiMagnifyingGlass size={18} className="text-gray-400" />
+                <div className="flex items-center gap-2 rounded-xl ring-2 ring-[#2c4a6a]/20 px-3 py-2 bg-white">
+                  <HiMagnifyingGlass size={18} className="text-[#2c4a6a]" />
                   <input
                     type="text"
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full p-2 bg-transparent outline-none text-sm"
+                    className="w-full bg-transparent outline-none text-sm"
                     autoFocus
                   />
                   <button
@@ -507,7 +531,7 @@ const Navbar = () => {
                       <button
                         key={result.id}
                         onClick={() => handleResultClick(result.path)}
-                        className="w-full text-left p-3 hover:bg-gray-50 rounded-xl transition-colors flex items-start gap-3 mb-2"
+                        className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-colors flex items-start gap-3 mb-2"
                       >
                         <div className={`w-8 h-8 rounded-lg ${getTypeBadge(result.type)} flex items-center justify-center flex-shrink-0`}>
                           {getTypeIcon(result.type)}
@@ -524,20 +548,20 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* ===== Right Section: Icons & Profile ===== */}
-          <div className="flex items-center gap-3 md:gap-4 lg:gap-6 ml-4">
+          {/* ===== Right Section: Icons Only (No Profile Picture/Name) ===== */}
+          <div className="flex items-center gap-3 md:gap-4 lg:gap-5 ml-4">
             {/* Notifications */}
             <div className="relative">
               <button 
                 onClick={() => setNotificationModalOpen(!notificationModalOpen)}
-                className="bg-[#c3d2e9] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#b0c4e2] transition"
+                className="bg-[#c3d2e9] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#b0c4e2] transition-all hover:scale-110"
               >
                 <svg className="w-5 h-5 text-[#153361]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </button>
               {unreadNotifications > 0 && (
-                <div className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-red-500 text-white rounded-full text-[10px] font-semibold">
+                <div className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-red-500 text-white rounded-full text-[10px] font-semibold shadow-sm">
                   {unreadNotifications}
                 </div>
               )}
@@ -547,12 +571,12 @@ const Navbar = () => {
             <div className="relative">
               <button 
                 onClick={() => setEmailModalOpen(!emailModalOpen)}
-                className="bg-[#c3d2e9] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#b0c4e2] transition"
+                className="bg-[#c3d2e9] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#b0c4e2] transition-all hover:scale-110"
               >
                 <Image src="/email.png" alt="Email" width={20} height={20} />
               </button>
               {unreadEmails > 0 && (
-                <div className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#153361] text-white rounded-full text-[10px] font-semibold">
+                <div className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#153361] text-white rounded-full text-[10px] font-semibold shadow-sm">
                   {unreadEmails}
                 </div>
               )}
@@ -562,32 +586,25 @@ const Navbar = () => {
             <div className="relative">
               <button 
                 onClick={() => setMessageModalOpen(!messageModalOpen)}
-                className="bg-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition"
+                className="bg-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all hover:scale-110 shadow-sm"
               >
                 <Image src="/messages.png" alt="Messages" width={20} height={20} />
               </button>
               {totalUnreadMessages > 0 && (
-                <div className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#153361] text-white rounded-full text-[10px] font-semibold">
+                <div className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center bg-[#153361] text-white rounded-full text-[10px] font-semibold shadow-sm">
                   +{totalUnreadMessages}
                 </div>
               )}
             </div>
 
-            {/* User Info */}
-            <div className="hidden sm:flex flex-col text-right">
-              <span className="text-xs font-medium leading-3">{profileData.name}</span>
-              <span className="text-[10px] text-gray-500 font-bold">{profileData.position}</span>
-            </div>
-
-            {/* Profile Image */}
-            <button onClick={() => setProfileModalOpen(!profileModalOpen)}>
-              <Image
-                src={profileData.avatar}
-                alt="Profile"
-                width={36}
-                height={36}
-                className="rounded-[900] cursor-pointer hover:ring-2 hover:ring-[#2c4a6a] transition"
-              />
+            {/* Profile Icon Button (Replaced Profile Picture/Name) */}
+            <button 
+              onClick={() => setProfileModalOpen(!profileModalOpen)}
+              className="bg-[#c3d2e9] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#b0c4e2] transition-all hover:scale-110"
+            >
+              <svg className="w-5 h-5 text-[#153361]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
             </button>
           </div>
         </div>

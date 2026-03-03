@@ -51,6 +51,123 @@ const payslips = [
   { month: "September 2025", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
 ];
 
+// NEW: Tax Records with FULL amounts
+const taxRecords = [
+  { year: "2025", taxableIncome: 102000.00, taxPaid: 15300.00, taxRate: "15%", 
+    filingStatus: "Filed", filingDate: "2026-01-15", refundAmount: 0.00, status: "Completed" },
+  { year: "2024", taxableIncome: 96000.00, taxPaid: 14400.00, taxRate: "15%", 
+    filingStatus: "Filed", filingDate: "2025-01-20", refundAmount: 0.00, status: "Completed" },
+  { year: "2023", taxableIncome: 90000.00, taxPaid: 13500.00, taxRate: "15%", 
+    filingStatus: "Filed", filingDate: "2024-01-18", refundAmount: 250.00, status: "Completed" },
+];
+
+// NEW: SSNIT Contribution Records
+const ssnitRecords = [
+  { month: "February 2026", employeeContribution: 467.50, employerContribution: 722.50, 
+    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
+  { month: "January 2026", employeeContribution: 467.50, employerContribution: 722.50, 
+    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
+  { month: "December 2025", employeeContribution: 467.50, employerContribution: 722.50, 
+    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
+  { month: "November 2025", employeeContribution: 467.50, employerContribution: 722.50, 
+    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
+  { month: "October 2025", employeeContribution: 467.50, employerContribution: 722.50, 
+    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
+];
+
+// NEW: Recruitment Timeline
+const recruitmentTimeline = [
+  { stage: "Application Received", date: "2020-01-15", status: "Completed", 
+    notes: "Applied via company career portal", duration: "1 day" },
+  { stage: "Resume Screening", date: "2020-01-16", status: "Completed", 
+    notes: "Passed initial screening - 5 years experience", duration: "3 days" },
+  { stage: "Phone Interview", date: "2020-01-20", status: "Completed", 
+    notes: "Conducted by Sarah Johnson (HR)", duration: "30 mins", score: "9/10" },
+  { stage: "Technical Assessment", date: "2020-01-25", status: "Completed", 
+    notes: "Online coding challenge - Python & React", duration: "2 hours", score: "95/100" },
+  { stage: "Panel Interview", date: "2020-02-01", status: "Completed", 
+    notes: "Met with Engineering team leads", duration: "1.5 hours", score: "Excellent" },
+  { stage: "Reference Check", date: "2020-02-10", status: "Completed", 
+    notes: "3 professional references verified", duration: "5 days" },
+  { stage: "Background Check", date: "2020-02-15", status: "Completed", 
+    notes: "Criminal & employment history cleared", duration: "3 days" },
+  { stage: "Offer Extended", date: "2020-02-20", status: "Completed", 
+    notes: "Senior Software Engineer - GHS 8,500.00/month", duration: "2 days" },
+  { stage: "Offer Accepted", date: "2020-02-22", status: "Completed", 
+    notes: "Accepted offer with start date Mar 1, 2020", duration: "1 day" },
+  { stage: "Onboarding Started", date: "2020-03-01", status: "Completed", 
+    notes: "First day - orientation & equipment setup", duration: "Ongoing" },
+];
+
+// NEW: Benefits
+const benefits = [
+  { name: "Health Insurance", provider: "Ghana Health Insurance", coverage: "Individual + Spouse", 
+    premium: 450.00, employerPaid: 350.00, employeePaid: 100.00, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Life Insurance", provider: "Enterprise Life", coverage: "2x Annual Salary", 
+    premium: 180.00, employerPaid: 180.00, employeePaid: 0.00, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Dental Insurance", provider: "Ghana Dental Care", coverage: "Individual", 
+    premium: 85.00, employerPaid: 60.00, employeePaid: 25.00, status: "Active", effectiveDate: "2021-01-01" },
+  { name: "Pension (Tier 2)", provider: "Enterprise Trustees", coverage: "Voluntary", 
+    premium: 255.00, employerPaid: 0.00, employeePaid: 255.00, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Professional Development", provider: "Internal Budget", coverage: "Annual Allowance", 
+    premium: 200.00, employerPaid: 200.00, employeePaid: 0.00, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Transportation Allowance", provider: "Monthly Benefit", coverage: "Fuel/Transport", 
+    premium: 300.00, employerPaid: 300.00, employeePaid: 0.00, status: "Active", effectiveDate: "2020-03-01" },
+];
+
+// NEW: Deductions
+const deductions = [
+  { name: "PAYE Tax", amount: 1275.00, type: "Statutory", frequency: "Monthly", 
+    ytdAmount: 15300.00, description: "Pay As You Earn income tax" },
+  { name: "SSNIT Tier 1", amount: 467.50, type: "Statutory", frequency: "Monthly", 
+    ytdAmount: 5610.00, description: "Social Security contribution (5.5%)" },
+  { name: "SSNIT Tier 2", amount: 255.00, type: "Voluntary", frequency: "Monthly", 
+    ytdAmount: 3060.00, description: "Voluntary pension contribution" },
+  { name: "Health Insurance", amount: 100.00, type: "Benefit", frequency: "Monthly", 
+    ytdAmount: 1200.00, description: "Employee portion of health premium" },
+  { name: "Dental Insurance", amount: 25.00, type: "Benefit", frequency: "Monthly", 
+    ytdAmount: 300.00, description: "Employee portion of dental premium" },
+  { name: "Union Dues", amount: 50.00, type: "Voluntary", frequency: "Monthly", 
+    ytdAmount: 600.00, description: "Tech Workers Union membership" },
+];
+
+// NEW: Leave Records
+const leaveRecords = [
+  { type: "Annual Leave", startDate: "2025-12-20", endDate: "2026-01-05", days: 12, 
+    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-11-15", 
+    reason: "Christmas holiday with family" },
+  { type: "Sick Leave", startDate: "2025-10-12", endDate: "2025-10-14", days: 3, 
+    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-10-12", 
+    reason: "Flu and fever", medicalCert: "Yes" },
+  { type: "Annual Leave", startDate: "2025-08-05", endDate: "2025-08-09", days: 5, 
+    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-07-10", 
+    reason: "Personal travel" },
+  { type: "Casual Leave", startDate: "2025-06-20", endDate: "2025-06-20", days: 1, 
+    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-06-19", 
+    reason: "Family emergency" },
+  { type: "Annual Leave", startDate: "2025-04-10", endDate: "2025-04-17", days: 6, 
+    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-03-05", 
+    reason: "Easter vacation" },
+];
+
+const leaveBalance = {
+  annual: { total: 21, used: 23, remaining: -2, carried: 0 },
+  sick: { total: 10, used: 5, remaining: 5, carried: 0 },
+  casual: { total: 5, used: 1, remaining: 4, carried: 0 },
+  maternity: { total: 0, used: 0, remaining: 0, carried: 0 },
+  paternity: { total: 7, used: 0, remaining: 7, carried: 0 },
+};
+
+const formatCurrency = (amount: number) => {
+  return `GHS ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+};
+
+// Calculate totals
+const totalTaxPaid = taxRecords.reduce((sum, rec) => sum + rec.taxPaid, 0);
+const totalSSNIT = ssnitRecords.reduce((sum, rec) => sum + rec.totalContribution, 0);
+const totalBenefitCost = benefits.reduce((sum, b) => sum + b.premium, 0);
+const totalDeductions = deductions.reduce((sum, d) => sum + d.amount, 0);
+
 const attendanceRecords = generateAttendance();
 
 export default function EmployeeProfilePage() {
@@ -103,12 +220,16 @@ export default function EmployeeProfilePage() {
     window.location.href = "/employees";
   };
 
-  const tabs = [
-    { id: "overview", label: "Overview", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
-    { id: "attendance", label: "Attendance", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
-    { id: "payroll", label: "Payroll", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
-    { id: "documents", label: "Documents", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
-  ];
+ const tabs = [
+  { id: "overview", label: "Overview", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
+  { id: "attendance", label: "Attendance", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
+  { id: "payroll", label: "Payroll", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
+  { id: "tax", label: "Tax & SSNIT", icon: "M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" },
+  { id: "benefits", label: "Benefits", icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" },
+  { id: "leave", label: "Leave", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
+  { id: "recruitment", label: "Recruitment", icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+  { id: "documents", label: "Documents", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+];
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -118,6 +239,15 @@ export default function EmployeeProfilePage() {
       default: return "bg-gray-100 text-gray-700 border-gray-200";
     }
   };
+
+  const getLeaveStatusColor = (status) => {
+  switch (status) {
+    case "Approved": return "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]";
+    case "Pending": return "bg-[#e8eef4] text-[#4a6b8a] border-[#c3d2e9]";
+    case "Rejected": return "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]";
+    default: return "bg-gray-100 text-gray-700 border-gray-200";
+  }
+};
 
   const getAttendanceColor = (status) => {
     switch (status) {
@@ -153,14 +283,14 @@ export default function EmployeeProfilePage() {
       )}
 
       {/* Back breadcrumb */}
-      <div className="mb-5">
-        <Link href="/employees" className="inline-flex items-center gap-2 text-sm text-[#2c4a6a] hover:underline font-medium">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Employees
-        </Link>
-      </div>
+    {/* Back button */}
+<div className="mb-5">
+  <Link href="/employees" className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    </svg>
+  </Link>
+</div>
 
       {/* Profile Hero Card */}
       <div className="bg-white rounded-2xl border border-gray-100 mb-6">
@@ -213,7 +343,7 @@ export default function EmployeeProfilePage() {
         <div className="px-6 pb-6">
           <div className="flex flex-col sm:flex-row items-start gap-4 -mt-10 mb-5">
             {/* FIXED: Profile Image with proper fallback */}
-            <div className="w-20 h-20 rounded-2xl border-4 border-white shadow-lg flex-shrink-0 relative overflow-hidden bg-white">
+            <div className="w-20 h-20 rounded-xl border-4 border-white shadow-lg flex-shrink-0 relative overflow-hidden bg-white">
               {!imageError && employee.profileImage ? (
                 <img 
                   src={employee.profileImage} 
@@ -374,15 +504,15 @@ export default function EmployeeProfilePage() {
           <div className="space-y-6">
             <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 text-white">
               <p className="text-sm text-white/70 mb-1">Monthly Salary</p>
-              <p className="text-4xl font-bold mb-1">₵{employee.basicSalary?.toLocaleString()}</p>
+              <p className="text-4xl font-bold mb-1">GHS{formatCurrency(employee.basicSalary)}</p>
               <p className="text-xs text-white/60 mb-5">{employee.salaryType} · {employee.employmentType}</p>
               <div className="space-y-2 pt-4 border-t border-white/20">
-                <div className="flex justify-between text-sm"><span className="text-white/70">Basic Salary</span><span className="font-semibold">₵{employee.basicSalary?.toLocaleString()}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-white/70">Allowances</span><span className="font-semibold text-white">+₵{employee.allowances?.toLocaleString()}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-white/70">Tax (PAYE ~15%)</span><span className="font-semibold text-white/80">-₵{Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-white/70">Basic Salary</span><span className="font-semibold">GHS{employee.basicSalary?.toLocaleString()}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-white/70">Allowances</span><span className="font-semibold text-white">+GHS{employee.allowances?.toLocaleString()}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-white/70">Tax (PAYE ~15%)</span><span className="font-semibold text-white/80">-GHS{Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
                 <div className="flex justify-between text-sm pt-2 border-t border-white/20">
                   <span className="text-white font-semibold">Net Pay</span>
-                  <span className="font-bold text-lg">₵{(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15)).toLocaleString()}</span>
+                  <span className="font-bold text-lg">GHS{(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15)).toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -484,23 +614,23 @@ export default function EmployeeProfilePage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 text-white">
               <p className="text-sm text-white/70 mb-1">Gross Monthly Pay</p>
-              <p className="text-4xl font-bold mb-4">₵{(employee.basicSalary + employee.allowances).toLocaleString()}</p>
+              <p className="text-4xl font-bold mb-4">GHS{(employee.basicSalary + employee.allowances).toLocaleString()}</p>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-white/70">Basic Salary</span><span>₵{employee.basicSalary?.toLocaleString()}</span></div>
-                <div className="flex justify-between"><span className="text-white/70">Allowances</span><span>₵{employee.allowances?.toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-white/70">Basic Salary</span><span>GHS{employee.basicSalary?.toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-white/70">Allowances</span><span>GHS{employee.allowances?.toLocaleString()}</span></div>
               </div>
             </div>
             <div className="bg-[#e8eef4] border border-[#c3d2e9] rounded-2xl p-6">
               <p className="text-sm font-medium text-gray-600 mb-1">Total Deductions</p>
-              <p className="text-4xl font-bold text-[#1e3147] mb-4">₵{Math.round(employee.basicSalary * 0.15 + employee.basicSalary * 0.055).toLocaleString()}</p>
+              <p className="text-4xl font-bold text-[#1e3147] mb-4">GHS{Math.round(employee.basicSalary * 0.15 + employee.basicSalary * 0.055).toLocaleString()}</p>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-gray-500">PAYE Tax (15%)</span><span className="text-[#2c4a6a] font-medium">₵{Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">SSNIT (5.5%)</span><span className="text-[#2c4a6a] font-medium">₵{Math.round(employee.basicSalary * 0.055).toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-gray-500">PAYE Tax (15%)</span><span className="text-[#2c4a6a] font-medium">GHS{Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-gray-500">SSNIT (5.5%)</span><span className="text-[#2c4a6a] font-medium">GHS{Math.round(employee.basicSalary * 0.055).toLocaleString()}</span></div>
               </div>
             </div>
             <div className="bg-[#d4e1ed] border border-[#a8c5db] rounded-2xl p-6">
               <p className="text-sm font-medium text-gray-600 mb-1">Net Pay (Take Home)</p>
-              <p className="text-4xl font-bold text-[#2c4a6a] mb-4">₵{(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15) - Math.round(employee.basicSalary * 0.055)).toLocaleString()}</p>
+              <p className="text-4xl font-bold text-[#2c4a6a] mb-4">GHS{(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15) - Math.round(employee.basicSalary * 0.055)).toLocaleString()}</p>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-gray-500">Payment Method</span><span className="font-medium text-gray-700">{employee.paymentMethod}</span></div>
                 <div className="flex justify-between"><span className="text-gray-500">Bank</span><span className="font-medium text-gray-700">{employee.bankName}</span></div>
@@ -520,9 +650,9 @@ export default function EmployeeProfilePage() {
                   {payslips.map((p, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 text-sm font-semibold text-gray-900">{p.month}</td>
-                      <td className="px-6 py-4 text-sm text-gray-700">₵{p.gross.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm text-[#2c4a6a]">-₵{p.deductions.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-[#1e3147]">₵{p.net.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">GHS{p.gross.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm text-[#2c4a6a]">-GHS{p.deductions.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm font-bold text-[#1e3147]">GHS{p.net.toLocaleString()}</td>
                       <td className="px-6 py-4"><span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-full text-xs font-semibold">{p.status}</span></td>
                       <td className="px-6 py-4">
                         <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
@@ -538,6 +668,516 @@ export default function EmployeeProfilePage() {
           </div>
         </div>
       )}
+
+      {/* ═══ BENEFITS & DEDUCTIONS TAB ═══ */}
+{activeTab === "benefits" && (
+  <div className="space-y-6">
+    {/* Summary Cards */}
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5 text-white">
+        <p className="text-xs text-white/70 mb-1">Total Benefits</p>
+        <p className="text-3xl font-bold">{formatCurrency(totalBenefitCost)}</p>
+        <p className="text-xs text-white/60 mt-1">Monthly value</p>
+      </div>
+      <div className="bg-gradient-to-br from-[#4a6b82] to-[#2c4a6a] rounded-xl p-5 text-white">
+        <p className="text-xs text-white/70 mb-1">Employer Paid</p>
+        <p className="text-3xl font-bold">{formatCurrency(benefits.reduce((sum, b) => sum + b.employerPaid, 0))}</p>
+        <p className="text-xs text-white/60 mt-1">Company contribution</p>
+      </div>
+      <div className="bg-gradient-to-br from-[#6b8ca3] to-[#4a6b82] rounded-xl p-5 text-white">
+        <p className="text-xs text-white/70 mb-1">Employee Paid</p>
+        <p className="text-3xl font-bold">{formatCurrency(benefits.reduce((sum, b) => sum + b.employeePaid, 0))}</p>
+        <p className="text-xs text-white/60 mt-1">Your contribution</p>
+      </div>
+      <div className="bg-gradient-to-br from-[#8badc3] to-[#6b8ca3] rounded-xl p-5 text-white">
+        <p className="text-xs text-white/70 mb-1">Active Benefits</p>
+        <p className="text-3xl font-bold">{benefits.filter(b => b.status === "Active").length}</p>
+        <p className="text-xs text-white/60 mt-1">Current enrollments</p>
+      </div>
+    </div>
+
+    {/* Benefits */}
+    <div className="bg-white rounded-2xl border border-gray-100 p-6">
+      <h2 className="text-base font-bold text-[#1e3147] mb-5">Active Benefits</h2>
+      <div className="space-y-4">
+        {benefits.map((benefit, i) => (
+          <div key={i} className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-5 border border-gray-100 hover:border-[#2c4a6a]/30 transition-all">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1">
+                <h3 className="text-sm font-bold text-gray-900 mb-1">{benefit.name}</h3>
+                <p className="text-xs text-gray-500 mb-2">{benefit.provider} • {benefit.coverage}</p>
+                <span className="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-xs font-medium">
+                  {benefit.status}
+                </span>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-500 mb-1">Monthly Premium</p>
+                <p className="text-2xl font-bold text-[#2c4a6a]">{formatCurrency(benefit.premium)}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Employer Pays</p>
+                <p className="text-sm font-bold text-[#2c4a6a]">{formatCurrency(benefit.employerPaid)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Employee Pays</p>
+                <p className="text-sm font-bold text-gray-700">{formatCurrency(benefit.employeePaid)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Effective Date</p>
+                <p className="text-sm font-medium text-gray-700">{new Date(benefit.effectiveDate).toLocaleDateString("en-GB")}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Deductions */}
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100">
+        <h2 className="text-base font-bold text-[#1e3147]">Monthly Deductions</h2>
+        <p className="text-sm text-gray-500 mt-1">Total: {formatCurrency(totalDeductions)}/month</p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-100">
+            <tr>
+              {["Deduction", "Type", "Amount", "Frequency", "YTD Amount", "Description"].map(h => (
+                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {deductions.map((ded, i) => (
+              <tr key={i} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 text-sm font-semibold text-gray-900">{ded.name}</td>
+                <td className="px-6 py-4">
+                  <span className={`px-2 py-1 rounded text-xs font-medium ${
+                    ded.type === "Statutory" ? "bg-red-100 text-red-700 border border-red-200" :
+                    ded.type === "Benefit" ? "bg-blue-100 text-blue-700 border border-blue-200" :
+                    "bg-gray-100 text-gray-700 border border-gray-200"
+                  }`}>
+                    {ded.type}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{formatCurrency(ded.amount)}</td>
+                <td className="px-6 py-4 text-sm text-gray-600">{ded.frequency}</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-700">{formatCurrency(ded.ytdAmount)}</td>
+                <td className="px-6 py-4 text-xs text-gray-500">{ded.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* ═══ LEAVE TAB ═══ */}
+{activeTab === "leave" && (
+  <div className="space-y-6">
+    {/* Leave Balance Cards */}
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      {Object.entries(leaveBalance).map(([type, data]) => (
+        <div key={type} className={`rounded-xl p-5 border ${
+          data.remaining < 0 ? "bg-red-50 border-red-200" :
+          data.remaining === 0 ? "bg-gray-50 border-gray-200" :
+          "bg-gradient-to-br from-[#d4e1ed] to-white border-[#a8c5db]"
+        }`}>
+          <p className="text-xs font-medium text-gray-600 mb-2 capitalize">{type} Leave</p>
+          <div className="flex items-end justify-between mb-3">
+            <div>
+              <p className="text-3xl font-bold text-[#2c4a6a]">{data.remaining}</p>
+              <p className="text-xs text-gray-500">days left</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-medium text-gray-600">{data.used}/{data.total}</p>
+              <p className="text-xs text-gray-400">used</p>
+            </div>
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              className={`h-full ${data.remaining < 0 ? "bg-red-500" : "bg-gradient-to-r from-[#2c4a6a] to-[#4a6b82]"}`}
+              style={{ width: `${Math.min((data.used / data.total) * 100, 100)}%` }}
+            ></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Leave Statistics */}
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="bg-white rounded-xl p-5 border border-gray-100">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-medium text-gray-500">Total Leave Taken</p>
+          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <p className="text-3xl font-bold text-gray-900">{leaveRecords.reduce((sum, r) => sum + r.days, 0)}</p>
+        <p className="text-xs text-gray-500 mt-1">days this year</p>
+      </div>
+
+      <div className="bg-white rounded-xl p-5 border border-gray-100">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-medium text-gray-500">Leave Requests</p>
+          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+        </div>
+        <p className="text-3xl font-bold text-gray-900">{leaveRecords.length}</p>
+        <p className="text-xs text-gray-500 mt-1">total applications</p>
+      </div>
+
+      <div className="bg-white rounded-xl p-5 border border-gray-100">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-medium text-gray-500">Approval Rate</p>
+          <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="text-3xl font-bold text-green-600">100%</p>
+        <p className="text-xs text-gray-500 mt-1">all approved</p>
+      </div>
+
+      <div className="bg-white rounded-xl p-5 border border-gray-100">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-medium text-gray-500">Avg Leave Duration</p>
+          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="text-3xl font-bold text-gray-900">{Math.round(leaveRecords.reduce((sum, r) => sum + r.days, 0) / leaveRecords.length)}</p>
+        <p className="text-xs text-gray-500 mt-1">days per request</p>
+      </div>
+    </div>
+
+    {/* Leave History */}
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <div>
+          <h2 className="text-base font-bold text-[#1e3147]">Leave History</h2>
+          <p className="text-sm text-gray-500 mt-1">{leaveRecords.length} leave records</p>
+        </div>
+        <button className="px-4 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all">
+          Request Leave
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-100">
+            <tr>
+              {["Leave Type", "Start Date", "End Date", "Days", "Status", "Approved By", "Applied Date", "Reason", "Medical Cert"].map(h => (
+                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {leaveRecords.map((leave, i) => (
+              <tr key={i} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 text-sm font-semibold text-gray-900">{leave.type}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{new Date(leave.startDate).toLocaleDateString("en-GB")}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{new Date(leave.endDate).toLocaleDateString("en-GB")}</td>
+                <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{leave.days} days</td>
+                <td className="px-6 py-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getLeaveStatusColor(leave.status)}`}>
+                    {leave.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">{leave.approvedBy}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{new Date(leave.appliedDate).toLocaleDateString("en-GB")}</td>
+                <td className="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">{leave.reason}</td>
+                <td className="px-6 py-4 text-xs">
+                  {leave.medicalCert && (
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                      Yes
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* ═══ RECRUITMENT TAB ═══ */}
+{activeTab === "recruitment" && (
+  <div className="space-y-6">
+    {/* Summary */}
+    <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] rounded-2xl p-8 text-white">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Recruitment Journey</h2>
+          <p className="text-white/80">Complete hiring timeline from application to onboarding</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-white/70 mb-1">Total Duration</p>
+          <p className="text-3xl font-bold">45 days</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-4">
+        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+          <p className="text-xs text-white/70 mb-1">Application Date</p>
+          <p className="text-lg font-bold">Jan 15, 2020</p>
+        </div>
+        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+          <p className="text-xs text-white/70 mb-1">Hire Date</p>
+          <p className="text-lg font-bold">Mar 1, 2020</p>
+        </div>
+        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+          <p className="text-xs text-white/70 mb-1">Stages Completed</p>
+          <p className="text-lg font-bold">{recruitmentTimeline.length}/10</p>
+        </div>
+        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+          <p className="text-xs text-white/70 mb-1">Overall Score</p>
+          <p className="text-lg font-bold">Excellent</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Timeline */}
+    <div className="bg-white rounded-2xl border border-gray-100 p-8">
+      <h2 className="text-lg font-bold text-[#1e3147] mb-8">Hiring Timeline</h2>
+      <div className="space-y-6">
+        {recruitmentTimeline.map((stage, index) => (
+          <div key={index} className="relative pl-8">
+            {/* Connector line */}
+            {index < recruitmentTimeline.length - 1 && (
+              <div className="absolute left-[15px] top-8 bottom-0 w-0.5 bg-[#c3d2e9]"></div>
+            )}
+            
+            {/* Timeline dot */}
+            <div className="absolute left-0 top-1 w-8 h-8 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center border-4 border-white shadow-lg">
+              {stage.status === "Completed" && (
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </div>
+
+            {/* Content */}
+            <div className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-5 border border-gray-100 hover:border-[#2c4a6a]/30 transition-all">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900 mb-1">{stage.stage}</h3>
+                  <p className="text-xs text-gray-500">{new Date(stage.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  {stage.score && (
+                    <span className="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-lg text-xs font-bold">
+                      {stage.score}
+                    </span>
+                  )}
+                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-lg text-xs font-semibold">
+                    {stage.status}
+                  </span>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700 mb-3">{stage.notes}</p>
+              <div className="flex items-center gap-4 text-xs text-gray-500">
+                <span className="flex items-center gap-1">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Duration: {stage.duration}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Hiring Details */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="text-sm font-bold text-[#1e3147] mb-4">Assessment Scores</h3>
+        <div className="space-y-3">
+          {recruitmentTimeline.filter(s => s.score).map((stage, i) => (
+            <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <span className="text-sm text-gray-700">{stage.stage}</span>
+              <span className="text-sm font-bold text-[#2c4a6a]">{stage.score}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 className="text-sm font-bold text-[#1e3147] mb-4">Hiring Details</h3>
+        <div className="space-y-3">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Position Offered</span>
+            <span className="font-semibold text-gray-900">Senior Software Engineer</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Starting Salary</span>
+            <span className="font-semibold text-[#2c4a6a]">{formatCurrency(8500)}/month</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Department</span>
+            <span className="font-semibold text-gray-900">Engineering</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Employment Type</span>
+            <span className="font-semibold text-gray-900">Full-Time</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Hired By</span>
+            <span className="font-semibold text-gray-900">HR Team</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+      {/* ═══ TAX & SSNIT TAB ═══ */}
+{activeTab === "tax" && (
+  <div className="space-y-6">
+    {/* Summary Cards */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-medium text-white/70">Total Tax Paid (All Time)</h3>
+          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+          </svg>
+        </div>
+        <p className="text-4xl font-bold mb-2">{formatCurrency(totalTaxPaid)}</p>
+        <p className="text-xs text-white/60">{taxRecords.length} years on record</p>
+      </div>
+
+      <div className="bg-gradient-to-br from-[#4a6b82] to-[#2c4a6a] rounded-2xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-medium text-white/70">Total SSNIT Contributions</h3>
+          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <p className="text-4xl font-bold mb-2">{formatCurrency(totalSSNIT)}</p>
+        <p className="text-xs text-white/60">Employee + Employer</p>
+      </div>
+
+      <div className="bg-gradient-to-br from-[#6b8ca3] to-[#4a6b82] rounded-2xl p-6 text-white shadow-lg">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-medium text-white/70">Average Tax Rate</h3>
+          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <p className="text-4xl font-bold mb-2">15%</p>
+        <p className="text-xs text-white/60">Standard PAYE rate</p>
+      </div>
+    </div>
+
+    {/* Tax Records */}
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h2 className="text-base font-bold text-[#1e3147]">Tax Filing History</h2>
+        <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Download Tax Report
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-100">
+            <tr>
+              {["Tax Year", "Taxable Income", "Tax Paid", "Tax Rate", "Filing Status", "Filing Date", "Refund/Balance", "Status", "Action"].map(h => (
+                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {taxRecords.map((rec, i) => (
+              <tr key={i} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 text-sm font-bold text-gray-900">{rec.year}</td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-700">{formatCurrency(rec.taxableIncome)}</td>
+                <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{formatCurrency(rec.taxPaid)}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{rec.taxRate}</td>
+                <td className="px-6 py-4">
+                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-full text-xs font-semibold">
+                    {rec.filingStatus}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">{new Date(rec.filingDate).toLocaleDateString("en-GB")}</td>
+                <td className="px-6 py-4 text-sm font-medium text-green-600">
+                  {rec.refundAmount > 0 ? `+${formatCurrency(rec.refundAmount)}` : formatCurrency(0)}
+                </td>
+                <td className="px-6 py-4">
+                  <span className="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full text-xs font-semibold">
+                    {rec.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Certificate
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {/* SSNIT Records */}
+    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h2 className="text-base font-bold text-[#1e3147]">SSNIT Contribution History</h2>
+        <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Download Statement
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-100">
+            <tr>
+              {["Month", "Employee Contribution", "Employer Contribution", "Total Contribution", "Tier 1 (Pension)", "Tier 2 (Voluntary)", "Status", "Action"].map(h => (
+                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {ssnitRecords.map((rec, i) => (
+              <tr key={i} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 text-sm font-semibold text-gray-900">{rec.month}</td>
+                <td className="px-6 py-4 text-sm font-medium text-[#2c4a6a]">{formatCurrency(rec.employeeContribution)}</td>
+                <td className="px-6 py-4 text-sm font-medium text-[#4a6b82]">{formatCurrency(rec.employerContribution)}</td>
+                <td className="px-6 py-4 text-sm font-bold text-gray-900">{formatCurrency(rec.totalContribution)}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{formatCurrency(rec.tier1)}</td>
+                <td className="px-6 py-4 text-sm text-gray-700">{formatCurrency(rec.tier2)}</td>
+                <td className="px-6 py-4">
+                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-full text-xs font-semibold">
+                    {rec.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <button className="text-xs text-[#2c4a6a] font-medium hover:underline">Download</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)}
+
+
 
       {/* ═══ DOCUMENTS TAB ═══ */}
       {activeTab === "documents" && (
@@ -683,11 +1323,11 @@ export default function EmployeeProfilePage() {
                     </select>
                   </div>
                   <div>
-                    <label className={labelClass}>Basic Salary (₵)</label>
+                    <label className={labelClass}>Basic Salary (GHS)</label>
                     <input type="number" className={inputClass} value={editForm.basicSalary || ""} onChange={e => setEditForm({ ...editForm, basicSalary: Number(e.target.value) })} />
                   </div>
                   <div>
-                    <label className={labelClass}>Allowances (₵)</label>
+                    <label className={labelClass}>Allowances (GHS)</label>
                     <input type="number" className={inputClass} value={editForm.allowances || ""} onChange={e => setEditForm({ ...editForm, allowances: Number(e.target.value) })} />
                   </div>
                 </div>

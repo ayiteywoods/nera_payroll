@@ -25,7 +25,7 @@ export default function DashboardLayout({
 
           {/* Page Content */}
           <div className="flex-1 overflow-y-auto w-full">
-            <div className="px-4 sm:px-5 lg:px-6 py-6 w-full">
+            <div className="px-6 pt-4 pb-6 w-full">
               {children}
             </div>
           </div>

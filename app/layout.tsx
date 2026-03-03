@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Roboto } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-import NavBar from "@/components/NavBar";
-import LandingNavBar from "@/components/LandingNavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,18 +19,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* You can choose which navbar to show depending on route or logic */}
-        
-        {/* OR <LandingNavBar /> */}
-
-        {/* Main content */}
-        <main>{children}</main>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0`}
+      >
+        <main className="m-0 p-0 min-h-screen">
+          {children}
+        </main>
       </body>
     </html>
   );
