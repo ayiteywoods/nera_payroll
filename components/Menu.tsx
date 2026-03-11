@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { role } from "@/lib/data";
+import { role } from "../app/_lib/data";
 
 /* ===== Icons ===== */
 import {
