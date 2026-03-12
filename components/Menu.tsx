@@ -51,7 +51,7 @@ const menuItems = [
     title: "ACCOUNT",
     items: [
       { icon: FiSettings, label: "Settings", href: "/settings", visible: ["admin", "hr", "finance"] },
-      { icon: FiLogOut, label: "Logout", href: "../auth/logout", visible: ["admin", "hr", "finance", "employee"] },
+      { icon: FiLogOut, label: "Logout", href: "../auth/login", visible: ["admin", "hr", "finance", "employee"] },
     ],
   },
 ];

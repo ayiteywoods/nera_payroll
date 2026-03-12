@@ -66,7 +66,7 @@ const Loginpage = () => {
         {/* Left Side - Background Image */}
         <div className='lg:w-1/2 relative h-64 lg:h-auto'>
           <Image
-            src="/Nerasol.png"
+            src="/logo4.png"
             alt="Payroll Background"
             fill
             className="object-cover"

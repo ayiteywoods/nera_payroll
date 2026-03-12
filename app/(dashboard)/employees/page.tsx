@@ -122,7 +122,7 @@ export default function EmployeePage() {
         <p className="text-sm text-gray-600">Manage your workforce and employee information</p>
       </div>
 
-      {/* Stats */}
+      {/* Stats - Matching Dashboard Gradient */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
           { label:"Total Employees", value: ALL_EMPLOYEES.length, sub:"All in system" },
@@ -130,10 +130,10 @@ export default function EmployeePage() {
           { label:"On Leave",        value: ALL_EMPLOYEES.filter(e=>e.employmentStatus==="On Leave").length, sub:"Currently on leave" },
           { label:"Showing",         value: filteredEmployees.length, sub:"From current filters" },
         ].map(c => (
-          <div key={c.label} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5">
-            <p className="text-xs text-white/70 mb-1">{c.label}</p>
-            <p className="text-3xl font-bold text-white">{c.value.toLocaleString()}</p>
-            <p className="text-xs text-white/50 mt-1">{c.sub}</p>
+          <div key={c.label} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5 text-white relative overflow-hidden transition-all hover:scale-[1.02]">
+            <p className="text-xs text-white/80 mb-1 relative z-10 font-medium">{c.label}</p>
+            <p className="text-3xl font-extrabold text-white relative z-10">{c.value.toLocaleString()}</p>
+            <p className="text-xs text-white/60 mt-1 relative z-10">{c.sub}</p>
           </div>
         ))}
       </div>
@@ -164,7 +164,7 @@ export default function EmployeePage() {
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => setViewMode("cards")}
-                className={`p-2 rounded-md transition-all ${viewMode === "cards" ? "bg-white text-[#2c4a6a] shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                className={`p-2 rounded-md transition-all ${viewMode === "cards" ? "bg-white text-[#2c4a6a]" : "text-gray-500 hover:text-gray-700"}`}
                 title="Card View"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,7 +173,7 @@ export default function EmployeePage() {
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white text-[#2c4a6a] shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white text-[#2c4a6a]" : "text-gray-500 hover:text-gray-700"}`}
                 title="List View"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@ export default function EmployeePage() {
               </button>
             </div>
             <Link href="/employees/create">
-              <button className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap">
+              <button className="bg-[#2c4a6a] hover:bg-[#1e3147] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
                 Add Employee
               </button>
@@ -209,7 +209,7 @@ export default function EmployeePage() {
       {viewMode === "cards" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
           {visible.map(emp => (
-            <div key={emp.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] hover:shadow-md transition-all p-5 flex flex-col">
+            <div key={emp.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden relative">
@@ -245,7 +245,7 @@ export default function EmployeePage() {
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                     View
                   </Link>
-                  <Link href="/employees/profile" onClick={() => handleViewEmployee(emp)} className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-xs font-semibold transition-all">
+                  <Link href="/employees/profile" onClick={() => handleViewEmployee(emp)} className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                     Edit
                   </Link>
@@ -334,7 +334,7 @@ export default function EmployeePage() {
             </button>
             <div className="hidden sm:flex gap-1">
               {pageNums().map((p,i)=> p==="..." ? <span key={i} className="w-9 flex items-center justify-center text-gray-400 text-sm">…</span> :
-                <button key={p} onClick={()=>goTo(p as number)} className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${currentPage===p?"bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white":"text-gray-700 hover:bg-gray-100"}`}>{p}</button>
+                <button key={p} onClick={()=>goTo(p as number)} className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${currentPage===p?"bg-[#2c4a6a] text-white":"text-gray-700 hover:bg-gray-100"}`}>{p}</button>
               )}
             </div>
             <button onClick={()=>goTo(currentPage+1)} disabled={currentPage===totalPages} className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 transition-colors">
