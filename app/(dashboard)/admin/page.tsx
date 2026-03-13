@@ -285,7 +285,7 @@ export default function AdminDashboardPage() {
       <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-lg flex-shrink-0">
+            <div className="relative w-16 h-16 rounded-full overflow-hidden border-4 border-[#2c4a6a] shadow-lg flex-shrink-0">
               <Image src="/profiles/employee1.jpg" alt="Ama" fill className="object-cover" />
             </div>
             <div>
@@ -297,12 +297,12 @@ export default function AdminDashboardPage() {
 
           <div className="hidden lg:block"></div>
 
-          {/* Carousel - NO patterns */}
+          {/* Carousel - Reduced height */}
           <div className="relative">
-            <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white p-4 rounded-xl">
-              <div className="flex items-start justify-between gap-3 mb-3">
+            <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white p-3 rounded-xl">
+              <div className="flex items-start justify-between gap-3 mb-2">
                 <div className="flex-1">
-                  <h3 className="text-sm font-bold mb-1">{systemAlerts[currentAlertIndex].title}</h3>
+                  <h3 className="text-sm font-bold mb-0.5">{systemAlerts[currentAlertIndex].title}</h3>
                   <p className="text-xs text-white/90">{systemAlerts[currentAlertIndex].message}</p>
                 </div>
                 <button className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors flex-shrink-0">
@@ -353,6 +353,11 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white hover:scale-[1.02] transition-all">
           <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#2c4a6a] px-3 py-1 rounded-full font-medium">Current Month</span>
+            <button className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+              </svg>
+            </button>
           </div>
           <div className="my-6">
             <p className="text-sm text-white/70">Total Employees</p>
@@ -365,6 +370,11 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a] text-white hover:scale-[1.02] transition-all">
           <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#6b8ca3] px-3 py-1 rounded-full font-medium">Active Now</span>
+            <button className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+              </svg>
+            </button>
           </div>
           <div className="my-6">
             <p className="text-sm text-white/70">Active Employees</p>
@@ -377,6 +387,11 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white hover:scale-[1.02] transition-all">
           <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#2c4a6a] px-3 py-1 rounded-full font-medium">February</span>
+            <button className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+              </svg>
+            </button>
           </div>
           <div className="my-6">
             <p className="text-sm text-white/70">Monthly Payroll</p>
@@ -389,6 +404,11 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a] text-white hover:scale-[1.02] transition-all">
           <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#6b8ca3] px-3 py-1 rounded-full font-medium">Pending</span>
+            <button className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+              </svg>
+            </button>
           </div>
           <div className="my-6">
             <p className="text-sm text-white/70">Pending Approvals</p>

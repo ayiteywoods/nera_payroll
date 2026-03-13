@@ -23,7 +23,7 @@ const PayrollChart = () => {
           <p className="font-semibold text-gray-900 mb-2">{label}</p>
           {payload.map((entry: any, index: number) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
-              {entry.name}: ₵{(entry.value / 1000).toFixed(1)}K
+              {entry.name}: GHS{(entry.value / 1000).toFixed(1)}K
             </p>
           ))}
         </div>
@@ -121,13 +121,13 @@ const PayrollChart = () => {
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-1">Average</p>
           <p className="text-lg font-bold text-[#2c4a6a]">
-            ₵{(data.reduce((sum, d) => sum + d.payroll, 0) / data.length / 1000).toFixed(0)}K
+            GHS {(data.reduce((sum, d) => sum + d.payroll, 0) / data.length / 1000).toFixed(0)}K
           </p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-1">Highest</p>
           <p className="text-lg font-bold text-[#2c4a6a]">
-            ₵{(Math.max(...data.map(d => d.payroll)) / 1000).toFixed(0)}K
+            GHS {(Math.max(...data.map(d => d.payroll)) / 1000).toFixed(0)}K
           </p>
         </div>
         <div className="text-center">

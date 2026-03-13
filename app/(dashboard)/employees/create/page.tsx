@@ -383,7 +383,7 @@ export default function CreateEmployeePage() {
                           </svg>
                         </button>
                       </div>
-                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
+                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#1e2e4e] to-[#1b2b49] text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                         </svg>
@@ -965,7 +965,7 @@ export default function CreateEmployeePage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-8 py-3 bg-gradient-to-r from-[#113a61] to-[#2b406e] hover:from-[#2b406e] hover:to-[#113a61] text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

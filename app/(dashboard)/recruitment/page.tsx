@@ -334,15 +334,15 @@ export default function RecruitmentPage() {
         <p className="text-sm text-gray-600">Manage jobs, applications, and candidates</p>
       </div>
 
-      {/* Stats */}
+      {/* Stats - UPDATED TO MATCH DASHBOARD */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
-          { label: "Total Jobs", value: jobs.length, sub: `${jobs.filter(j => j.status === "Open").length} Open` },
-          { label: "Total Applications", value: applications.length, sub: `${applications.filter(a => a.status === "Under Review").length} Under Review` },
-          { label: "Total Candidates", value: candidates.length, sub: `${candidates.filter(c => c.status === "Active").length} Active` },
-          { label: "Showing", value: filteredData.length, sub: "From current filters" },
-        ].map(c => (
-          <div key={c.label} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5">
+          { label: "Total Jobs", value: jobs.length, sub: `${jobs.filter(j => j.status === "Open").length} Open`, odd: true },
+          { label: "Total Applications", value: applications.length, sub: `${applications.filter(a => a.status === "Under Review").length} Under Review`, odd: false },
+          { label: "Total Candidates", value: candidates.length, sub: `${candidates.filter(c => c.status === "Active").length} Active`, odd: true },
+          { label: "Showing", value: filteredData.length, sub: "From current filters", odd: false },
+        ].map((c, idx) => (
+          <div key={c.label} className={`${c.odd ? 'bg-[#2c4a6a]' : 'bg-[#3d5a7c]'} rounded-xl p-5 text-white`}>
             <p className="text-xs text-white/70 mb-1">{c.label}</p>
             <p className="text-3xl font-bold text-white">{c.value}</p>
             <p className="text-xs text-white/50 mt-1">{c.sub}</p>
@@ -366,7 +366,7 @@ export default function RecruitmentPage() {
             }}
             className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${
               activeTab === tab.id
-                ? "bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white"
+                ? "bg-[#2c4a6a] text-white"
                 : "text-gray-600 hover:bg-gray-50"
             }`}
           >
@@ -448,7 +448,7 @@ export default function RecruitmentPage() {
             {activeTab === "jobs" && (
               <button
                 onClick={() => setIsCreateJobModalOpen(true)}
-                className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
+                className="bg-[#2c4a6a] hover:bg-[#1e3147] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -459,7 +459,7 @@ export default function RecruitmentPage() {
             {activeTab === "candidates" && (
               <button
                 onClick={() => setIsSignupCandidateModalOpen(true)}
-                className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
+                className="bg-[#2c4a6a] hover:bg-[#1e3147] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -499,7 +499,7 @@ export default function RecruitmentPage() {
             <div key={job.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] hover:shadow-md transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base">
+                  <div className="w-12 h-12 rounded-full bg-[#2c4a6a] flex items-center justify-center text-white font-bold text-base">
                     {job.id.slice(-2)}
                   </div>
                   <div>
@@ -578,7 +578,7 @@ export default function RecruitmentPage() {
                   <tr key={job.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-[#2c4a6a] flex items-center justify-center text-white font-bold text-sm">
                           {job.id.slice(-2)}
                         </div>
                         <div>
@@ -649,7 +649,7 @@ export default function RecruitmentPage() {
             <div key={app.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] hover:shadow-md transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base">
+                  <div className="w-12 h-12 rounded-full bg-[#2c4a6a] flex items-center justify-center text-white font-bold text-base">
                     {getInitials(app.candidateName)}
                   </div>
                   <div>
@@ -670,34 +670,20 @@ export default function RecruitmentPage() {
                 <p className="text-xs text-gray-400">Applied: {new Date(app.appliedDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
               </div>
 
-              <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      sessionStorage.setItem('selected_application', JSON.stringify(app));
-                      router.push('/recruitment/application-detail');
-                    }}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors"
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    View
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedItem(app);
-                      setIsStatusModalOpen(true);
-                    }}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-xs font-semibold transition-all"
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    Status
-                  </button>
-                </div>
+              <div className="pt-3 border-t border-gray-100">
+                <button
+                  onClick={() => {
+                    sessionStorage.setItem('selected_application', JSON.stringify(app));
+                    router.push('/recruitment/application-detail');
+                  }}
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-xs font-semibold transition-all"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  View Details
+                </button>
               </div>
             </div>
           ))}
@@ -724,7 +710,7 @@ export default function RecruitmentPage() {
                   <tr key={app.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-[#2c4a6a] flex items-center justify-center text-white font-bold text-sm">
                           {getInitials(app.candidateName)}
                         </div>
                         <div>
@@ -749,33 +735,19 @@ export default function RecruitmentPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => {
-                            sessionStorage.setItem('selected_application', JSON.stringify(app));
-                            router.push('/recruitment/application-detail');
-                          }}
-                          className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]"
-                          title="View"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedItem(app);
-                            setIsStatusModalOpen(true);
-                          }}
-                          className="p-2 hover:bg-[#eef3f9] rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]"
-                          title="Update Status"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                          </svg>
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => {
+                          sessionStorage.setItem('selected_application', JSON.stringify(app));
+                          router.push('/recruitment/application-detail');
+                        }}
+                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]"
+                        title="View Details"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -792,7 +764,7 @@ export default function RecruitmentPage() {
             <div key={candidate.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] hover:shadow-md transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base">
+                  <div className="w-12 h-12 rounded-full bg-[#2c4a6a] flex items-center justify-center text-white font-bold text-base">
                     {getInitials(candidate.name)}
                   </div>
                   <div>
@@ -846,7 +818,7 @@ export default function RecruitmentPage() {
                   {candidate.status === "Passed Interview" && (
                     <button
                       onClick={() => handleSignEmployee(candidate)}
-                      className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-xs font-semibold transition-all"
+                      className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -881,7 +853,7 @@ export default function RecruitmentPage() {
                   <tr key={candidate.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-[#2c4a6a] flex items-center justify-center text-white font-bold text-sm">
                           {getInitials(candidate.name)}
                         </div>
                         <div>
@@ -963,7 +935,7 @@ export default function RecruitmentPage() {
                   <button
                     key={p}
                     onClick={() => goTo(p as number)}
-                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${currentPage === p ? "bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white" : "text-gray-700 hover:bg-gray-100"}`}
+                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${currentPage === p ? "bg-[#2c4a6a] text-white" : "text-gray-700 hover:bg-gray-100"}`}
                   >
                     {p}
                   </button>
@@ -1021,7 +993,7 @@ export default function RecruitmentPage() {
       {isCreateJobModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
+            <div className="sticky top-0 bg-[#2c4a6a] text-white px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
               <h2 className="text-xl font-bold">Create New Job</h2>
               <button
                 onClick={() => setIsCreateJobModalOpen(false)}
@@ -1142,7 +1114,7 @@ export default function RecruitmentPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
+                  className="px-6 py-2.5 bg-[#2c4a6a] text-white rounded-lg text-sm font-medium hover:bg-[#1e3147] transition-all"
                 >
                   Create Job
                 </button>
@@ -1156,7 +1128,7 @@ export default function RecruitmentPage() {
       {isSignupCandidateModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
+            <div className="sticky top-0 bg-[#2c4a6a] text-white px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl">
               <h2 className="text-xl font-bold">Add New Candidate</h2>
               <button
                 onClick={() => setIsSignupCandidateModalOpen(false)}
@@ -1264,7 +1236,7 @@ export default function RecruitmentPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
+                  className="px-6 py-2.5 bg-[#2c4a6a] text-white rounded-lg text-sm font-medium hover:bg-[#1e3147] transition-all"
                 >
                   Add Candidate
                 </button>
@@ -1290,7 +1262,7 @@ export default function RecruitmentPage() {
                     onClick={() => handleUpdateApplicationStatus(status)}
                     className={`w-full px-4 py-3 rounded-lg text-sm font-medium transition-all text-left ${
                       selectedItem.status === status
-                        ? "bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white"
+                        ? "bg-[#2c4a6a] text-white"
                         : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                     }`}
                   >
