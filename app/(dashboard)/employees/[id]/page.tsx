@@ -284,12 +284,17 @@ export default function EmployeeProfilePage() {
 
       {/* Back breadcrumb */}
     {/* Back button */}
-<div className="mb-5">
-  <Link href="/employees" className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
+{/* Header Section with Back Button */}
+<div className="flex items-center gap-4 mb-6">
+  <Link href="/employees" className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
     <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
     </svg>
   </Link>
+  <div>
+    <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-1">Employee Profile</h1>
+    <p className="text-sm text-gray-600">View and manage employee information and records</p>
+  </div>
 </div>
 
       {/* Profile Hero Card */}
@@ -755,8 +760,8 @@ export default function EmployeeProfilePage() {
                 <td className="px-6 py-4 text-sm font-semibold text-gray-900">{ded.name}</td>
                 <td className="px-6 py-4">
                   <span className={`px-2 py-1 rounded text-xs font-medium ${
-                    ded.type === "Statutory" ? "bg-red-100 text-red-700 border border-red-200" :
-                    ded.type === "Benefit" ? "bg-blue-100 text-blue-700 border border-blue-200" :
+                    ded.type === "Statutory" ? "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]" :
+                    ded.type === "Benefit" ? "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]" :
                     "bg-gray-100 text-gray-700 border border-gray-200"
                   }`}>
                     {ded.type}
@@ -782,8 +787,8 @@ export default function EmployeeProfilePage() {
     <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
       {Object.entries(leaveBalance).map(([type, data]) => (
         <div key={type} className={`rounded-xl p-5 border ${
-          data.remaining < 0 ? "bg-red-50 border-red-200" :
-          data.remaining === 0 ? "bg-gray-50 border-gray-200" :
+          data.remaining < 0 ? "bg-[#bfcfde] border-[#96b3cc]" :
+          data.remaining === 0 ? "bg-[#2c4a6a] border-gray-200" :
           "bg-gradient-to-br from-[#d4e1ed] to-white border-[#a8c5db]"
         }`}>
           <p className="text-xs font-medium text-gray-600 mb-2 capitalize">{type} Leave</p>
@@ -834,11 +839,11 @@ export default function EmployeeProfilePage() {
       <div className="bg-white rounded-xl p-5 border border-gray-100">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-medium text-gray-500">Approval Rate</p>
-          <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <p className="text-3xl font-bold text-green-600">100%</p>
+        <p className="text-3xl font-bold text-[#2c4a6a]">100%</p>
         <p className="text-xs text-gray-500 mt-1">all approved</p>
       </div>
 
@@ -891,7 +896,7 @@ export default function EmployeeProfilePage() {
                 <td className="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">{leave.reason}</td>
                 <td className="px-6 py-4 text-xs">
                   {leave.medicalCert && (
-                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
+                    <span className="px-2 py-1 bg-[#d4e1ed] text-[#2c4a6a]rounded text-xs font-medium">
                       Yes
                     </span>
                   )}
@@ -969,7 +974,7 @@ export default function EmployeeProfilePage() {
                 </div>
                 <div className="flex items-center gap-3">
                   {stage.score && (
-                    <span className="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-lg text-xs font-bold">
+                    <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db] rounded-lg text-xs font-bold">
                       {stage.score}
                     </span>
                   )}
@@ -1108,11 +1113,11 @@ export default function EmployeeProfilePage() {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-600">{new Date(rec.filingDate).toLocaleDateString("en-GB")}</td>
-                <td className="px-6 py-4 text-sm font-medium text-green-600">
+                <td className="px-6 py-4 text-sm font-medium text-[#2c4a6a]">
                   {rec.refundAmount > 0 ? `+${formatCurrency(rec.refundAmount)}` : formatCurrency(0)}
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full text-xs font-semibold">
+                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db] rounded-full text-xs font-semibold">
                     {rec.status}
                   </span>
                 </td>

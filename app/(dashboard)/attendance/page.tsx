@@ -131,7 +131,6 @@ export default function AttendancePage() {
     s === "onLeave" ? "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]" :
     "bg-gray-100 text-gray-700 border-gray-200";
 
-  // Helper function to get initials from name
   const getInitials = (name: string) => {
     const parts = name.split(' ');
     if (parts.length >= 2) {
@@ -148,7 +147,7 @@ export default function AttendancePage() {
         <p className="text-sm text-gray-600">Track and manage employee attendance</p>
       </div>
 
-      {/* Stats */}
+      {/* Stats - Matching Dashboard Gradient */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
           { label: "Total Employees", value: currentAttendance.total, sub: "All in system" },
@@ -156,10 +155,10 @@ export default function AttendancePage() {
           { label: "Absent", value: currentAttendance.absent, sub: "Not checked in" },
           { label: "Showing", value: filteredEmployees.length, sub: "From current filters" },
         ].map(c => (
-          <div key={c.label} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5">
-            <p className="text-xs text-white/70 mb-1">{c.label}</p>
-            <p className="text-3xl font-bold text-white">{c.value.toLocaleString()}</p>
-            <p className="text-xs text-white/50 mt-1">{c.sub}</p>
+          <div key={c.label} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5 text-white relative overflow-hidden transition-all hover:scale-[1.02]">
+            <p className="text-xs text-white/80 mb-1 relative z-10 font-medium">{c.label}</p>
+            <p className="text-3xl font-extrabold text-white relative z-10">{c.value.toLocaleString()}</p>
+            <p className="text-xs text-white/60 mt-1 relative z-10">{c.sub}</p>
           </div>
         ))}
       </div>
@@ -215,7 +214,7 @@ export default function AttendancePage() {
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => setViewMode("cards")}
-                className={`p-2 rounded-md transition-all ${viewMode === "cards" ? "bg-white text-[#2c4a6a] shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                className={`p-2 rounded-md transition-all ${viewMode === "cards" ? "bg-white text-[#2c4a6a]" : "text-gray-500 hover:text-gray-700"}`}
                 title="Card View"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -224,7 +223,7 @@ export default function AttendancePage() {
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white text-[#2c4a6a] shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                className={`p-2 rounded-md transition-all ${viewMode === "list" ? "bg-white text-[#2c4a6a]" : "text-gray-500 hover:text-gray-700"}`}
                 title="List View"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,7 +233,7 @@ export default function AttendancePage() {
             </div>
             <button
               onClick={openAttendanceModal}
-              className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
+              className="bg-[#2c4a6a] hover:bg-[#1e3147] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all whitespace-nowrap"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -270,7 +269,7 @@ export default function AttendancePage() {
       {viewMode === "cards" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
           {visible.map((emp, index) => (
-            <div key={index} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] hover:shadow-md transition-all p-5 flex flex-col">
+            <div key={index} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0 overflow-hidden relative">
@@ -311,7 +310,7 @@ export default function AttendancePage() {
                     </svg>
                     View
                   </button>
-                  <button className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] hover:from-[#1e3147] hover:to-[#2c4a6a] text-white rounded-lg text-xs font-semibold transition-all">
+                  <button className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
@@ -420,7 +419,7 @@ export default function AttendancePage() {
                   <button
                     key={p}
                     onClick={() => goTo(p as number)}
-                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${currentPage === p ? "bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white" : "text-gray-700 hover:bg-gray-100"}`}
+                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${currentPage === p ? "bg-[#2c4a6a] text-white" : "text-gray-700 hover:bg-gray-100"}`}
                   >
                     {p}
                   </button>
@@ -475,10 +474,10 @@ export default function AttendancePage() {
         </div>
       )}
 
-      {/* QR Modal - Enhanced with Download & Share */}
+      {/* QR Modal */}
       {showQRModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md shadow-2xl">
+          <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md">
             <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
               <div>
                 <h2 className="text-xl font-bold">Take Attendance</h2>
@@ -491,12 +490,10 @@ export default function AttendancePage() {
               </button>
             </div>
             <div className="p-6">
-              {/* QR Code Display */}
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 mb-4 border-2 border-dashed border-gray-200">
                 <Image src={qrCodeUrl} alt="QR Code" width={300} height={300} className="w-full rounded-lg" />
               </div>
               
-              {/* Info Box */}
               <div className="bg-[#2c4a6a]/10 border border-[#2c4a6a]/30 rounded-lg p-4 mb-5">
                 <div className="flex items-start gap-3">
                   <div className="bg-[#2c4a6a] rounded-full p-1.5 flex-shrink-0">
@@ -507,13 +504,12 @@ export default function AttendancePage() {
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-gray-900 mb-1">How to use this QR code</p>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      Employees can scan this QR code with their phone camera to quickly mark their attendance for today. The code is valid for {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}.
+                      Employees can scan this QR code with their phone camera to quickly mark their attendance for today.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => {
@@ -539,49 +535,6 @@ export default function AttendancePage() {
                   Share
                 </button>
               </div>
-
-              {/* Alternative: Print option */}
-              <button
-                onClick={() => {
-                  const printWindow = window.open('', '_blank');
-                  printWindow?.document.write(`
-                    <html>
-                      <head>
-                        <title>Attendance QR Code - ${new Date().toLocaleDateString()}</title>
-                        <style>
-                          body { 
-                            font-family: Arial, sans-serif; 
-                            display: flex; 
-                            flex-direction: column; 
-                            align-items: center; 
-                            justify-content: center; 
-                            min-height: 100vh;
-                            margin: 0;
-                            padding: 20px;
-                          }
-                          h1 { color: #2c4a6a; margin-bottom: 10px; }
-                          p { color: #666; margin-bottom: 20px; }
-                          img { max-width: 400px; border: 2px solid #2c4a6a; padding: 20px; border-radius: 10px; }
-                        </style>
-                      </head>
-                      <body>
-                        <h1>Daily Attendance QR Code</h1>
-                        <p>${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                        <img src="${qrCodeUrl}" alt="Attendance QR Code" />
-                        <p style="margin-top: 20px; font-size: 14px;">Scan this code to mark your attendance</p>
-                      </body>
-                    </html>
-                  `);
-                  printWindow?.document.close();
-                  printWindow?.print();
-                }}
-                className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-all"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                </svg>
-                Print QR Code
-              </button>
             </div>
           </div>
         </div>

@@ -14,11 +14,7 @@ export default function AdminDashboardPage() {
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
   const [leaveModalOpen, setLeaveModalOpen] = useState(false);
   const [selectedLeaveType, setSelectedLeaveType] = useState(null);
-  const [reportModalOpen, setReportModalOpen] = useState(false);
-  const [selectedReport, setSelectedReport] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState("All");
-  
-  // Carousel states
   const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -31,41 +27,15 @@ export default function AdminDashboardPage() {
     description: "",
   });
 
-  // Carousel alerts data - 5 alerts
+  // Carousel alerts data - NO gradient property
   const systemAlerts = [
-    {
-      id: 1,
-      title: "Welcome Back!",
-      message: "You have 5 pending approvals waiting for your attention",
-      gradient: "from-[#2c4a6a] to-[#1e3147]"
-    },
-    {
-      id: 2,
-      title: "Payroll Processing",
-      message: "February payroll has been successfully processed",
-      gradient: "from-[#2c4a6a] to-[#1e3147]"
-    },
-    {
-      id: 3,
-      title: "New Employees",
-      message: "23 new hires onboarded this month",
-      gradient: "from-[#2c4a6a] to-[#1e3147]"
-    },
-    {
-      id: 4,
-      title: "Department Update",
-      message: "Engineering team completed 8 projects this quarter",
-      gradient: "from-[#2c4a6a] to-[#1e3147]"
-    },
-    {
-      id: 5,
-      title: "System Notification",
-      message: "All systems operating normally - 99.9% uptime",
-      gradient: "from-[#2c4a6a] to-[#1e3147]"
-    },
+    { id: 1, title: "Welcome Back!", message: "You have 5 pending approvals waiting for your attention" },
+    { id: 2, title: "Payroll Processing", message: "February payroll has been successfully processed" },
+    { id: 3, title: "New Employees", message: "23 new hires onboarded this month" },
+    { id: 4, title: "Department Update", message: "Engineering team completed 8 projects this quarter" },
+    { id: 5, title: "System Notification", message: "All systems operating normally - 99.9% uptime" },
   ];
 
-  // Auto-rotate carousel every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentAlertIndex((prev) => (prev + 1) % systemAlerts.length);
@@ -73,15 +43,11 @@ export default function AdminDashboardPage() {
     return () => clearInterval(timer);
   }, []);
 
-  // Digital clock update every second
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Department data for radial chart
   const departmentData = [
     { name: "Engineering", value: 342, fill: "#2c4a6a" },
     { name: "Sales", value: 218, fill: "#4a6b82" },
@@ -134,32 +100,69 @@ export default function AdminDashboardPage() {
     departmentCount: 12,
   };
 
-  const reportCreators = {
-    totalEmployees: { name: "Kwame Boateng", image: "/profiles/employee1.jpg", role: "Operations Manager" },
-    activeEmployees: { name: "Ama Asantewaa", image: "/profiles/employee3.jpg", role: "HR Specialist" },
-    payroll: { name: "John Mensah", image: "/profiles/employee4.jpg", role: "Finance Manager" },
-    pendingApprovals: { name: "Sarah Johnson", image: "/profiles/employee3.jpg", role: "Admin Officer" },
-  };
-
+  // UPDATED: 5 recent activities
   const recentActivities = [
     { id: 1, type: "payroll", action: "Payroll processed for January 2026", user: "John Mensah", image: "/profiles/employee4.jpg", time: "2 hours ago", status: "completed", details: "Processed for 1189 employees" },
     { id: 2, type: "leave", action: "Leave request approved for Abena Osei", user: "Sarah Johnson", image: "/profiles/employee3.jpg", time: "3 hours ago", status: "completed", details: "Annual leave approved" },
     { id: 3, type: "employee", action: "New employee onboarded - Kwame Boateng", user: "HR Team", image: "/profiles/employee1.jpg", time: "5 hours ago", status: "completed", details: "Engineering department" },
+    { id: 4, type: "review", action: "Performance review completed for Marketing team", user: "Ama Asante", image: "/profiles/employee2.jpg", time: "6 hours ago", status: "completed", details: "Quarterly review finalized" },
+    { id: 5, type: "training", action: "Training session scheduled for new hires", user: "Kofi Owusu", image: "/profiles/employee1.jpg", time: "8 hours ago", status: "pending", details: "Onboarding program" },
   ];
 
+  // UPDATED: Leave stats with multiple employee images
   const leaveStats = [
-    { type: "Annual Leave", count: 23, percentage: 40, createdBy: "Kwame Boateng", image: "/profiles/employee1.jpg" },
-    { type: "Sick Leave", count: 15, percentage: 26, createdBy: "Ama Asantewaa", image: "/profiles/employee3.jpg" },
-    { type: "Emergency Leave", count: 12, percentage: 21, createdBy: "John Mensah", image: "/profiles/employee4.jpg" },
-    { type: "Maternity Leave", count: 5, percentage: 9, createdBy: "Sarah Johnson", image: "/profiles/employee2.jpg" },
+    { 
+      type: "Annual Leave", 
+      count: 23, 
+      percentage: 40, 
+      employees: [
+        { name: "Kwame Boateng", image: "/profiles/employee1.jpg" },
+        { name: "Ama Asante", image: "/profiles/employee2.jpg" },
+        { name: "John Mensah", image: "/profiles/employee4.jpg" },
+        { name: "Sarah Johnson", image: "/profiles/employee3.jpg" },
+      ]
+    },
+    { 
+      type: "Sick Leave", 
+      count: 15, 
+      percentage: 26, 
+      employees: [
+        { name: "Abena Osei", image: "/profiles/employee2.jpg" },
+        { name: "Kofi Owusu", image: "/profiles/employee1.jpg" },
+        { name: "Grace Appiah", image: "/profiles/employee3.jpg" },
+        { name: "Emmanuel Agyei", image: "/profiles/employee4.jpg" },
+      ]
+    },
+    { 
+      type: "Emergency Leave", 
+      count: 12, 
+      percentage: 21, 
+      employees: [
+        { name: "John Mensah", image: "/profiles/employee4.jpg" },
+        { name: "Kwame Boateng", image: "/profiles/employee1.jpg" },
+        { name: "Sarah Johnson", image: "/profiles/employee3.jpg" },
+        { name: "Ama Asante", image: "/profiles/employee2.jpg" },
+      ]
+    },
+    { 
+      type: "Maternity Leave", 
+      count: 5, 
+      percentage: 9, 
+      employees: [
+        { name: "Sarah Johnson", image: "/profiles/employee2.jpg" },
+        { name: "Grace Appiah", image: "/profiles/employee3.jpg" },
+        { name: "Abena Osei", image: "/profiles/employee1.jpg" },
+        { name: "Ama Asantewaa", image: "/profiles/employee4.jpg" },
+      ]
+    },
   ];
 
-  const topPerformers = [
-    { id: 1, name: "Kwame Boateng", department: "Engineering", score: 98, image: "/profiles/employee1.jpg" },
-    { id: 2, name: "Abena Osei", department: "Sales", score: 96, image: "/profiles/employee2.jpg" },
-    { id: 3, name: "John Mensah", department: "Marketing", score: 94, image: "/profiles/employee4.jpg" },
-    { id: 4, name: "Ama Asante", department: "Finance", score: 92, image: "/profiles/employee3.jpg" },
-    { id: 5, name: "Kofi Owusu", department: "Operations", score: 90, image: "/profiles/employee1.jpg" },
+  const topAttendees = [
+    { id: 1, name: "Kwame Boateng", department: "Engineering", attendanceRate: 100, daysPresent: 22, image: "/profiles/employee1.jpg" },
+    { id: 2, name: "Abena Osei", department: "Sales", attendanceRate: 100, daysPresent: 22, image: "/profiles/employee2.jpg" },
+    { id: 3, name: "John Mensah", department: "Marketing", attendanceRate: 98, daysPresent: 21, image: "/profiles/employee4.jpg" },
+    { id: 4, name: "Ama Asante", department: "Finance", attendanceRate: 98, daysPresent: 21, image: "/profiles/employee3.jpg" },
+    { id: 5, name: "Kofi Owusu", department: "Operations", attendanceRate: 95, daysPresent: 20, image: "/profiles/employee1.jpg" },
   ];
 
   const getPriorityColor = (priority) => {
@@ -222,22 +225,15 @@ export default function AdminDashboardPage() {
     alert("Task created successfully!");
   };
 
-  const formatTime = (date) => {
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-  };
-
-  const formatDate = (date) => {
-    return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-  };
+  const formatTime = (date) => date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  const formatDate = (date) => date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
-    return { daysInMonth, startingDayOfWeek };
+    return { daysInMonth: lastDay.getDate(), startingDayOfWeek: firstDay.getDay() };
   };
 
   const getTasksForDate = (date) => {
@@ -245,18 +241,11 @@ export default function AdminDashboardPage() {
     return tasks.filter(task => task.dueDate === dateStr);
   };
 
-  const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-  };
+  const handlePrevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  const handleNextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
 
   const handleTaskStatusChange = (taskId, newStatus) => {
-    setTasks(tasks.map(task =>
-      task.id === taskId ? { ...task, status: newStatus } : task
-    ));
+    setTasks(tasks.map(task => task.id === taskId ? { ...task, status: newStatus } : task));
   };
 
   const handleDeleteTask = (taskId) => {
@@ -265,21 +254,14 @@ export default function AdminDashboardPage() {
     setSelectedTask(null);
   };
 
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
   const calendarDays = [];
   
-  for (let i = 0; i < startingDayOfWeek; i++) {
-    calendarDays.push(null);
-  }
-  
-  for (let day = 1; day <= daysInMonth; day++) {
-    calendarDays.push(day);
-  }
+  for (let i = 0; i < startingDayOfWeek; i++) calendarDays.push(null);
+  for (let day = 1; day <= daysInMonth; day++) calendarDays.push(day);
 
-  // Custom Tooltip for Radial Chart
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
@@ -299,18 +281,12 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
-      {/* NEW: Welcome Header with Clock and Carousel */}
+      {/* Welcome Header */}
       <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-          {/* Left: Welcome Message with Avatar and Clock */}
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-lg flex-shrink-0">
-              <Image 
-                src="/profiles/employee1.jpg" 
-                alt="Ama" 
-                fill 
-                className="object-cover"
-              />
+              <Image src="/profiles/employee1.jpg" alt="Ama" fill className="object-cover" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-[#2c4a6a]">Welcome back, Ama!</h1>
@@ -319,47 +295,34 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Middle: Empty space */}
           <div className="hidden lg:block"></div>
 
-          {/* Right: Carousel Alerts */}
+          {/* Carousel - NO patterns */}
           <div className="relative">
-            <div className={`bg-gradient-to-r ${systemAlerts[currentAlertIndex].gradient} text-white p-4 rounded-xl relative overflow-hidden`}>
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                  backgroundSize: '20px 20px'
-                }}></div>
+            <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white p-4 rounded-xl">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex-1">
+                  <h3 className="text-sm font-bold mb-1">{systemAlerts[currentAlertIndex].title}</h3>
+                  <p className="text-xs text-white/90">{systemAlerts[currentAlertIndex].message}</p>
+                </div>
+                <button className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors flex-shrink-0">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
-              
-              <div className="relative z-10">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-1">{systemAlerts[currentAlertIndex].title}</h3>
-                    <p className="text-xs text-white/90">{systemAlerts[currentAlertIndex].message}</p>
-                  </div>
-                  <button className="w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors flex-shrink-0">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
 
-                <div className="flex gap-1.5 justify-center">
-                  {systemAlerts.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentAlertIndex(index)}
-                      className={`h-1.5 rounded-full transition-all ${
-                        index === currentAlertIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'
-                      }`}
-                    />
-                  ))}
-                </div>
+              <div className="flex gap-1.5 justify-center">
+                {systemAlerts.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentAlertIndex(index)}
+                    className={`h-1.5 rounded-full transition-all ${index === currentAlertIndex ? 'w-6 bg-white' : 'w-1.5 bg-white/40'}`}
+                  />
+                ))}
               </div>
             </div>
 
-            {/* Navigation Arrows */}
             <button
               onClick={() => setCurrentAlertIndex((prev) => (prev - 1 + systemAlerts.length) % systemAlerts.length)}
               className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-7 h-7 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
@@ -379,227 +342,127 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Subheading */}
         <div className="mt-4 pt-4 border-t border-gray-100">
           <p className="text-sm text-gray-600">Here is what is happening in your company today</p>
         </div>
       </div>
 
-      {/* Primary Stats Cards */}
+      {/* Primary Stats Cards - ODD/EVEN Pattern, NO "by..." */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-        <div
-          onClick={() => { setSelectedReport(reportCreators.totalEmployees); setReportModalOpen(true); }}
-          className="relative rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white cursor-pointer hover:scale-105 transition-all overflow-hidden"
-        >
-          {/* Dot Pattern Background */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}></div>
-          </div>
-
-          <div className="flex justify-between items-center relative z-10">
+        {/* Card 1 - ODD */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white hover:scale-[1.02] transition-all">
+          <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#2c4a6a] px-3 py-1 rounded-full font-medium">Current Month</span>
-            <button className="p-1 rounded-full hover:bg-white/10 transition">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
           </div>
-          <div className="my-6 relative z-10">
+          <div className="my-6">
             <p className="text-sm text-white/70">Total Employees</p>
             <h1 className="text-3xl font-bold tracking-wide mt-1">{stats.totalEmployees.toLocaleString()}</h1>
             <p className="text-xs text-white/60 mt-1">↑ 2.3% vs last month</p>
           </div>
-          <div className="text-xs text-white/60 border-t border-white/20 pt-3 flex items-center gap-2 relative z-10">
-            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-white flex-shrink-0">
-              <Image src={reportCreators.totalEmployees.image} alt={reportCreators.totalEmployees.name} fill className="object-cover" />
-            </div>
-            <span>by {reportCreators.totalEmployees.name}</span>
-          </div>
         </div>
 
-        <div
-          onClick={() => { setSelectedReport(reportCreators.activeEmployees); setReportModalOpen(true); }}
-          className="relative rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white cursor-pointer hover:scale-105 transition-all overflow-hidden"
-        >
-          {/* Dot Pattern Background */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}></div>
-          </div>
-
-          <div className="flex justify-between items-center relative z-10">
+        {/* Card 2 - EVEN */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a] text-white hover:scale-[1.02] transition-all">
+          <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#6b8ca3] px-3 py-1 rounded-full font-medium">Active Now</span>
-            <button className="p-1 rounded-full hover:bg-white/10 transition">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
           </div>
-          <div className="my-6 relative z-10">
+          <div className="my-6">
             <p className="text-sm text-white/70">Active Employees</p>
             <h1 className="text-3xl font-bold tracking-wide mt-1">{stats.activeEmployees.toLocaleString()}</h1>
             <p className="text-xs text-white/60 mt-1">↑ 1.8% vs last month</p>
           </div>
-          <div className="text-xs text-white/60 border-t border-white/20 pt-3 flex items-center gap-2 relative z-10">
-            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-white flex-shrink-0">
-              <Image src={reportCreators.activeEmployees.image} alt={reportCreators.activeEmployees.name} fill className="object-cover" />
-            </div>
-            <span>by {reportCreators.activeEmployees.name}</span>
-          </div>
         </div>
 
-        <div
-          onClick={() => { setSelectedReport(reportCreators.payroll); setReportModalOpen(true); }}
-          className="relative rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white cursor-pointer hover:scale-105 transition-all overflow-hidden"
-        >
-          {/* Dot Pattern Background */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}></div>
-          </div>
-
-          <div className="flex justify-between items-center relative z-10">
+        {/* Card 3 - ODD */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white hover:scale-[1.02] transition-all">
+          <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#2c4a6a] px-3 py-1 rounded-full font-medium">February</span>
-            <button className="p-1 rounded-full hover:bg-white/10 transition">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
           </div>
-          <div className="my-6 relative z-10">
+          <div className="my-6">
             <p className="text-sm text-white/70">Monthly Payroll</p>
-            <h1 className="text-3xl font-bold tracking-wide mt-1">GHS {(stats.totalPayroll)}</h1>
+            <h1 className="text-3xl font-bold tracking-wide mt-1">GHS {stats.totalPayroll}</h1>
             <p className="text-xs text-white/60 mt-1">↑ 1.9% vs last month</p>
           </div>
-          <div className="text-xs text-white/60 border-t border-white/20 pt-3 flex items-center gap-2 relative z-10">
-            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-white flex-shrink-0">
-              <Image src={reportCreators.payroll.image} alt={reportCreators.payroll.name} fill className="object-cover" />
-            </div>
-            <span>by {reportCreators.payroll.name}</span>
-          </div>
         </div>
 
-        <div
-          onClick={() => { setSelectedReport(reportCreators.pendingApprovals); setReportModalOpen(true); }}
-          className="relative rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] text-white cursor-pointer hover:scale-105 transition-all overflow-hidden"
-        >
-          {/* Dot Pattern Background */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}></div>
-          </div>
-
-          <div className="flex justify-between items-center relative z-10">
+        {/* Card 4 - EVEN */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a] text-white hover:scale-[1.02] transition-all">
+          <div className="flex justify-between items-center">
             <span className="text-[11px] bg-white/90 text-[#6b8ca3] px-3 py-1 rounded-full font-medium">Pending</span>
-            <button className="p-1 rounded-full hover:bg-white/10 transition">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
           </div>
-          <div className="my-6 relative z-10">
+          <div className="my-6">
             <p className="text-sm text-white/70">Pending Approvals</p>
             <h1 className="text-3xl font-bold tracking-wide mt-1">{stats.pendingApprovals}</h1>
             <p className="text-xs text-white/60 mt-1">↓ 3 items need attention</p>
           </div>
-          <div className="text-xs text-white/60 border-t border-white/20 pt-3 flex items-center gap-2 relative z-10">
-            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-white flex-shrink-0">
-              <Image src={reportCreators.pendingApprovals.image} alt={reportCreators.pendingApprovals.name} fill className="object-cover" />
-            </div>
-            <span>by {reportCreators.pendingApprovals.name}</span>
-          </div>
         </div>
       </div>
 
-      {/* Secondary Stats Cards */}
+      {/* Secondary Stats Cards - ODD/EVEN, NO patterns, NO borders */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-        <div className="bg-gradient-to-br from-[#c3d2e9] to-[#d4dff0] rounded-xl p-5 border border-[#2c4a6a]/10 relative overflow-hidden">
-          {/* Subtle Dot Pattern - Increased opacity */}
-          <div className="absolute inset-0 opacity-15">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, #2c4a6a 1px, transparent 1px)',
-              backgroundSize: '15px 15px'
-            }}></div>
+        <div className="bg-[#dbe7f1] rounded-xl p-5">
+          <div className="w-9 h-9 rounded-lg bg-[#2c4a6a] flex items-center justify-center mb-3">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
           </div>
-          <div className="w-9 h-9 rounded-lg bg-[#2c4a6a]/20 flex items-center justify-center mb-3 relative z-10">
-            <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          </div>
-          <h3 className="text-xs font-medium text-[#2c4a6a]/70 mb-1 relative z-10">Avg. Salary</h3>
-          <p className="text-2xl font-bold text-[#1e3147] relative z-10">GHS {stats.avgSalary.toLocaleString()}</p>
-          <p className="text-xs text-[#2c4a6a]/60 mt-1 relative z-10">Per employee</p>
+          <h3 className="text-xs font-medium text-gray-600 mb-1">Avg. Salary</h3>
+          <p className="text-2xl font-bold text-[#1e3147]">GHS {stats.avgSalary.toLocaleString()}</p>
+          <p className="text-xs text-gray-500 mt-1">Per employee</p>
         </div>
 
-        <div className="bg-gradient-to-br from-[#c3d2e9] to-[#d4dff0] rounded-xl p-5 border border-[#2c4a6a]/10 relative overflow-hidden">
-          {/* Subtle Dot Pattern - Increased opacity */}
-          <div className="absolute inset-0 opacity-15">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, #2c4a6a 1px, transparent 1px)',
-              backgroundSize: '15px 15px'
-            }}></div>
+        <div className="bg-[#e7f0f5] rounded-xl p-5">
+          <div className="w-9 h-9 rounded-lg bg-[#3d5a7c] flex items-center justify-center mb-3">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
           </div>
-          <div className="w-9 h-9 rounded-lg bg-[#2c4a6a]/20 flex items-center justify-center mb-3 relative z-10">
-            <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-          </div>
-          <h3 className="text-xs font-medium text-[#2c4a6a]/70 mb-1 relative z-10">Departments</h3>
-          <p className="text-2xl font-bold text-[#1e3147] relative z-10">{stats.departmentCount}</p>
-          <p className="text-xs text-[#2c4a6a]/60 mt-1 relative z-10">Active departments</p>
+          <h3 className="text-xs font-medium text-gray-600 mb-1">Departments</h3>
+          <p className="text-2xl font-bold text-[#1e3147]">{stats.departmentCount}</p>
+          <p className="text-xs text-gray-500 mt-1">Active departments</p>
         </div>
 
-        <div className="bg-gradient-to-br from-[#c3d2e9] to-[#d4dff0] rounded-xl p-5 border border-[#2c4a6a]/10 relative overflow-hidden">
-          {/* Subtle Dot Pattern - Increased opacity */}
-          <div className="absolute inset-0 opacity-15">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, #2c4a6a 1px, transparent 1px)',
-              backgroundSize: '15px 15px'
-            }}></div>
+        <div className="bg-[#dbe7f1] rounded-xl p-5">
+          <div className="w-9 h-9 rounded-lg bg-[#2c4a6a] flex items-center justify-center mb-3">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
           </div>
-          <div className="w-9 h-9 rounded-lg bg-[#2c4a6a]/20 flex items-center justify-center mb-3 relative z-10">
-            <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-          </div>
-          <h3 className="text-xs font-medium text-[#2c4a6a]/70 mb-1 relative z-10">On Leave Today</h3>
-          <p className="text-2xl font-bold text-[#1e3147] relative z-10">{stats.onLeave}</p>
-          <p className="text-xs text-[#2c4a6a]/60 mt-1 relative z-10">{((stats.onLeave / stats.totalEmployees) * 100).toFixed(1)}% of workforce</p>
+          <h3 className="text-xs font-medium text-gray-600 mb-1">On Leave Today</h3>
+          <p className="text-2xl font-bold text-[#1e3147]">{stats.onLeave}</p>
+          <p className="text-xs text-gray-500 mt-1">{((stats.onLeave / stats.totalEmployees) * 100).toFixed(1)}% of workforce</p>
         </div>
 
-        <div className="bg-gradient-to-br from-[#c3d2e9] to-[#d4dff0] rounded-xl p-5 border border-[#2c4a6a]/10 relative overflow-hidden">
-          {/* Subtle Dot Pattern - Increased opacity */}
-          <div className="absolute inset-0 opacity-15">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, #2c4a6a 1px, transparent 1px)',
-              backgroundSize: '15px 15px'
-            }}></div>
+        <div className="bg-[#e7f0f5] rounded-xl p-5">
+          <div className="w-9 h-9 rounded-lg bg-[#3d5a7c] flex items-center justify-center mb-3">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
           </div>
-          <div className="w-9 h-9 rounded-lg bg-[#2c4a6a]/20 flex items-center justify-center mb-3 relative z-10">
-            <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-          </div>
-          <h3 className="text-xs font-medium text-[#2c4a6a]/70 mb-1 relative z-10">New Hires</h3>
-          <p className="text-2xl font-bold text-[#1e3147] relative z-10">{stats.newHires}</p>
-          <p className="text-xs text-[#2c4a6a]/60 mt-1 relative z-10">This month</p>
+          <h3 className="text-xs font-medium text-gray-600 mb-1">New Hires</h3>
+          <p className="text-2xl font-bold text-[#1e3147]">{stats.newHires}</p>
+          <p className="text-xs text-gray-500 mt-1">This month</p>
         </div>
       </div>
 
-      {/* NEW: Payroll Chart and Radial Department Chart Side by Side */}
+      {/* Payroll Chart and Department Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Payroll Chart */}
         <PayrollChart />
 
-        {/* NEW: Radial Department Chart */}
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">Department Distribution</h2>
             <span className="text-sm text-gray-500">{stats.totalEmployees} employees</span>
           </div>
 
-          <div className="h-[350px]">
+          <div className="h-[350px] relative">
+            {/* Center Icon */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+              <svg className="w-10 h-10 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+
             <ResponsiveContainer width="100%" height="100%">
               <RadialBarChart 
                 cx="50%" 
@@ -638,7 +501,6 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Rest of the components remain the same... */}
       {/* Today's Attendance */}
       <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
         <div className="flex items-center justify-between mb-5">
@@ -661,7 +523,7 @@ export default function AdminDashboardPage() {
               <option value="Operations">Operations</option>
             </select>
             <Link href="/attendance">
-              <button className="px-4 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all">
+              <button className="px-4 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-sm font-medium transition-colors">
                 View All
               </button>
             </Link>
@@ -690,43 +552,44 @@ export default function AdminDashboardPage() {
             <p className="text-xs text-gray-500 mt-1">{((currentAttendance.onLeave / currentAttendance.total) * 100).toFixed(0)}%</p>
           </div>
         </div>
-
       </div>
 
-      {/* Top Performers and Recent Activities */}
+      {/* Top Performers and Recent Activities (5 items) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* UPDATED: Top Attendees */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-gray-900">Top Performers</h2>
+            <h2 className="text-lg font-bold text-gray-900">Top Attendees</h2>
             <button className="text-sm text-[#2c4a6a] hover:underline font-medium">View All</button>
           </div>
           <div className="space-y-3">
-            {topPerformers.map((performer, index) => (
-              <div key={performer.id} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100">
+            {topAttendees.map((attendee, index) => (
+              <div key={attendee.id} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm">
                   {index + 1}
                 </div>
                 <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white">
-                  <Image src={performer.image} alt={performer.name} fill className="object-cover" />
+                  <Image src={attendee.image} alt={attendee.name} fill className="object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 text-sm">{performer.name}</h3>
-                  <p className="text-xs text-gray-500">{performer.department}</p>
+                  <h3 className="font-semibold text-gray-900 text-sm">{attendee.name}</h3>
+                  <p className="text-xs text-gray-500">{attendee.department}</p>
                 </div>
                 <div className="flex flex-col items-end">
                   <div className="flex items-center gap-1">
-                    <svg className="w-4 h-4 text-[#2c4a6a]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    <svg className="w-4 h-4 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span className="text-lg font-bold text-gray-900">{performer.score}</span>
+                    <span className="text-lg font-bold text-gray-900">{attendee.attendanceRate}%</span>
                   </div>
-                  <p className="text-xs text-gray-500">Score</p>
+                  <p className="text-xs text-gray-500">{attendee.daysPresent}/22 days</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
+        {/* UPDATED: Recent Activities with floating status dot */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-gray-900">Recent Activity</h2>
@@ -735,9 +598,10 @@ export default function AdminDashboardPage() {
           <div className="space-y-4">
             {recentActivities.map((activity) => (
               <div key={activity.id} className="flex gap-3 pb-4 border-b border-gray-100 last:border-0 last:pb-0">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border border-gray-200">
+                <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                   <Image src={activity.image} alt={activity.user} fill className="object-cover" />
-                  <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${activity.status === 'completed' ? 'bg-[#2c4a6a]' : 'bg-[#6b8ca3]'}`}></div>
+                  {/* Floating status dot on bottom-right */}
+                  <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white ${activity.status === 'completed' ? 'bg-[#2c4a6a]' : 'bg-[#6b8ca3]'}`}></div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
@@ -761,7 +625,7 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Leave Statistics */}
+      {/* UPDATED: Leave Distribution with overlapping employee images */}
       <div className="bg-white rounded-2xl p-6 border border-gray-100 mb-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-gray-900">Leave Distribution</h2>
@@ -775,14 +639,19 @@ export default function AdminDashboardPage() {
               className="space-y-3 p-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer border border-gray-100"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white">
-                    <Image src={leave.image} alt={leave.createdBy} fill className="object-cover" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">{leave.type}</span>
-                </div>
+                <span className="text-sm font-medium text-gray-700">{leave.type}</span>
                 <span className="text-sm font-bold text-[#2c4a6a]">{leave.count}</span>
               </div>
+              
+              {/* Overlapping employee avatars */}
+              <div className="flex items-center -space-x-2">
+                {leave.employees.map((emp, idx) => (
+                  <div key={idx} className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white">
+                    <Image src={emp.image} alt={emp.name} fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
+
               <div className="flex items-center gap-3">
                 <div className="flex-1 h-2.5 bg-gray-200 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-[#6b8ca3] to-[#2c4a6a]" style={{ width: `${leave.percentage}%` }}></div>
@@ -794,17 +663,13 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Calendar & Task Management Section */}
+      {/* Calendar & Task Management */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        {/* Calendar */}
         <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-gray-900">Task Calendar</h2>
             <div className="flex items-center gap-3">
-              <button
-                onClick={handlePrevMonth}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
+              <button onClick={handlePrevMonth} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
@@ -812,10 +677,7 @@ export default function AdminDashboardPage() {
               <h3 className="text-lg font-semibold text-gray-900 min-w-[150px] text-center">
                 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </h3>
-              <button
-                onClick={handleNextMonth}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
+              <button onClick={handleNextMonth} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                 <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -823,17 +685,12 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Calendar Grid */}
           <div className="grid grid-cols-7 gap-2">
             {dayNames.map(day => (
-              <div key={day} className="text-center text-xs font-semibold text-gray-500 py-2">
-                {day}
-              </div>
+              <div key={day} className="text-center text-xs font-semibold text-gray-500 py-2">{day}</div>
             ))}
             {calendarDays.map((day, index) => {
-              if (day === null) {
-                return <div key={`empty-${index}`} className="aspect-square"></div>;
-              }
+              if (day === null) return <div key={`empty-${index}`} className="aspect-square"></div>;
               const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
               const tasksForDay = getTasksForDate(date);
               const isToday = date.toDateString() === new Date().toDateString();
@@ -843,32 +700,21 @@ export default function AdminDashboardPage() {
                   key={day}
                   onClick={() => setSelectedDate(date)}
                   className={`aspect-square p-2 rounded-lg border cursor-pointer transition-all ${
-                    isToday
-                      ? 'bg-[#2c4a6a] text-white border-[#2c4a6a]'
-                      : isSelected
-                      ? 'bg-[#2c4a6a]/10 border-[#2c4a6a]'
-                      : tasksForDay.length > 0
-                      ? 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                      : 'border-gray-200 hover:bg-gray-50'
+                    isToday ? 'bg-[#2c4a6a] text-white border-[#2c4a6a]' :
+                    isSelected ? 'bg-[#2c4a6a]/10 border-[#2c4a6a]' :
+                    tasksForDay.length > 0 ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' :
+                    'border-gray-200 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex flex-col h-full">
-                    <span className={`text-sm font-medium ${isToday ? 'text-white' : 'text-gray-900'}`}>
-                      {day}
-                    </span>
+                    <span className={`text-sm font-medium ${isToday ? 'text-white' : 'text-gray-900'}`}>{day}</span>
                     {tasksForDay.length > 0 && (
                       <div className="mt-1 flex gap-1 flex-wrap">
                         {tasksForDay.slice(0, 3).map(task => (
-                          <div
-                            key={task.id}
-                            className={`w-1.5 h-1.5 rounded-full ${getTaskCategoryColor(task.category)}`}
-                            title={task.title}
-                          />
+                          <div key={task.id} className={`w-1.5 h-1.5 rounded-full ${getTaskCategoryColor(task.category)}`} title={task.title} />
                         ))}
                         {tasksForDay.length > 3 && (
-                          <span className={`text-[10px] ${isToday ? 'text-white' : 'text-gray-500'}`}>
-                            +{tasksForDay.length - 3}
-                          </span>
+                          <span className={`text-[10px] ${isToday ? 'text-white' : 'text-gray-500'}`}>+{tasksForDay.length - 3}</span>
                         )}
                       </div>
                     )}
@@ -881,7 +727,7 @@ export default function AdminDashboardPage() {
           <div className="mt-6 pt-6 border-t border-gray-100">
             <button
               onClick={() => setIsCreateTaskModalOpen(true)}
-              className="w-full px-4 py-3 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all flex items-center justify-center gap-2"
+              className="w-full px-4 py-3 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -891,7 +737,6 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Tasks for Selected Date */}
         <div className="bg-white rounded-2xl p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-gray-900">
@@ -913,10 +758,7 @@ export default function AdminDashboardPage() {
               (selectedDate ? getTasksForDate(selectedDate) : tasks.filter(t => t.status === 'pending')).map(task => (
                 <div
                   key={task.id}
-                  onClick={() => {
-                    setSelectedTask(task);
-                    setIsTaskModalOpen(true);
-                  }}
+                  onClick={() => { setSelectedTask(task); setIsTaskModalOpen(true); }}
                   className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer border border-gray-200"
                 >
                   <div className="flex items-start justify-between mb-2">
@@ -937,11 +779,9 @@ export default function AdminDashboardPage() {
                       <span className="text-xs text-gray-500 capitalize">{task.category}</span>
                     </div>
                     <span className={`text-xs px-2 py-1 rounded ${
-                      task.status === 'completed'
-                        ? 'bg-[#2c4a6a]/10 text-[#2c4a6a]'
-                        : task.status === 'in-progress'
-                        ? 'bg-[#6b8ca3]/10 text-[#6b8ca3]'
-                        : 'bg-gray-100 text-gray-700'
+                      task.status === 'completed' ? 'bg-[#2c4a6a]/10 text-[#2c4a6a]' :
+                      task.status === 'in-progress' ? 'bg-[#6b8ca3]/10 text-[#6b8ca3]' :
+                      'bg-gray-100 text-gray-700'
                     }`}>
                       {task.status}
                     </span>
@@ -953,39 +793,7 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* MODALS - keeping all your original modals */}
-      {reportModalOpen && selectedReport && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md">
-            <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
-              <h2 className="text-xl font-bold">Report Created By</h2>
-              <button onClick={() => setReportModalOpen(false)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="p-6 space-y-4">
-              <div className="flex flex-col items-center text-center">
-                <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-[#2c4a6a] mb-4">
-                  <Image src={selectedReport.image} alt={selectedReport.name} fill className="object-cover" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">{selectedReport.name}</h3>
-                <p className="text-sm text-gray-600 mt-1">{selectedReport.role}</p>
-              </div>
-              <div className="bg-[#2c4a6a]/10 border border-[#2c4a6a]/30 rounded-lg p-4">
-                <p className="text-sm text-gray-900">
-                  This report was created and verified by <strong>{selectedReport.name}</strong>, who is a <strong>{selectedReport.role}</strong> in the organization.
-                </p>
-              </div>
-              <button onClick={() => setReportModalOpen(false)} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg font-medium transition-all">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* MODALS */}
       {leaveModalOpen && selectedLeaveType && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md">
@@ -998,13 +806,14 @@ export default function AdminDashboardPage() {
               </button>
             </div>
             <div className="p-6 space-y-4">
-              <div className="flex items-center gap-4 pb-4 border-b">
-                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#2c4a6a]">
-                  <Image src={selectedLeaveType.image} alt={selectedLeaveType.createdBy} fill className="object-cover" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Recorded By</p>
-                  <p className="text-lg font-bold text-gray-900">{selectedLeaveType.createdBy}</p>
+              <div className="flex flex-col items-center pb-4 border-b">
+                <p className="text-sm text-gray-600 mb-3">Employees on this leave</p>
+                <div className="flex items-center -space-x-3">
+                  {selectedLeaveType.employees.map((emp, idx) => (
+                    <div key={idx} className="relative w-12 h-12 rounded-full overflow-hidden border-3 border-white shadow-sm">
+                      <Image src={emp.image} alt={emp.name} fill className="object-cover" />
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -1025,16 +834,12 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* Create Task Modal */}
       {isCreateTaskModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
               <h2 className="text-xl font-bold">Assign New Task</h2>
-              <button
-                onClick={() => setIsCreateTaskModalOpen(false)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
+              <button onClick={() => setIsCreateTaskModalOpen(false)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -1044,24 +849,12 @@ export default function AdminDashboardPage() {
               <div className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Task Title *</label>
-                  <input
-                    type="text"
-                    value={taskFormData.title}
-                    onChange={(e) => setTaskFormData({...taskFormData, title: e.target.value})}
-                    required
-                    placeholder="Enter task title"
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                  />
+                  <input type="text" value={taskFormData.title} onChange={(e) => setTaskFormData({...taskFormData, title: e.target.value})} required placeholder="Enter task title" className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]" />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Assign To *</label>
-                    <select
-                      value={taskFormData.assignee}
-                      onChange={(e) => setTaskFormData({...taskFormData, assignee: e.target.value})}
-                      required
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
-                    >
+                    <select value={taskFormData.assignee} onChange={(e) => setTaskFormData({...taskFormData, assignee: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white">
                       <option value="">Select assignee</option>
                       <option value="John Mensah">John Mensah</option>
                       <option value="Ama Serwaa">Ama Serwaa</option>
@@ -1072,22 +865,11 @@ export default function AdminDashboardPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Due Date *</label>
-                    <input
-                      type="date"
-                      value={taskFormData.dueDate}
-                      onChange={(e) => setTaskFormData({...taskFormData, dueDate: e.target.value})}
-                      required
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                    />
+                    <input type="date" value={taskFormData.dueDate} onChange={(e) => setTaskFormData({...taskFormData, dueDate: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Priority *</label>
-                    <select
-                      value={taskFormData.priority}
-                      onChange={(e) => setTaskFormData({...taskFormData, priority: e.target.value})}
-                      required
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
-                    >
+                    <select value={taskFormData.priority} onChange={(e) => setTaskFormData({...taskFormData, priority: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white">
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
                       <option value="high">High</option>
@@ -1095,12 +877,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                    <select
-                      value={taskFormData.category}
-                      onChange={(e) => setTaskFormData({...taskFormData, category: e.target.value})}
-                      required
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
-                    >
+                    <select value={taskFormData.category} onChange={(e) => setTaskFormData({...taskFormData, category: e.target.value})} required className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white">
                       <option value="general">General</option>
                       <option value="payroll">Payroll</option>
                       <option value="review">Review</option>
@@ -1115,36 +892,18 @@ export default function AdminDashboardPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                  <textarea
-                    value={taskFormData.description}
-                    onChange={(e) => setTaskFormData({...taskFormData, description: e.target.value})}
-                    rows={4}
-                    placeholder="Enter task description..."
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]"
-                  />
+                  <textarea value={taskFormData.description} onChange={(e) => setTaskFormData({...taskFormData, description: e.target.value})} rows={4} placeholder="Enter task description..." className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]" />
                 </div>
               </div>
               <div className="flex gap-3 justify-end mt-6">
-                <button
-                  type="button"
-                  onClick={() => setIsCreateTaskModalOpen(false)}
-                  className="px-6 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
-                >
-                  Assign Task
-                </button>
+                <button type="button" onClick={() => setIsCreateTaskModalOpen(false)} className="px-6 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">Cancel</button>
+                <button type="submit" className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all">Assign Task</button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Task Details Modal */}
       {isTaskModalOpen && selectedTask && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -1153,13 +912,7 @@ export default function AdminDashboardPage() {
                 <h2 className="text-xl font-bold">Task Details</h2>
                 <p className="text-sm opacity-90">Task #{selectedTask.id}</p>
               </div>
-              <button
-                onClick={() => {
-                  setIsTaskModalOpen(false);
-                  setSelectedTask(null);
-                }}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
+              <button onClick={() => { setIsTaskModalOpen(false); setSelectedTask(null); }} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -1178,18 +931,12 @@ export default function AdminDashboardPage() {
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-sm text-gray-500 mb-1">Due Date</p>
                   <p className="font-semibold text-gray-900">
-                    {new Date(selectedTask.dueDate).toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
+                    {new Date(selectedTask.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                   </p>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-sm text-gray-500 mb-1">Priority</p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold capitalize ${getPriorityColor(selectedTask.priority)}`}>
-                    {selectedTask.priority}
-                  </span>
+                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold capitalize ${getPriorityColor(selectedTask.priority)}`}>{selectedTask.priority}</span>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-sm text-gray-500 mb-1">Category</p>
@@ -1200,11 +947,7 @@ export default function AdminDashboardPage() {
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4 col-span-2">
                   <p className="text-sm text-gray-500 mb-2">Status</p>
-                  <select
-                    value={selectedTask.status}
-                    onChange={(e) => handleTaskStatusChange(selectedTask.id, e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white font-semibold"
-                  >
+                  <select value={selectedTask.status} onChange={(e) => handleTaskStatusChange(selectedTask.id, e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white font-semibold">
                     <option value="pending">Pending</option>
                     <option value="in-progress">In Progress</option>
                     <option value="completed">Completed</option>
@@ -1212,21 +955,8 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
               <div className="flex gap-3 pt-4 border-t">
-                <button
-                  onClick={() => handleDeleteTask(selectedTask.id)}
-                  className="flex-1 px-4 py-2.5 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors"
-                >
-                  Delete Task
-                </button>
-                <button
-                  onClick={() => {
-                    setIsTaskModalOpen(false);
-                    setSelectedTask(null);
-                  }}
-                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Close
-                </button>
+                <button onClick={() => handleDeleteTask(selectedTask.id)} className="flex-1 px-4 py-2.5 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors">Delete Task</button>
+                <button onClick={() => { setIsTaskModalOpen(false); setSelectedTask(null); }} className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">Close</button>
               </div>
             </div>
           </div>
@@ -1234,4 +964,4 @@ export default function AdminDashboardPage() {
       )}
     </div>
   );
-}  
+}
