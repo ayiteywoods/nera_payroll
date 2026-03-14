@@ -44,145 +44,114 @@ const generateAttendance = () => {
 
 const payslips = [
   { month: "February 2026", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
-  { month: "January 2026", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
+  { month: "January 2026",  gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
   { month: "December 2025", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
   { month: "November 2025", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
-  { month: "October 2025", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
-  { month: "September 2025", gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
+  { month: "October 2025",  gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
+  { month: "September 2025",gross: 9700, deductions: 1455, net: 8245, status: "Paid" },
 ];
 
-// NEW: Tax Records with FULL amounts
 const taxRecords = [
-  { year: "2025", taxableIncome: 102000.00, taxPaid: 15300.00, taxRate: "15%", 
-    filingStatus: "Filed", filingDate: "2026-01-15", refundAmount: 0.00, status: "Completed" },
-  { year: "2024", taxableIncome: 96000.00, taxPaid: 14400.00, taxRate: "15%", 
-    filingStatus: "Filed", filingDate: "2025-01-20", refundAmount: 0.00, status: "Completed" },
-  { year: "2023", taxableIncome: 90000.00, taxPaid: 13500.00, taxRate: "15%", 
-    filingStatus: "Filed", filingDate: "2024-01-18", refundAmount: 250.00, status: "Completed" },
+  { year: "2025", taxableIncome: 102000, taxPaid: 15300, taxRate: "15%", filingStatus: "Filed", filingDate: "2026-01-15", refundAmount: 0,   status: "Completed" },
+  { year: "2024", taxableIncome: 96000,  taxPaid: 14400, taxRate: "15%", filingStatus: "Filed", filingDate: "2025-01-20", refundAmount: 0,   status: "Completed" },
+  { year: "2023", taxableIncome: 90000,  taxPaid: 13500, taxRate: "15%", filingStatus: "Filed", filingDate: "2024-01-18", refundAmount: 250, status: "Completed" },
 ];
 
-// NEW: SSNIT Contribution Records
 const ssnitRecords = [
-  { month: "February 2026", employeeContribution: 467.50, employerContribution: 722.50, 
-    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
-  { month: "January 2026", employeeContribution: 467.50, employerContribution: 722.50, 
-    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
-  { month: "December 2025", employeeContribution: 467.50, employerContribution: 722.50, 
-    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
-  { month: "November 2025", employeeContribution: 467.50, employerContribution: 722.50, 
-    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
-  { month: "October 2025", employeeContribution: 467.50, employerContribution: 722.50, 
-    totalContribution: 1190.00, tier1: 935.00, tier2: 255.00, status: "Paid" },
+  { month: "February 2026", employeeContribution: 467.50, employerContribution: 722.50, totalContribution: 1190, tier1: 935, tier2: 255, status: "Paid" },
+  { month: "January 2026",  employeeContribution: 467.50, employerContribution: 722.50, totalContribution: 1190, tier1: 935, tier2: 255, status: "Paid" },
+  { month: "December 2025", employeeContribution: 467.50, employerContribution: 722.50, totalContribution: 1190, tier1: 935, tier2: 255, status: "Paid" },
+  { month: "November 2025", employeeContribution: 467.50, employerContribution: 722.50, totalContribution: 1190, tier1: 935, tier2: 255, status: "Paid" },
+  { month: "October 2025",  employeeContribution: 467.50, employerContribution: 722.50, totalContribution: 1190, tier1: 935, tier2: 255, status: "Paid" },
 ];
 
-// NEW: Recruitment Timeline
 const recruitmentTimeline = [
-  { stage: "Application Received", date: "2020-01-15", status: "Completed", 
-    notes: "Applied via company career portal", duration: "1 day" },
-  { stage: "Resume Screening", date: "2020-01-16", status: "Completed", 
-    notes: "Passed initial screening - 5 years experience", duration: "3 days" },
-  { stage: "Phone Interview", date: "2020-01-20", status: "Completed", 
-    notes: "Conducted by Sarah Johnson (HR)", duration: "30 mins", score: "9/10" },
-  { stage: "Technical Assessment", date: "2020-01-25", status: "Completed", 
-    notes: "Online coding challenge - Python & React", duration: "2 hours", score: "95/100" },
-  { stage: "Panel Interview", date: "2020-02-01", status: "Completed", 
-    notes: "Met with Engineering team leads", duration: "1.5 hours", score: "Excellent" },
-  { stage: "Reference Check", date: "2020-02-10", status: "Completed", 
-    notes: "3 professional references verified", duration: "5 days" },
-  { stage: "Background Check", date: "2020-02-15", status: "Completed", 
-    notes: "Criminal & employment history cleared", duration: "3 days" },
-  { stage: "Offer Extended", date: "2020-02-20", status: "Completed", 
-    notes: "Senior Software Engineer - GHS 8,500.00/month", duration: "2 days" },
-  { stage: "Offer Accepted", date: "2020-02-22", status: "Completed", 
-    notes: "Accepted offer with start date Mar 1, 2020", duration: "1 day" },
-  { stage: "Onboarding Started", date: "2020-03-01", status: "Completed", 
-    notes: "First day - orientation & equipment setup", duration: "Ongoing" },
+  { stage: "Application received",  date: "2020-01-15", status: "Completed", notes: "Applied via company career portal",                     duration: "1 day"    },
+  { stage: "Resume screening",      date: "2020-01-16", status: "Completed", notes: "Passed initial screening — 5 years experience",          duration: "3 days"   },
+  { stage: "Phone interview",       date: "2020-01-20", status: "Completed", notes: "Conducted by Sarah Johnson (HR)",                        duration: "30 mins", score: "9/10"      },
+  { stage: "Technical assessment",  date: "2020-01-25", status: "Completed", notes: "Online coding challenge — Python & React",               duration: "2 hours", score: "95/100"    },
+  { stage: "Panel interview",       date: "2020-02-01", status: "Completed", notes: "Met with Engineering team leads",                        duration: "1.5 hours",score: "Excellent" },
+  { stage: "Reference check",       date: "2020-02-10", status: "Completed", notes: "3 professional references verified",                    duration: "5 days"   },
+  { stage: "Background check",      date: "2020-02-15", status: "Completed", notes: "Criminal & employment history cleared",                 duration: "3 days"   },
+  { stage: "Offer extended",        date: "2020-02-20", status: "Completed", notes: "Senior Software Engineer — GHS 8,500.00/month",         duration: "2 days"   },
+  { stage: "Offer accepted",        date: "2020-02-22", status: "Completed", notes: "Accepted offer with start date Mar 1, 2020",            duration: "1 day"    },
+  { stage: "Onboarding started",    date: "2020-03-01", status: "Completed", notes: "First day — orientation & equipment setup",             duration: "Ongoing"  },
 ];
 
-// NEW: Benefits
 const benefits = [
-  { name: "Health Insurance", provider: "Ghana Health Insurance", coverage: "Individual + Spouse", 
-    premium: 450.00, employerPaid: 350.00, employeePaid: 100.00, status: "Active", effectiveDate: "2020-03-01" },
-  { name: "Life Insurance", provider: "Enterprise Life", coverage: "2x Annual Salary", 
-    premium: 180.00, employerPaid: 180.00, employeePaid: 0.00, status: "Active", effectiveDate: "2020-03-01" },
-  { name: "Dental Insurance", provider: "Ghana Dental Care", coverage: "Individual", 
-    premium: 85.00, employerPaid: 60.00, employeePaid: 25.00, status: "Active", effectiveDate: "2021-01-01" },
-  { name: "Pension (Tier 2)", provider: "Enterprise Trustees", coverage: "Voluntary", 
-    premium: 255.00, employerPaid: 0.00, employeePaid: 255.00, status: "Active", effectiveDate: "2020-03-01" },
-  { name: "Professional Development", provider: "Internal Budget", coverage: "Annual Allowance", 
-    premium: 200.00, employerPaid: 200.00, employeePaid: 0.00, status: "Active", effectiveDate: "2020-03-01" },
-  { name: "Transportation Allowance", provider: "Monthly Benefit", coverage: "Fuel/Transport", 
-    premium: 300.00, employerPaid: 300.00, employeePaid: 0.00, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Health insurance",          provider: "Ghana Health Insurance", coverage: "Individual + Spouse", premium: 450, employerPaid: 350, employeePaid: 100, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Life insurance",            provider: "Enterprise Life",        coverage: "2x Annual Salary",    premium: 180, employerPaid: 180, employeePaid: 0,   status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Dental insurance",          provider: "Ghana Dental Care",      coverage: "Individual",          premium: 85,  employerPaid: 60,  employeePaid: 25,  status: "Active", effectiveDate: "2021-01-01" },
+  { name: "Pension (Tier 2)",          provider: "Enterprise Trustees",    coverage: "Voluntary",           premium: 255, employerPaid: 0,   employeePaid: 255, status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Professional development",  provider: "Internal Budget",        coverage: "Annual allowance",    premium: 200, employerPaid: 200, employeePaid: 0,   status: "Active", effectiveDate: "2020-03-01" },
+  { name: "Transportation allowance",  provider: "Monthly benefit",        coverage: "Fuel/Transport",      premium: 300, employerPaid: 300, employeePaid: 0,   status: "Active", effectiveDate: "2020-03-01" },
 ];
 
-// NEW: Deductions
 const deductions = [
-  { name: "PAYE Tax", amount: 1275.00, type: "Statutory", frequency: "Monthly", 
-    ytdAmount: 15300.00, description: "Pay As You Earn income tax" },
-  { name: "SSNIT Tier 1", amount: 467.50, type: "Statutory", frequency: "Monthly", 
-    ytdAmount: 5610.00, description: "Social Security contribution (5.5%)" },
-  { name: "SSNIT Tier 2", amount: 255.00, type: "Voluntary", frequency: "Monthly", 
-    ytdAmount: 3060.00, description: "Voluntary pension contribution" },
-  { name: "Health Insurance", amount: 100.00, type: "Benefit", frequency: "Monthly", 
-    ytdAmount: 1200.00, description: "Employee portion of health premium" },
-  { name: "Dental Insurance", amount: 25.00, type: "Benefit", frequency: "Monthly", 
-    ytdAmount: 300.00, description: "Employee portion of dental premium" },
-  { name: "Union Dues", amount: 50.00, type: "Voluntary", frequency: "Monthly", 
-    ytdAmount: 600.00, description: "Tech Workers Union membership" },
+  { name: "Paye tax",       amount: 1275, type: "Statutory", frequency: "Monthly", ytdAmount: 15300, description: "Pay As You Earn income tax"          },
+  { name: "Ssnit Tier 1",   amount: 467.50, type: "Statutory", frequency: "Monthly", ytdAmount: 5610, description: "Social Security contribution (5.5%)" },
+  { name: "Ssnit Tier 2",   amount: 255,  type: "Voluntary", frequency: "Monthly", ytdAmount: 3060, description: "Voluntary pension contribution"        },
+  { name: "Health insurance",amount: 100, type: "Benefit",   frequency: "Monthly", ytdAmount: 1200, description: "Employee portion of health premium"   },
+  { name: "Dental insurance",amount: 25,  type: "Benefit",   frequency: "Monthly", ytdAmount: 300,  description: "Employee portion of dental premium"   },
+  { name: "Union dues",      amount: 50,  type: "Voluntary", frequency: "Monthly", ytdAmount: 600,  description: "Tech Workers Union membership"         },
 ];
 
-// NEW: Leave Records
 const leaveRecords = [
-  { type: "Annual Leave", startDate: "2025-12-20", endDate: "2026-01-05", days: 12, 
-    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-11-15", 
-    reason: "Christmas holiday with family" },
-  { type: "Sick Leave", startDate: "2025-10-12", endDate: "2025-10-14", days: 3, 
-    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-10-12", 
-    reason: "Flu and fever", medicalCert: "Yes" },
-  { type: "Annual Leave", startDate: "2025-08-05", endDate: "2025-08-09", days: 5, 
-    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-07-10", 
-    reason: "Personal travel" },
-  { type: "Casual Leave", startDate: "2025-06-20", endDate: "2025-06-20", days: 1, 
-    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-06-19", 
-    reason: "Family emergency" },
-  { type: "Annual Leave", startDate: "2025-04-10", endDate: "2025-04-17", days: 6, 
-    status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-03-05", 
-    reason: "Easter vacation" },
+  { type: "Annual leave", startDate: "2025-12-20", endDate: "2026-01-05", days: 12, status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-11-15", reason: "Christmas holiday with family" },
+  { type: "Sick leave",   startDate: "2025-10-12", endDate: "2025-10-14", days: 3,  status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-10-12", reason: "Flu and fever", medicalCert: "Yes" },
+  { type: "Annual leave", startDate: "2025-08-05", endDate: "2025-08-09", days: 5,  status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-07-10", reason: "Personal travel" },
+  { type: "Casual leave", startDate: "2025-06-20", endDate: "2025-06-20", days: 1,  status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-06-19", reason: "Family emergency" },
+  { type: "Annual leave", startDate: "2025-04-10", endDate: "2025-04-17", days: 6,  status: "Approved", approvedBy: "Sarah Johnson", appliedDate: "2025-03-05", reason: "Easter vacation" },
 ];
 
 const leaveBalance = {
-  annual: { total: 21, used: 23, remaining: -2, carried: 0 },
-  sick: { total: 10, used: 5, remaining: 5, carried: 0 },
-  casual: { total: 5, used: 1, remaining: 4, carried: 0 },
-  maternity: { total: 0, used: 0, remaining: 0, carried: 0 },
-  paternity: { total: 7, used: 0, remaining: 7, carried: 0 },
+  annual:    { total: 21, used: 23, remaining: -2, carried: 0 },
+  sick:      { total: 10, used: 5,  remaining: 5,  carried: 0 },
+  casual:    { total: 5,  used: 1,  remaining: 4,  carried: 0 },
+  maternity: { total: 0,  used: 0,  remaining: 0,  carried: 0 },
+  paternity: { total: 7,  used: 0,  remaining: 7,  carried: 0 },
 };
 
-const formatCurrency = (amount: number) => {
-  return `GHS ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-};
+const fmt = (n: number) => `GHS ${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-// Calculate totals
-const totalTaxPaid = taxRecords.reduce((sum, rec) => sum + rec.taxPaid, 0);
-const totalSSNIT = ssnitRecords.reduce((sum, rec) => sum + rec.totalContribution, 0);
-const totalBenefitCost = benefits.reduce((sum, b) => sum + b.premium, 0);
-const totalDeductions = deductions.reduce((sum, d) => sum + d.amount, 0);
+const totalTaxPaid    = taxRecords.reduce((s, r) => s + r.taxPaid, 0);
+const totalSSNIT      = ssnitRecords.reduce((s, r) => s + r.totalContribution, 0);
+const totalBenefitCost = benefits.reduce((s, b) => s + b.premium, 0);
+const totalDeductions = deductions.reduce((s, d) => s + d.amount, 0);
 
 const attendanceRecords = generateAttendance();
 
-export default function EmployeeProfilePage() {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [employee, setEmployee] = useState<any>(FALLBACK_EMPLOYEE);
-  const [imageError, setImageError] = useState(false);
+// Status badge helpers — same pattern as payroll detail page
+const statusBadge = (s: string) => ({
+  Active:    { pill: "bg-[#2c4a6a]/10 text-[#2c4a6a] border border-[#2c4a6a]/25", dot: "bg-[#2c4a6a]" },
+  "On Leave":{ pill: "bg-[#6b8ca3]/10 text-[#6b8ca3] border border-[#6b8ca3]/25", dot: "bg-[#6b8ca3]" },
+  Suspended: { pill: "bg-gray-200 text-gray-600 border border-gray-300",           dot: "bg-gray-500"  },
+}[s] ?? { pill: "bg-gray-100 text-gray-600 border border-gray-200", dot: "bg-gray-400" });
 
-  // Modal states
-  const [editModalOpen, setEditModalOpen] = useState(false);
+const approvalBadge = (s: string) => ({
+  Approved: { pill: "bg-[#2c4a6a]/10 text-[#2c4a6a] border border-[#2c4a6a]/25", dot: "bg-[#2c4a6a]" },
+  Pending:  { pill: "bg-gray-100 text-gray-500 border border-gray-200",           dot: "bg-gray-400"  },
+  Rejected: { pill: "bg-gray-200 text-gray-600 border border-gray-300",           dot: "bg-gray-500"  },
+}[s] ?? { pill: "bg-gray-100 text-gray-600 border border-gray-200", dot: "bg-gray-400" });
+
+const attendanceBadge = (s: string) => ({
+  present:  { pill: "bg-[#2c4a6a]/10 text-[#2c4a6a] border border-[#2c4a6a]/25", dot: "bg-[#2c4a6a]" },
+  late:     { pill: "bg-[#6b8ca3]/10 text-[#6b8ca3] border border-[#6b8ca3]/25", dot: "bg-[#6b8ca3]" },
+  absent:   { pill: "bg-gray-200 text-gray-600 border border-gray-300",           dot: "bg-gray-500"  },
+  onLeave:  { pill: "bg-gray-100 text-gray-500 border border-gray-200",           dot: "bg-gray-400"  },
+}[s] ?? { pill: "bg-gray-100 text-gray-600 border border-gray-200", dot: "bg-gray-400" });
+
+export default function EmployeeProfilePage() {
+  const [activeTab, setActiveTab]           = useState("overview");
+  const [employee, setEmployee]             = useState<any>(FALLBACK_EMPLOYEE);
+  const [imageError, setImageError]         = useState(false);
+  const [editModalOpen, setEditModalOpen]   = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [suspendModalOpen, setSuspendModalOpen] = useState(false);
-  const [editForm, setEditForm] = useState<any>({});
-  const [suspendReason, setSuspendReason] = useState("");
+  const [editForm, setEditForm]             = useState<any>({});
+  const [suspendReason, setSuspendReason]   = useState("");
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
-  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveSuccess, setSaveSuccess]       = useState(false);
 
   useEffect(() => {
     try {
@@ -191,10 +160,7 @@ export default function EmployeeProfilePage() {
     } catch { }
   }, []);
 
-  const openEditModal = () => {
-    setEditForm({ ...employee });
-    setEditModalOpen(true);
-  };
+  const openEditModal = () => { setEditForm({ ...employee }); setEditModalOpen(true); };
 
   const handleEditSave = () => {
     setEmployee({ ...editForm });
@@ -205,74 +171,42 @@ export default function EmployeeProfilePage() {
   };
 
   const handleSuspend = () => {
-    const updated = {
-      ...employee,
-      employmentStatus: employee.employmentStatus === "Suspended" ? "Active" : "Suspended"
-    };
+    const updated = { ...employee, employmentStatus: employee.employmentStatus === "Suspended" ? "Active" : "Suspended" };
     setEmployee(updated);
     try { sessionStorage.setItem("nerapay_employee", JSON.stringify(updated)); } catch { }
     setSuspendModalOpen(false);
     setSuspendReason("");
   };
 
-  const handleDelete = () => {
-    setDeleteModalOpen(false);
-    window.location.href = "/employees";
-  };
+  const handleDelete = () => { setDeleteModalOpen(false); window.location.href = "/employees"; };
 
- const tabs = [
-  { id: "overview", label: "Overview", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
-  { id: "attendance", label: "Attendance", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
-  { id: "payroll", label: "Payroll", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
-  { id: "tax", label: "Tax & SSNIT", icon: "M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" },
-  { id: "benefits", label: "Benefits", icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" },
-  { id: "leave", label: "Leave", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
-  { id: "recruitment", label: "Recruitment", icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
-  { id: "documents", label: "Documents", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
-];
+  const tabs = [
+    { id: "overview",    label: "Overview",    icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
+    { id: "attendance",  label: "Attendance",  icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
+    { id: "payroll",     label: "Payroll",     icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
+    { id: "tax",         label: "Tax & Ssnit", icon: "M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" },
+    { id: "benefits",    label: "Benefits",    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" },
+    { id: "leave",       label: "Leave",       icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
+    { id: "recruitment", label: "Recruitment", icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+    { id: "documents",   label: "Documents",   icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+  ];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Active": return "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]";
-      case "On Leave": return "bg-[#e8eef4] text-[#4a6b8a] border-[#c3d2e9]";
-      case "Suspended": return "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]";
-      default: return "bg-gray-100 text-gray-700 border-gray-200";
-    }
-  };
-
-  const getLeaveStatusColor = (status) => {
-  switch (status) {
-    case "Approved": return "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]";
-    case "Pending": return "bg-[#e8eef4] text-[#4a6b8a] border-[#c3d2e9]";
-    case "Rejected": return "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]";
-    default: return "bg-gray-100 text-gray-700 border-gray-200";
-  }
-};
-
-  const getAttendanceColor = (status) => {
-    switch (status) {
-      case "present": return "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]";
-      case "absent": return "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]";
-      case "late": return "bg-[#e8eef4] text-[#4a6b8a] border-[#c3d2e9]";
-      case "onLeave": return "bg-[#eef3f9] text-[#5a7a9a] border-[#d4e1ed]";
-      default: return "bg-gray-100 text-gray-700 border-gray-200";
-    }
-  };
-
-  const presentDays = attendanceRecords.filter(r => r.status === "present").length;
-  const absentDays = attendanceRecords.filter(r => r.status === "absent").length;
-  const lateDays = attendanceRecords.filter(r => r.status === "late").length;
-  const leaveDays = attendanceRecords.filter(r => r.status === "onLeave").length;
-  const totalDays = attendanceRecords.length;
+  const presentDays    = attendanceRecords.filter(r => r.status === "present").length;
+  const absentDays     = attendanceRecords.filter(r => r.status === "absent").length;
+  const lateDays       = attendanceRecords.filter(r => r.status === "late").length;
+  const leaveDays      = attendanceRecords.filter(r => r.status === "onLeave").length;
+  const totalDays      = attendanceRecords.length;
   const attendanceRate = totalDays ? Math.round((presentDays / totalDays) * 100) : 0;
 
   const inputClass = "w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white text-gray-900";
   const labelClass = "block text-xs font-semibold text-gray-600 mb-1";
 
+  const sb = statusBadge(employee.employmentStatus);
+
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen overflow-x-hidden">
 
-      {/* Success Toast */}
+      {/* Success toast */}
       {saveSuccess && (
         <div className="fixed top-6 right-6 z-[100] bg-[#2c4a6a] text-white px-5 py-3 rounded-xl flex items-center gap-3 shadow-lg">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,55 +216,57 @@ export default function EmployeeProfilePage() {
         </div>
       )}
 
-      {/* Back breadcrumb */}
-    {/* Back button */}
-{/* Header Section with Back Button */}
+      {/* Header */}
+   
 <div className="flex items-center gap-4 mb-6">
-  <Link href="/employees" className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm">
-    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <Link
+    href="/employees"
+    className="flex-shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm"
+  >
+    <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
     </svg>
   </Link>
   <div>
-    <h1 className="text-2xl md:text-3xl font-bold text-[#153453] mb-1">Employee Profile</h1>
-    <p className="text-sm text-gray-600">View and manage employee information and records</p>
+    <p className="text-xs text-gray-400 font-normal">Employee management</p>
+    <h1 className="text-2xl md:text-3xl font-bold text-[#153453] tracking-tight">
+      Employee profile — {employee.id}
+    </h1>
   </div>
 </div>
 
-      {/* Profile Hero Card */}
+      {/* Profile hero card */}
       <div className="bg-white rounded-2xl border border-gray-100 mb-6">
         <div className="h-32 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] relative rounded-t-2xl">
           <div className="absolute inset-0 opacity-10 rounded-t-2xl"
             style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
-          {/* Action buttons in banner */}
+          {/* Action buttons */}
           <div className="absolute top-4 right-4 flex gap-2">
-            <button
-              onClick={openEditModal}
-              className="px-3 py-1.5 border border-white/30 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-medium text-white transition-colors flex items-center gap-1.5"
-            >
+            <button onClick={openEditModal}
+              className="px-3 py-1.5 border border-white/30 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-medium text-white transition-colors flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
               Edit
             </button>
-            <button
-              onClick={() => setSuspendModalOpen(true)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border ${employee.employmentStatus === "Suspended"
-                ? "bg-[#d4e1ed] hover:bg-[#a8c5db] text-[#2c4a6a] border-[#a8c5db]"
-                : "bg-[#e8eef4] hover:bg-[#c3d2e9] text-[#4a6b8a] border-[#c3d2e9]"}`}
-            >
+            <button onClick={() => setSuspendModalOpen(true)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 border ${
+                employee.employmentStatus === "Suspended"
+                  ? "bg-[#d4e1ed] hover:bg-[#a8c5db] text-[#2c4a6a] border-[#a8c5db]"
+                  : "bg-[#e8eef4] hover:bg-[#c3d2e9] text-[#4a6b8a] border-[#c3d2e9]"
+              }`}>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={employee.employmentStatus === "Suspended"
-                  ? "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  : "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"} />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={
+                  employee.employmentStatus === "Suspended"
+                    ? "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    : "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                } />
               </svg>
               {employee.employmentStatus === "Suspended" ? "Reinstate" : "Suspend"}
             </button>
-            <button
-              onClick={() => setDeleteModalOpen(true)}
-              className="px-3 py-1.5 bg-[#bfcfde] hover:bg-[#96b3cc] rounded-lg text-xs font-medium text-[#1e3147] transition-colors flex items-center gap-1.5 border border-[#96b3cc]"
-            >
+            <button onClick={() => setDeleteModalOpen(true)}
+              className="px-3 py-1.5 bg-[#bfcfde] hover:bg-[#96b3cc] rounded-lg text-xs font-medium text-[#1e3147] transition-colors flex items-center gap-1.5 border border-[#96b3cc]">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
@@ -347,15 +283,10 @@ export default function EmployeeProfilePage() {
 
         <div className="px-6 pb-6">
           <div className="flex flex-col sm:flex-row items-start gap-4 -mt-10 mb-5">
-            {/* FIXED: Profile Image with proper fallback */}
             <div className="w-20 h-20 rounded-xl border-4 border-white shadow-lg flex-shrink-0 relative overflow-hidden bg-white">
               {!imageError && employee.profileImage ? (
-                <img 
-                  src={employee.profileImage} 
-                  alt={`${employee.firstName} ${employee.lastName}`}
-                  className="w-full h-full object-cover"
-                  onError={() => setImageError(true)}
-                />
+                <img src={employee.profileImage} alt={`${employee.firstName} ${employee.lastName}`}
+                  className="w-full h-full object-cover" onError={() => setImageError(true)} />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white text-2xl font-bold">
                   {employee.firstName?.[0]}{employee.lastName?.[0]}
@@ -368,7 +299,9 @@ export default function EmployeeProfilePage() {
                 <h1 className="text-xl font-bold text-[#1e3147]">
                   {employee.firstName} {employee.otherNames} {employee.lastName}
                 </h1>
-                <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getStatusColor(employee.employmentStatus)}`}>
+                {/* Updated badge — dot + pill, matches payroll pages */}
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${sb.pill}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${sb.dot}`} />
                   {employee.employmentStatus}
                 </span>
               </div>
@@ -396,10 +329,10 @@ export default function EmployeeProfilePage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-gray-100">
             {[
-              { label: "Years at Company", value: employee.yearsAtCompany, suffix: "yrs" },
-              { label: "Performance Score", value: employee.performanceScore, suffix: "%" },
-              { label: "Tasks Completed", value: employee.tasksCompleted, suffix: "" },
-              { label: "Projects", value: employee.projectsCount, suffix: "" },
+              { label: "Years at company",    value: employee.yearsAtCompany,    suffix: "yrs" },
+              { label: "Performance score",   value: employee.performanceScore,  suffix: "%"   },
+              { label: "Tasks completed",     value: employee.tasksCompleted,    suffix: ""    },
+              { label: "Projects",            value: employee.projectsCount,     suffix: ""    },
             ].map(stat => (
               <div key={stat.label} className="text-center py-2">
                 <p className="text-2xl font-bold text-[#1e3147]">
@@ -412,14 +345,16 @@ export default function EmployeeProfilePage() {
         </div>
       </div>
 
-      {/* Tab Navigation */}
+      {/* Tab navigation */}
       <div className="bg-white rounded-2xl border border-gray-100 mb-6">
-        <div className="flex overflow-x-auto scrollbar-hide">
+        <div className="flex overflow-x-auto" style={{ scrollbarWidth: "none" }}>
           {tabs.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-4 text-sm font-medium transition-all flex-shrink-0 whitespace-nowrap border-b-2 ${activeTab === tab.id
-                ? "text-[#2c4a6a] border-[#2c4a6a] bg-[#f0f5fa]"
-                : "text-gray-500 border-transparent hover:text-gray-700 hover:bg-gray-50"}`}>
+              className={`flex items-center gap-2 px-5 py-4 text-sm font-semibold transition-all flex-shrink-0 whitespace-nowrap border-b-2 ${
+                activeTab === tab.id
+                  ? "text-[#2c4a6a] border-[#2c4a6a] bg-[#2c4a6a]/5"
+                  : "text-gray-500 border-transparent hover:text-gray-700 hover:bg-gray-50"
+              }`}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />
               </svg>
@@ -429,101 +364,89 @@ export default function EmployeeProfilePage() {
         </div>
       </div>
 
-      {/* ═══ OVERVIEW TAB ═══ */}
+      {/* ── Overview tab ─────────────────────────────────────────────────── */}
       {activeTab === "overview" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-w-0">
           <div className="lg:col-span-2 space-y-6 min-w-0">
-            <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="text-base font-bold text-[#1e3147] mb-5 flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-[#eef3f9] flex items-center justify-center">
-                  <svg className="w-4 h-4 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                </div>
-                Personal Information
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { label: "Full Name", value: `${employee.firstName} ${employee.otherNames} ${employee.lastName}` },
-                  { label: "Date of Birth", value: new Date(employee.dateOfBirth).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) },
-                  { label: "Gender", value: employee.gender },
-                  { label: "Phone", value: employee.phone },
-                  { label: "Email", value: employee.email },
-                  { label: "Address", value: employee.residentialAddress },
-                ].map(item => (
-                  <div key={item.label} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p className="text-xs font-medium text-gray-500 mb-1">{item.label}</p>
-                    <p className="text-sm font-semibold text-gray-900">{item.value}</p>
+            {[
+              {
+                title: "Personal information",
+                icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+                fields: [
+                  { label: "Full name",       value: `${employee.firstName} ${employee.otherNames} ${employee.lastName}` },
+                  { label: "Date of birth",   value: new Date(employee.dateOfBirth).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) },
+                  { label: "Gender",          value: employee.gender },
+                  { label: "Phone",           value: employee.phone },
+                  { label: "Email",           value: employee.email },
+                  { label: "Address",         value: employee.residentialAddress },
+                ],
+              },
+              {
+                title: "Employment details",
+                icon: "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                fields: [
+                  { label: "Employee id",       value: employee.id },
+                  { label: "Job title",         value: employee.jobTitle },
+                  { label: "Department",        value: employee.department },
+                  { label: "Employment type",   value: employee.employmentType },
+                  { label: "Date of hire",      value: new Date(employee.hireDate).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) },
+                  { label: "Employment status", value: employee.employmentStatus },
+                ],
+              },
+              {
+                title: "Bank & payment details",
+                icon: "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z",
+                fields: [
+                  { label: "Bank name",       value: employee.bankName },
+                  { label: "Account name",    value: employee.accountName },
+                  { label: "Account number",  value: "•••• •••• " + employee.accountNumber?.slice(-4) },
+                  { label: "Payment method",  value: employee.paymentMethod },
+                  { label: "Tax id (TIN)",    value: employee.taxId },
+                  { label: "Ssnit",           value: employee.ssnit },
+                ],
+              },
+            ].map(section => (
+              <div key={section.title} className="bg-white rounded-2xl border border-gray-100 p-6">
+                <h2 className="text-base font-bold text-[#1e3147] mb-5 flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#eef3f9] flex items-center justify-center">
+                    <svg className="w-4 h-4 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={section.icon} />
+                    </svg>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="text-base font-bold text-[#1e3147] mb-5 flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-[#eef3f9] flex items-center justify-center">
-                  <svg className="w-4 h-4 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                  {section.title}
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {section.fields.map(item => (
+                    <div key={item.label} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                      <p className="text-xs font-medium text-gray-500 mb-1">{item.label}</p>
+                      <p className="text-sm font-semibold text-gray-900">{item.value}</p>
+                    </div>
+                  ))}
                 </div>
-                Employment Details
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { label: "Employee ID", value: employee.id },
-                  { label: "Job Title", value: employee.jobTitle },
-                  { label: "Department", value: employee.department },
-                  { label: "Employment Type", value: employee.employmentType },
-                  { label: "Date of Hire", value: new Date(employee.hireDate).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) },
-                  { label: "Employment Status", value: employee.employmentStatus },
-                ].map(item => (
-                  <div key={item.label} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p className="text-xs font-medium text-gray-500 mb-1">{item.label}</p>
-                    <p className="text-sm font-semibold text-gray-900">{item.value}</p>
-                  </div>
-                ))}
               </div>
-            </div>
-
-            <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="text-base font-bold text-[#1e3147] mb-5 flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-[#eef3f9] flex items-center justify-center">
-                  <svg className="w-4 h-4 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
-                </div>
-                Bank & Payment Details
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { label: "Bank Name", value: employee.bankName },
-                  { label: "Account Name", value: employee.accountName },
-                  { label: "Account Number", value: "•••• •••• " + employee.accountNumber?.slice(-4) },
-                  { label: "Payment Method", value: employee.paymentMethod },
-                  { label: "Tax ID (TIN)", value: employee.taxId },
-                  { label: "SSNIT", value: employee.ssnit },
-                ].map(item => (
-                  <div key={item.label} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p className="text-xs font-medium text-gray-500 mb-1">{item.label}</p>
-                    <p className="text-sm font-semibold text-gray-900">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="space-y-6">
+            {/* Salary card */}
             <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 text-white">
-              <p className="text-sm text-white/70 mb-1">Monthly Salary</p>
-              <p className="text-4xl font-bold mb-1">GHS{formatCurrency(employee.basicSalary)}</p>
+              <p className="text-sm text-white/70 mb-1">Monthly salary</p>
+              <p className="text-4xl font-bold mb-1">GHS {employee.basicSalary?.toLocaleString()}</p>
               <p className="text-xs text-white/60 mb-5">{employee.salaryType} · {employee.employmentType}</p>
               <div className="space-y-2 pt-4 border-t border-white/20">
-                <div className="flex justify-between text-sm"><span className="text-white/70">Basic Salary</span><span className="font-semibold">GHS{employee.basicSalary?.toLocaleString()}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-white/70">Allowances</span><span className="font-semibold text-white">+GHS{employee.allowances?.toLocaleString()}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-white/70">Tax (PAYE ~15%)</span><span className="font-semibold text-white/80">-GHS{Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-white/70">Basic salary</span><span className="font-semibold">GHS {employee.basicSalary?.toLocaleString()}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-white/70">Allowances</span><span className="font-semibold">+GHS {employee.allowances?.toLocaleString()}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-white/70">Tax (PAYE ~15%)</span><span className="font-semibold text-white/80">-GHS {Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
                 <div className="flex justify-between text-sm pt-2 border-t border-white/20">
-                  <span className="text-white font-semibold">Net Pay</span>
-                  <span className="font-bold text-lg">GHS{(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15)).toLocaleString()}</span>
+                  <span className="text-white font-semibold">Net pay</span>
+                  <span className="font-bold text-lg">GHS {(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15)).toLocaleString()}</span>
                 </div>
               </div>
             </div>
 
+            {/* Attendance mini */}
             <div className="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 className="text-sm font-bold text-[#1e3147] mb-4">Attendance (This Month)</h3>
+              <h3 className="text-sm font-bold text-[#1e3147] mb-4">Attendance (this month)</h3>
               <div className="flex items-center justify-between mb-4">
                 <div className="relative w-20 h-20">
                   <svg className="w-20 h-20 -rotate-90" viewBox="0 0 36 36">
@@ -534,64 +457,82 @@ export default function EmployeeProfilePage() {
                   <span className="absolute inset-0 flex items-center justify-center text-base font-bold text-[#1e3147]">{attendanceRate}%</span>
                 </div>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs flex-1 ml-4">
-                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#2c4a6a] inline-block"></span><span className="text-gray-600">Present <b>{presentDays}</b></span></div>
-                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#1e3147] inline-block"></span><span className="text-gray-600">Absent <b>{absentDays}</b></span></div>
-                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#4a6b8a] inline-block"></span><span className="text-gray-600">Late <b>{lateDays}</b></span></div>
-                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#6a8aaa] inline-block"></span><span className="text-gray-600">Leave <b>{leaveDays}</b></span></div>
+                  {[
+                    { label: "Present", val: presentDays, color: "bg-[#2c4a6a]" },
+                    { label: "Absent",  val: absentDays,  color: "bg-[#1e3147]" },
+                    { label: "Late",    val: lateDays,    color: "bg-[#6b8ca3]" },
+                    { label: "Leave",   val: leaveDays,   color: "bg-gray-400"  },
+                  ].map(r => (
+                    <div key={r.label} className="flex items-center gap-1.5">
+                      <span className={`w-2.5 h-2.5 rounded-full ${r.color}`} />
+                      <span className="text-gray-600">{r.label} <b>{r.val}</b></span>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <button onClick={() => setActiveTab("attendance")} className="w-full text-xs text-[#2c4a6a] font-medium hover:underline">View full attendance →</button>
+              <button onClick={() => setActiveTab("attendance")} className="w-full text-xs text-[#2c4a6a] font-medium hover:underline">
+                View full attendance →
+              </button>
             </div>
 
+            {/* Emergency contact */}
             <div className="bg-white rounded-2xl border border-gray-100 p-5">
-              <h3 className="text-sm font-bold text-[#1e3147] mb-4 flex items-center gap-2">
-                <div className="w-6 h-6 rounded-lg bg-[#e8eef4] flex items-center justify-center">
-                  <svg className="w-3.5 h-3.5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                </div>
-                Emergency Contact
-              </h3>
+              <h3 className="text-sm font-bold text-[#1e3147] mb-4">Emergency contact</h3>
               <div className="space-y-2">
-                <div className="flex justify-between text-sm"><span className="text-gray-500">Name</span><span className="font-semibold text-gray-900">{employee.emergencyContact?.name}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-gray-500">Phone</span><span className="font-semibold text-gray-900">{employee.emergencyContact?.phone}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-gray-500">Relation</span><span className="font-semibold text-gray-900">{employee.emergencyContact?.relationship}</span></div>
+                {[
+                  { label: "Name",     value: employee.emergencyContact?.name },
+                  { label: "Phone",    value: employee.emergencyContact?.phone },
+                  { label: "Relation", value: employee.emergencyContact?.relationship },
+                ].map(r => (
+                  <div key={r.label} className="flex justify-between text-sm">
+                    <span className="text-gray-500">{r.label}</span>
+                    <span className="font-semibold text-gray-900">{r.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* ═══ ATTENDANCE TAB ═══ */}
+      {/* ── Attendance tab ───────────────────────────────────────────────── */}
       {activeTab === "attendance" && (
         <div className="space-y-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: "Present", value: presentDays, color: "bg-[#d4e1ed] border-[#a8c5db]", text: "text-[#2c4a6a]" },
-              { label: "Absent", value: absentDays, color: "bg-[#bfcfde] border-[#96b3cc]", text: "text-[#1e3147]" },
-              { label: "Late", value: lateDays, color: "bg-[#e8eef4] border-[#c3d2e9]", text: "text-[#4a6b8a]" },
-              { label: "On Leave", value: leaveDays, color: "bg-[#eef3f9] border-[#d4e1ed]", text: "text-[#5a7a9a]" },
+              { label: "Present",  value: presentDays, dark: true  },
+              { label: "Absent",   value: absentDays,  dark: false },
+              { label: "Late",     value: lateDays,    dark: true  },
+              { label: "On leave", value: leaveDays,   dark: false },
             ].map(c => (
-              <div key={c.label} className={`rounded-xl p-5 border ${c.color}`}>
-                <p className="text-xs font-medium text-gray-600 mb-2">{c.label}</p>
-                <p className={`text-3xl font-bold ${c.text}`}>{c.value}</p>
-                <p className="text-xs text-gray-500 mt-1">{totalDays ? Math.round((c.value / totalDays) * 100) : 0}% of working days</p>
+              <div key={c.label} className={`rounded-2xl p-5 text-white transition-all hover:scale-[1.02] ${
+                c.dark ? "bg-gradient-to-br from-[#2c4a6a] to-[#1e3147]" : "bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a]"
+              }`}>
+                <p className="text-xs text-white/60 font-medium mb-2">{c.label}</p>
+                <p className="text-3xl font-bold">{c.value}</p>
+                <p className="text-xs text-white/50 mt-1">{totalDays ? Math.round((c.value / totalDays) * 100) : 0}% of working days</p>
               </div>
             ))}
           </div>
+
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-base font-bold text-[#1e3147]">Attendance Records</h2>
+              <h2 className="text-base font-bold text-[#1e3147]">Attendance records</h2>
               <span className="text-sm text-gray-500">{attendanceRecords.length} working days</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>{["Date", "Day", "Clock In", "Clock Out", "Status"].map(h => (
-                    <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
-                  ))}</tr>
+                  <tr>
+                    {["Date","Day","Clock in","Clock out","Status"].map(h => (
+                      <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500">{h}</th>
+                    ))}
+                  </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {attendanceRecords.map((rec, i) => {
                     const d = new Date(rec.date);
+                    const ab = attendanceBadge(rec.status);
                     return (
                       <tr key={i} className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-3.5 text-sm font-medium text-gray-900">{d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</td>
@@ -599,8 +540,9 @@ export default function EmployeeProfilePage() {
                         <td className="px-6 py-3.5 text-sm text-gray-700">{rec.clockIn}</td>
                         <td className="px-6 py-3.5 text-sm text-gray-700">{rec.clockOut}</td>
                         <td className="px-6 py-3.5">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getAttendanceColor(rec.status)}`}>
-                            {rec.status === "onLeave" ? "On Leave" : rec.status.charAt(0).toUpperCase() + rec.status.slice(1)}
+                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${ab.pill}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${ab.dot}`} />
+                            {rec.status === "onLeave" ? "On leave" : rec.status.charAt(0).toUpperCase() + rec.status.slice(1)}
                           </span>
                         </td>
                       </tr>
@@ -613,58 +555,187 @@ export default function EmployeeProfilePage() {
         </div>
       )}
 
-      {/* ═══ PAYROLL TAB ═══ */}
+      {/* ── Payroll tab ──────────────────────────────────────────────────── */}
       {activeTab === "payroll" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 text-white">
-              <p className="text-sm text-white/70 mb-1">Gross Monthly Pay</p>
-              <p className="text-4xl font-bold mb-4">GHS{(employee.basicSalary + employee.allowances).toLocaleString()}</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-white/70">Basic Salary</span><span>GHS{employee.basicSalary?.toLocaleString()}</span></div>
-                <div className="flex justify-between"><span className="text-white/70">Allowances</span><span>GHS{employee.allowances?.toLocaleString()}</span></div>
+            {[
+              {
+                label: "Gross monthly pay",
+                value: `GHS ${(employee.basicSalary + employee.allowances).toLocaleString()}`,
+                rows: [
+                  { label: "Basic salary", value: `GHS ${employee.basicSalary?.toLocaleString()}` },
+                  { label: "Allowances",   value: `GHS ${employee.allowances?.toLocaleString()}` },
+                ],
+                dark: true,
+              },
+              {
+                label: "Total deductions",
+                value: `GHS ${Math.round(employee.basicSalary * 0.15 + employee.basicSalary * 0.055).toLocaleString()}`,
+                rows: [
+                  { label: "PAYE tax (15%)", value: `GHS ${Math.round(employee.basicSalary * 0.15).toLocaleString()}` },
+                  { label: "Ssnit (5.5%)",   value: `GHS ${Math.round(employee.basicSalary * 0.055).toLocaleString()}` },
+                ],
+                dark: false,
+              },
+              {
+                label: "Net pay (take home)",
+                value: `GHS ${(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15) - Math.round(employee.basicSalary * 0.055)).toLocaleString()}`,
+                rows: [
+                  { label: "Payment method", value: employee.paymentMethod },
+                  { label: "Bank",           value: employee.bankName },
+                ],
+                dark: true,
+              },
+            ].map(c => (
+              <div key={c.label} className={`rounded-2xl p-6 text-white ${
+                c.dark ? "bg-gradient-to-br from-[#2c4a6a] to-[#1e3147]" : "bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a]"
+              }`}>
+                <p className="text-xs text-white/60 font-medium mb-1">{c.label}</p>
+                <p className="text-3xl font-bold mb-4">{c.value}</p>
+                <div className="space-y-2 text-sm">
+                  {c.rows.map(r => (
+                    <div key={r.label} className="flex justify-between">
+                      <span className="text-white/70">{r.label}</span>
+                      <span className="font-medium">{r.value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="bg-[#e8eef4] border border-[#c3d2e9] rounded-2xl p-6">
-              <p className="text-sm font-medium text-gray-600 mb-1">Total Deductions</p>
-              <p className="text-4xl font-bold text-[#1e3147] mb-4">GHS{Math.round(employee.basicSalary * 0.15 + employee.basicSalary * 0.055).toLocaleString()}</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-gray-500">PAYE Tax (15%)</span><span className="text-[#2c4a6a] font-medium">GHS{Math.round(employee.basicSalary * 0.15).toLocaleString()}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">SSNIT (5.5%)</span><span className="text-[#2c4a6a] font-medium">GHS{Math.round(employee.basicSalary * 0.055).toLocaleString()}</span></div>
-              </div>
-            </div>
-            <div className="bg-[#d4e1ed] border border-[#a8c5db] rounded-2xl p-6">
-              <p className="text-sm font-medium text-gray-600 mb-1">Net Pay (Take Home)</p>
-              <p className="text-4xl font-bold text-[#2c4a6a] mb-4">GHS{(employee.basicSalary + employee.allowances - Math.round(employee.basicSalary * 0.15) - Math.round(employee.basicSalary * 0.055)).toLocaleString()}</p>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-gray-500">Payment Method</span><span className="font-medium text-gray-700">{employee.paymentMethod}</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Bank</span><span className="font-medium text-gray-700">{employee.bankName}</span></div>
-              </div>
-            </div>
+            ))}
           </div>
+
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100"><h2 className="text-base font-bold text-[#1e3147]">Payslip History</h2></div>
+            <div className="px-6 py-4 border-b border-gray-100">
+              <h2 className="text-base font-bold text-[#1e3147]">Payslip history</h2>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>{["Period", "Gross Pay", "Deductions", "Net Pay", "Status", "Action"].map(h => (
-                    <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
-                  ))}</tr>
+                  <tr>
+                    {["Period","Gross pay","Deductions","Net pay","Status","Action"].map(h => (
+                      <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500">{h}</th>
+                    ))}
+                  </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {payslips.map((p, i) => (
+                  {payslips.map((p, i) => {
+                    const pb = approvalBadge(p.status === "Paid" ? "Approved" : "Pending");
+                    return (
+                      <tr key={i} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-900">{p.month}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">GHS {p.gross.toLocaleString()}</td>
+                        <td className="px-6 py-4 text-sm text-gray-600">-GHS {p.deductions.toLocaleString()}</td>
+                        <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">GHS {p.net.toLocaleString()}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${pb.pill}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${pb.dot}`} />
+                            {p.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                            Download
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Benefits tab ─────────────────────────────────────────────────── */}
+      {activeTab === "benefits" && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { label: "Total benefits",   value: fmt(totalBenefitCost),                                          sub: "Monthly value",        dark: true  },
+              { label: "Employer paid",    value: fmt(benefits.reduce((s, b) => s + b.employerPaid, 0)),          sub: "Company contribution", dark: false },
+              { label: "Employee paid",    value: fmt(benefits.reduce((s, b) => s + b.employeePaid, 0)),          sub: "Your contribution",    dark: true  },
+              { label: "Active benefits",  value: String(benefits.filter(b => b.status === "Active").length),     sub: "Current enrollments",  dark: false },
+            ].map(c => (
+              <div key={c.label} className={`rounded-2xl p-5 text-white transition-all hover:scale-[1.02] ${
+                c.dark ? "bg-gradient-to-br from-[#2c4a6a] to-[#1e3147]" : "bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a]"
+              }`}>
+                <p className="text-xs text-white/60 font-medium mb-2">{c.label}</p>
+                <p className="text-2xl font-bold leading-tight">{c.value}</p>
+                <p className="text-xs text-white/50 mt-1">{c.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 p-6">
+            <h2 className="text-base font-bold text-[#1e3147] mb-5">Active benefits</h2>
+            <div className="space-y-4">
+              {benefits.map((benefit, i) => (
+                <div key={i} className="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:border-[#2c4a6a]/30 transition-all">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-sm font-bold text-gray-900 mb-1">{benefit.name}</h3>
+                      <p className="text-xs text-gray-500 mb-2">{benefit.provider} · {benefit.coverage}</p>
+                      <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${
+                        benefit.status === "Active"
+                          ? "bg-[#2c4a6a]/10 text-[#2c4a6a] border-[#2c4a6a]/25"
+                          : "bg-gray-100 text-gray-500 border-gray-200"
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${benefit.status === "Active" ? "bg-[#2c4a6a]" : "bg-gray-400"}`} />
+                        {benefit.status}
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500 mb-1">Monthly premium</p>
+                      <p className="text-2xl font-bold text-[#2c4a6a]">{fmt(benefit.premium)}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+                    <div><p className="text-xs text-gray-500 mb-1">Employer pays</p><p className="text-sm font-bold text-[#2c4a6a]">{fmt(benefit.employerPaid)}</p></div>
+                    <div><p className="text-xs text-gray-500 mb-1">Employee pays</p><p className="text-sm font-bold text-gray-700">{fmt(benefit.employeePaid)}</p></div>
+                    <div><p className="text-xs text-gray-500 mb-1">Effective date</p><p className="text-sm font-medium text-gray-700">{new Date(benefit.effectiveDate).toLocaleDateString("en-GB")}</p></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100">
+              <h2 className="text-base font-bold text-[#1e3147]">Monthly deductions</h2>
+              <p className="text-sm text-gray-500 mt-1">Total: {fmt(totalDeductions)}/month</p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    {["Deduction","Type","Amount","Frequency","Ytd amount","Description"].map(h => (
+                      <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {deductions.map((ded, i) => (
                     <tr key={i} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-semibold text-gray-900">{p.month}</td>
-                      <td className="px-6 py-4 text-sm text-gray-700">GHS{p.gross.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm text-[#2c4a6a]">-GHS{p.deductions.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm font-bold text-[#1e3147]">GHS{p.net.toLocaleString()}</td>
-                      <td className="px-6 py-4"><span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-full text-xs font-semibold">{p.status}</span></td>
+                      <td className="px-6 py-4 text-sm font-semibold text-gray-900">{ded.name}</td>
                       <td className="px-6 py-4">
-                        <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                          Download
-                        </button>
+                        <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${
+                          ded.type === "Statutory" ? "bg-[#2c4a6a]/10 text-[#2c4a6a] border-[#2c4a6a]/25" :
+                          ded.type === "Benefit"   ? "bg-[#6b8ca3]/10 text-[#6b8ca3] border-[#6b8ca3]/25" :
+                                                     "bg-gray-100 text-gray-500 border-gray-200"
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            ded.type === "Statutory" ? "bg-[#2c4a6a]" : ded.type === "Benefit" ? "bg-[#6b8ca3]" : "bg-gray-400"
+                          }`} />
+                          {ded.type}
+                        </span>
                       </td>
+                      <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{fmt(ded.amount)}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600">{ded.frequency}</td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-700">{fmt(ded.ytdAmount)}</td>
+                      <td className="px-6 py-4 text-xs text-gray-500">{ded.description}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -674,532 +745,344 @@ export default function EmployeeProfilePage() {
         </div>
       )}
 
-      {/* ═══ BENEFITS & DEDUCTIONS TAB ═══ */}
-{activeTab === "benefits" && (
-  <div className="space-y-6">
-    {/* Summary Cards */}
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5 text-white">
-        <p className="text-xs text-white/70 mb-1">Total Benefits</p>
-        <p className="text-3xl font-bold">{formatCurrency(totalBenefitCost)}</p>
-        <p className="text-xs text-white/60 mt-1">Monthly value</p>
-      </div>
-      <div className="bg-gradient-to-br from-[#4a6b82] to-[#2c4a6a] rounded-xl p-5 text-white">
-        <p className="text-xs text-white/70 mb-1">Employer Paid</p>
-        <p className="text-3xl font-bold">{formatCurrency(benefits.reduce((sum, b) => sum + b.employerPaid, 0))}</p>
-        <p className="text-xs text-white/60 mt-1">Company contribution</p>
-      </div>
-      <div className="bg-gradient-to-br from-[#6b8ca3] to-[#4a6b82] rounded-xl p-5 text-white">
-        <p className="text-xs text-white/70 mb-1">Employee Paid</p>
-        <p className="text-3xl font-bold">{formatCurrency(benefits.reduce((sum, b) => sum + b.employeePaid, 0))}</p>
-        <p className="text-xs text-white/60 mt-1">Your contribution</p>
-      </div>
-      <div className="bg-gradient-to-br from-[#8badc3] to-[#6b8ca3] rounded-xl p-5 text-white">
-        <p className="text-xs text-white/70 mb-1">Active Benefits</p>
-        <p className="text-3xl font-bold">{benefits.filter(b => b.status === "Active").length}</p>
-        <p className="text-xs text-white/60 mt-1">Current enrollments</p>
-      </div>
-    </div>
+      {/* ── Leave tab ────────────────────────────────────────────────────── */}
+      {activeTab === "leave" && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            {Object.entries(leaveBalance).map(([type, data], i) => (
+              <div key={type} className={`rounded-2xl p-5 text-white transition-all hover:scale-[1.02] ${
+                i % 2 === 0 ? "bg-gradient-to-br from-[#2c4a6a] to-[#1e3147]" : "bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a]"
+              }`}>
+                <p className="text-xs text-white/60 font-medium mb-2 capitalize">{type} leave</p>
+                <div className="flex items-end justify-between mb-3">
+                  <div>
+                    <p className="text-3xl font-bold">{data.remaining}</p>
+                    <p className="text-xs text-white/50">days left</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-white/70">{data.used}/{data.total}</p>
+                    <p className="text-xs text-white/50">used</p>
+                  </div>
+                </div>
+                <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+                  <div className="h-full bg-white/70 rounded-full"
+                    style={{ width: `${data.total ? Math.min((data.used / data.total) * 100, 100) : 0}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
 
-    {/* Benefits */}
-    <div className="bg-white rounded-2xl border border-gray-100 p-6">
-      <h2 className="text-base font-bold text-[#1e3147] mb-5">Active Benefits</h2>
-      <div className="space-y-4">
-        {benefits.map((benefit, i) => (
-          <div key={i} className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-5 border border-gray-100 hover:border-[#2c4a6a]/30 transition-all">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <h3 className="text-sm font-bold text-gray-900 mb-1">{benefit.name}</h3>
-                <p className="text-xs text-gray-500 mb-2">{benefit.provider} • {benefit.coverage}</p>
-                <span className="px-2 py-1 bg-green-100 text-green-700 border border-green-200 rounded text-xs font-medium">
-                  {benefit.status}
-                </span>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { label: "Total leave taken",  value: leaveRecords.reduce((s, r) => s + r.days, 0), sub: "days this year"      },
+              { label: "Leave requests",     value: leaveRecords.length,                           sub: "total applications" },
+              { label: "Approval rate",      value: "100%",                                        sub: "all approved"       },
+              { label: "Avg leave duration", value: Math.round(leaveRecords.reduce((s, r) => s + r.days, 0) / leaveRecords.length), sub: "days per request" },
+            ].map((c, i) => (
+              <div key={c.label} className="bg-white rounded-2xl border border-gray-100 p-5">
+                <p className="text-xs text-gray-500 font-medium mb-2">{c.label}</p>
+                <p className="text-3xl font-bold text-[#1e3147]">{c.value}</p>
+                <p className="text-xs text-gray-400 mt-1">{c.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-bold text-[#1e3147]">Leave history</h2>
+                <p className="text-sm text-gray-500 mt-1">{leaveRecords.length} records</p>
+              </div>
+              <button className="px-4 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all">
+                Request leave
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    {["Leave type","Start date","End date","Days","Status","Approved by","Applied date","Reason","Medical cert"].map(h => (
+                      <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {leaveRecords.map((leave, i) => {
+                    const lb = approvalBadge(leave.status);
+                    return (
+                      <tr key={i} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-900">{leave.type}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">{new Date(leave.startDate).toLocaleDateString("en-GB")}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">{new Date(leave.endDate).toLocaleDateString("en-GB")}</td>
+                        <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{leave.days} days</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${lb.pill}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${lb.dot}`} />
+                            {leave.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600">{leave.approvedBy}</td>
+                        <td className="px-6 py-4 text-sm text-gray-500">{new Date(leave.appliedDate).toLocaleDateString("en-GB")}</td>
+                        <td className="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">{leave.reason}</td>
+                        <td className="px-6 py-4 text-xs">
+                          {leave.medicalCert && (
+                            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border bg-[#2c4a6a]/10 text-[#2c4a6a] border-[#2c4a6a]/25">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#2c4a6a]" />
+                              Yes
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Recruitment tab ──────────────────────────────────────────────── */}
+      {activeTab === "recruitment" && (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-8 text-white">
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold mb-2">Recruitment journey</h2>
+                <p className="text-white/70">Complete hiring timeline from application to onboarding</p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-500 mb-1">Monthly Premium</p>
-                <p className="text-2xl font-bold text-[#2c4a6a]">{formatCurrency(benefit.premium)}</p>
+                <p className="text-xs text-white/60 mb-1">Total duration</p>
+                <p className="text-3xl font-bold">45 days</p>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Employer Pays</p>
-                <p className="text-sm font-bold text-[#2c4a6a]">{formatCurrency(benefit.employerPaid)}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Employee Pays</p>
-                <p className="text-sm font-bold text-gray-700">{formatCurrency(benefit.employeePaid)}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Effective Date</p>
-                <p className="text-sm font-medium text-gray-700">{new Date(benefit.effectiveDate).toLocaleDateString("en-GB")}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    {/* Deductions */}
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h2 className="text-base font-bold text-[#1e3147]">Monthly Deductions</h2>
-        <p className="text-sm text-gray-500 mt-1">Total: {formatCurrency(totalDeductions)}/month</p>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-100">
-            <tr>
-              {["Deduction", "Type", "Amount", "Frequency", "YTD Amount", "Description"].map(h => (
-                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {deductions.map((ded, i) => (
-              <tr key={i} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-semibold text-gray-900">{ded.name}</td>
-                <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded text-xs font-medium ${
-                    ded.type === "Statutory" ? "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]" :
-                    ded.type === "Benefit" ? "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]" :
-                    "bg-gray-100 text-gray-700 border border-gray-200"
-                  }`}>
-                    {ded.type}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{formatCurrency(ded.amount)}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{ded.frequency}</td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-700">{formatCurrency(ded.ytdAmount)}</td>
-                <td className="px-6 py-4 text-xs text-gray-500">{ded.description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* ═══ LEAVE TAB ═══ */}
-{activeTab === "leave" && (
-  <div className="space-y-6">
-    {/* Leave Balance Cards */}
-    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-      {Object.entries(leaveBalance).map(([type, data]) => (
-        <div key={type} className={`rounded-xl p-5 border ${
-          data.remaining < 0 ? "bg-[#bfcfde] border-[#96b3cc]" :
-          data.remaining === 0 ? "bg-[#2c4a6a] border-gray-200" :
-          "bg-gradient-to-br from-[#d4e1ed] to-white border-[#a8c5db]"
-        }`}>
-          <p className="text-xs font-medium text-gray-600 mb-2 capitalize">{type} Leave</p>
-          <div className="flex items-end justify-between mb-3">
-            <div>
-              <p className="text-3xl font-bold text-[#2c4a6a]">{data.remaining}</p>
-              <p className="text-xs text-gray-500">days left</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-medium text-gray-600">{data.used}/{data.total}</p>
-              <p className="text-xs text-gray-400">used</p>
-            </div>
-          </div>
-          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className={`h-full ${data.remaining < 0 ? "bg-red-500" : "bg-gradient-to-r from-[#2c4a6a] to-[#4a6b82]"}`}
-              style={{ width: `${Math.min((data.used / data.total) * 100, 100)}%` }}
-            ></div>
-          </div>
-        </div>
-      ))}
-    </div>
-
-    {/* Leave Statistics */}
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div className="bg-white rounded-xl p-5 border border-gray-100">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-medium text-gray-500">Total Leave Taken</p>
-          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        </div>
-        <p className="text-3xl font-bold text-gray-900">{leaveRecords.reduce((sum, r) => sum + r.days, 0)}</p>
-        <p className="text-xs text-gray-500 mt-1">days this year</p>
-      </div>
-
-      <div className="bg-white rounded-xl p-5 border border-gray-100">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-medium text-gray-500">Leave Requests</p>
-          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-          </svg>
-        </div>
-        <p className="text-3xl font-bold text-gray-900">{leaveRecords.length}</p>
-        <p className="text-xs text-gray-500 mt-1">total applications</p>
-      </div>
-
-      <div className="bg-white rounded-xl p-5 border border-gray-100">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-medium text-gray-500">Approval Rate</p>
-          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <p className="text-3xl font-bold text-[#2c4a6a]">100%</p>
-        <p className="text-xs text-gray-500 mt-1">all approved</p>
-      </div>
-
-      <div className="bg-white rounded-xl p-5 border border-gray-100">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-medium text-gray-500">Avg Leave Duration</p>
-          <svg className="w-5 h-5 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <p className="text-3xl font-bold text-gray-900">{Math.round(leaveRecords.reduce((sum, r) => sum + r.days, 0) / leaveRecords.length)}</p>
-        <p className="text-xs text-gray-500 mt-1">days per request</p>
-      </div>
-    </div>
-
-    {/* Leave History */}
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-bold text-[#1e3147]">Leave History</h2>
-          <p className="text-sm text-gray-500 mt-1">{leaveRecords.length} leave records</p>
-        </div>
-        <button className="px-4 py-2 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all">
-          Request Leave
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-100">
-            <tr>
-              {["Leave Type", "Start Date", "End Date", "Days", "Status", "Approved By", "Applied Date", "Reason", "Medical Cert"].map(h => (
-                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {leaveRecords.map((leave, i) => (
-              <tr key={i} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-semibold text-gray-900">{leave.type}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{new Date(leave.startDate).toLocaleDateString("en-GB")}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{new Date(leave.endDate).toLocaleDateString("en-GB")}</td>
-                <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{leave.days} days</td>
-                <td className="px-6 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getLeaveStatusColor(leave.status)}`}>
-                    {leave.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-600">{leave.approvedBy}</td>
-                <td className="px-6 py-4 text-sm text-gray-500">{new Date(leave.appliedDate).toLocaleDateString("en-GB")}</td>
-                <td className="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">{leave.reason}</td>
-                <td className="px-6 py-4 text-xs">
-                  {leave.medicalCert && (
-                    <span className="px-2 py-1 bg-[#d4e1ed] text-[#2c4a6a]rounded text-xs font-medium">
-                      Yes
-                    </span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* ═══ RECRUITMENT TAB ═══ */}
-{activeTab === "recruitment" && (
-  <div className="space-y-6">
-    {/* Summary */}
-    <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] rounded-2xl p-8 text-white">
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h2 className="text-2xl font-bold mb-2">Recruitment Journey</h2>
-          <p className="text-white/80">Complete hiring timeline from application to onboarding</p>
-        </div>
-        <div className="text-right">
-          <p className="text-sm text-white/70 mb-1">Total Duration</p>
-          <p className="text-3xl font-bold">45 days</p>
-        </div>
-      </div>
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
-          <p className="text-xs text-white/70 mb-1">Application Date</p>
-          <p className="text-lg font-bold">Jan 15, 2020</p>
-        </div>
-        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
-          <p className="text-xs text-white/70 mb-1">Hire Date</p>
-          <p className="text-lg font-bold">Mar 1, 2020</p>
-        </div>
-        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
-          <p className="text-xs text-white/70 mb-1">Stages Completed</p>
-          <p className="text-lg font-bold">{recruitmentTimeline.length}/10</p>
-        </div>
-        <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
-          <p className="text-xs text-white/70 mb-1">Overall Score</p>
-          <p className="text-lg font-bold">Excellent</p>
-        </div>
-      </div>
-    </div>
-
-    {/* Timeline */}
-    <div className="bg-white rounded-2xl border border-gray-100 p-8">
-      <h2 className="text-lg font-bold text-[#1e3147] mb-8">Hiring Timeline</h2>
-      <div className="space-y-6">
-        {recruitmentTimeline.map((stage, index) => (
-          <div key={index} className="relative pl-8">
-            {/* Connector line */}
-            {index < recruitmentTimeline.length - 1 && (
-              <div className="absolute left-[15px] top-8 bottom-0 w-0.5 bg-[#c3d2e9]"></div>
-            )}
-            
-            {/* Timeline dot */}
-            <div className="absolute left-0 top-1 w-8 h-8 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center border-4 border-white shadow-lg">
-              {stage.status === "Completed" && (
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-            </div>
-
-            {/* Content */}
-            <div className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-5 border border-gray-100 hover:border-[#2c4a6a]/30 transition-all">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="text-sm font-bold text-gray-900 mb-1">{stage.stage}</h3>
-                  <p className="text-xs text-gray-500">{new Date(stage.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: "Application date",  value: "Jan 15, 2020" },
+                { label: "Hire date",         value: "Mar 1, 2020"  },
+                { label: "Stages completed",  value: `${recruitmentTimeline.length}/10` },
+                { label: "Overall score",     value: "Excellent"    },
+              ].map(c => (
+                <div key={c.label} className="bg-white/10 rounded-xl p-4">
+                  <p className="text-xs text-white/60 mb-1">{c.label}</p>
+                  <p className="text-lg font-bold">{c.value}</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  {stage.score && (
-                    <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db] rounded-lg text-xs font-bold">
-                      {stage.score}
-                    </span>
-                  )}
-                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-lg text-xs font-semibold">
-                    {stage.status}
-                  </span>
-                </div>
-              </div>
-              <p className="text-sm text-gray-700 mb-3">{stage.notes}</p>
-              <div className="flex items-center gap-4 text-xs text-gray-500">
-                <span className="flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Duration: {stage.duration}
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    {/* Hiring Details */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
-        <h3 className="text-sm font-bold text-[#1e3147] mb-4">Assessment Scores</h3>
-        <div className="space-y-3">
-          {recruitmentTimeline.filter(s => s.score).map((stage, i) => (
-            <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-sm text-gray-700">{stage.stage}</span>
-              <span className="text-sm font-bold text-[#2c4a6a]">{stage.score}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
-        <h3 className="text-sm font-bold text-[#1e3147] mb-4">Hiring Details</h3>
-        <div className="space-y-3">
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Position Offered</span>
-            <span className="font-semibold text-gray-900">Senior Software Engineer</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Starting Salary</span>
-            <span className="font-semibold text-[#2c4a6a]">{formatCurrency(8500)}/month</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Department</span>
-            <span className="font-semibold text-gray-900">Engineering</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Employment Type</span>
-            <span className="font-semibold text-gray-900">Full-Time</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Hired By</span>
-            <span className="font-semibold text-gray-900">HR Team</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-      {/* ═══ TAX & SSNIT TAB ═══ */}
-{activeTab === "tax" && (
-  <div className="space-y-6">
-    {/* Summary Cards */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-2xl p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-white/70">Total Tax Paid (All Time)</h3>
-          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
-          </svg>
-        </div>
-        <p className="text-4xl font-bold mb-2">{formatCurrency(totalTaxPaid)}</p>
-        <p className="text-xs text-white/60">{taxRecords.length} years on record</p>
-      </div>
-
-      <div className="bg-gradient-to-br from-[#4a6b82] to-[#2c4a6a] rounded-2xl p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-white/70">Total SSNIT Contributions</h3>
-          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <p className="text-4xl font-bold mb-2">{formatCurrency(totalSSNIT)}</p>
-        <p className="text-xs text-white/60">Employee + Employer</p>
-      </div>
-
-      <div className="bg-gradient-to-br from-[#6b8ca3] to-[#4a6b82] rounded-2xl p-6 text-white shadow-lg">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-white/70">Average Tax Rate</h3>
-          <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-        </div>
-        <p className="text-4xl font-bold mb-2">15%</p>
-        <p className="text-xs text-white/60">Standard PAYE rate</p>
-      </div>
-    </div>
-
-    {/* Tax Records */}
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-        <h2 className="text-base font-bold text-[#1e3147]">Tax Filing History</h2>
-        <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          Download Tax Report
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-100">
-            <tr>
-              {["Tax Year", "Taxable Income", "Tax Paid", "Tax Rate", "Filing Status", "Filing Date", "Refund/Balance", "Status", "Action"].map(h => (
-                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
               ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {taxRecords.map((rec, i) => (
-              <tr key={i} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-bold text-gray-900">{rec.year}</td>
-                <td className="px-6 py-4 text-sm font-semibold text-gray-700">{formatCurrency(rec.taxableIncome)}</td>
-                <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{formatCurrency(rec.taxPaid)}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{rec.taxRate}</td>
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-full text-xs font-semibold">
-                    {rec.filingStatus}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-600">{new Date(rec.filingDate).toLocaleDateString("en-GB")}</td>
-                <td className="px-6 py-4 text-sm font-medium text-[#2c4a6a]">
-                  {rec.refundAmount > 0 ? `+${formatCurrency(rec.refundAmount)}` : formatCurrency(0)}
-                </td>
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db] rounded-full text-xs font-semibold">
-                    {rec.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 p-8">
+            <h2 className="text-base font-bold text-[#1e3147] mb-8">Hiring timeline</h2>
+            <div className="space-y-6">
+              {recruitmentTimeline.map((stage, index) => (
+                <div key={index} className="relative pl-8">
+                  {index < recruitmentTimeline.length - 1 && (
+                    <div className="absolute left-[15px] top-8 bottom-0 w-0.5 bg-[#c3d2e9]" />
+                  )}
+                  <div className="absolute left-0 top-1 w-8 h-8 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center border-4 border-white shadow-lg">
+                    <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Certificate
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    {/* SSNIT Records */}
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-        <h2 className="text-base font-bold text-[#1e3147]">SSNIT Contribution History</h2>
-        <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          Download Statement
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-100">
-            <tr>
-              {["Month", "Employee Contribution", "Employer Contribution", "Total Contribution", "Tier 1 (Pension)", "Tier 2 (Voluntary)", "Status", "Action"].map(h => (
-                <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-5 border border-gray-100 hover:border-[#2c4a6a]/30 transition-all">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="text-sm font-bold text-gray-900 mb-1">{stage.stage}</h3>
+                        <p className="text-xs text-gray-500">{new Date(stage.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {stage.score && (
+                          <span className="px-2.5 py-1 bg-[#2c4a6a]/10 text-[#2c4a6a] border border-[#2c4a6a]/25 rounded-lg text-xs font-bold">
+                            {stage.score}
+                          </span>
+                        )}
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border bg-[#2c4a6a]/10 text-[#2c4a6a] border-[#2c4a6a]/25">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2c4a6a]" />
+                          {stage.status}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 mb-2">{stage.notes}</p>
+                    <p className="text-xs text-gray-400">Duration: {stage.duration}</p>
+                  </div>
+                </div>
               ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {ssnitRecords.map((rec, i) => (
-              <tr key={i} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-semibold text-gray-900">{rec.month}</td>
-                <td className="px-6 py-4 text-sm font-medium text-[#2c4a6a]">{formatCurrency(rec.employeeContribution)}</td>
-                <td className="px-6 py-4 text-sm font-medium text-[#4a6b82]">{formatCurrency(rec.employerContribution)}</td>
-                <td className="px-6 py-4 text-sm font-bold text-gray-900">{formatCurrency(rec.totalContribution)}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{formatCurrency(rec.tier1)}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{formatCurrency(rec.tier2)}</td>
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 bg-[#d4e1ed] text-[#2c4a6a] border border-[#a8c5db] rounded-full text-xs font-semibold">
-                    {rec.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4">
-                  <button className="text-xs text-[#2c4a6a] font-medium hover:underline">Download</button>
-                </td>
-              </tr>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <h3 className="text-sm font-bold text-[#1e3147] mb-4">Assessment scores</h3>
+              <div className="space-y-3">
+                {recruitmentTimeline.filter(s => s.score).map((stage, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm text-gray-700">{stage.stage}</span>
+                    <span className="text-sm font-bold text-[#2c4a6a]">{stage.score}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <h3 className="text-sm font-bold text-[#1e3147] mb-4">Hiring details</h3>
+              <div className="space-y-3">
+                {[
+                  { label: "Position offered",  value: "Senior Software Engineer" },
+                  { label: "Starting salary",   value: `${fmt(8500)}/month` },
+                  { label: "Department",        value: "Engineering" },
+                  { label: "Employment type",   value: "Full-Time" },
+                  { label: "Hired by",          value: "HR Team" },
+                ].map(r => (
+                  <div key={r.label} className="flex justify-between text-sm">
+                    <span className="text-gray-500">{r.label}</span>
+                    <span className="font-semibold text-gray-900">{r.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Tax & Ssnit tab ──────────────────────────────────────────────── */}
+      {activeTab === "tax" && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { label: "Total tax paid (all time)",    value: fmt(totalTaxPaid), sub: `${taxRecords.length} years on record`, dark: true  },
+              { label: "Total Ssnit contributions",    value: fmt(totalSSNIT),   sub: "Employee + Employer",                  dark: false },
+              { label: "Average tax rate",             value: "15%",             sub: "Standard PAYE rate",                   dark: true  },
+            ].map(c => (
+              <div key={c.label} className={`rounded-2xl p-6 text-white transition-all hover:scale-[1.02] ${
+                c.dark ? "bg-gradient-to-br from-[#2c4a6a] to-[#1e3147]" : "bg-gradient-to-br from-[#3d5a7c] to-[#2c4a6a]"
+              }`}>
+                <p className="text-xs text-white/60 font-medium mb-2">{c.label}</p>
+                <p className="text-3xl font-bold leading-tight">{c.value}</p>
+                <p className="text-xs text-white/50 mt-1">{c.sub}</p>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-)}
+          </div>
 
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <h2 className="text-base font-bold text-[#1e3147]">Tax filing history</h2>
+              <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Download tax report
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    {["Tax year","Taxable income","Tax paid","Tax rate","Filing status","Filing date","Refund/balance","Status","Action"].map(h => (
+                      <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {taxRecords.map((rec, i) => {
+                    const rb = approvalBadge("Approved");
+                    return (
+                      <tr key={i} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 text-sm font-bold text-gray-900">{rec.year}</td>
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-700">{fmt(rec.taxableIncome)}</td>
+                        <td className="px-6 py-4 text-sm font-bold text-[#2c4a6a]">{fmt(rec.taxPaid)}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">{rec.taxRate}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${rb.pill}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${rb.dot}`} />
+                            {rec.filingStatus}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600">{new Date(rec.filingDate).toLocaleDateString("en-GB")}</td>
+                        <td className="px-6 py-4 text-sm font-medium text-[#2c4a6a]">
+                          {rec.refundAmount > 0 ? `+${fmt(rec.refundAmount)}` : fmt(0)}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${rb.pill}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${rb.dot}`} />
+                            {rec.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                            Certificate
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <h2 className="text-base font-bold text-[#1e3147]">Ssnit contribution history</h2>
+              <button className="text-xs text-[#2c4a6a] font-medium hover:underline flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Download statement
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    {["Month","Employee contribution","Employer contribution","Total contribution","Tier 1 (pension)","Tier 2 (voluntary)","Status","Action"].map(h => (
+                      <th key={h} className="px-6 py-3 text-left text-xs font-semibold text-gray-500">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {ssnitRecords.map((rec, i) => {
+                    const rb = approvalBadge("Approved");
+                    return (
+                      <tr key={i} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-900">{rec.month}</td>
+                        <td className="px-6 py-4 text-sm font-medium text-[#2c4a6a]">{fmt(rec.employeeContribution)}</td>
+                        <td className="px-6 py-4 text-sm font-medium text-[#6b8ca3]">{fmt(rec.employerContribution)}</td>
+                        <td className="px-6 py-4 text-sm font-bold text-gray-900">{fmt(rec.totalContribution)}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">{fmt(rec.tier1)}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">{fmt(rec.tier2)}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${rb.pill}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${rb.dot}`} />
+                            {rec.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <button className="text-xs text-[#2c4a6a] font-medium hover:underline">Download</button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* ═══ DOCUMENTS TAB ═══ */}
+      {/* ── Documents tab ────────────────────────────────────────────────── */}
       {activeTab === "documents" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { name: "Curriculum Vitae", file: employee.resume, icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z", date: "Uploaded Mar 2020" },
-              { name: "National ID / Ghana Card", file: employee.idDocument, icon: "M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5", date: "Uploaded Mar 2020" },
-              { name: "Offer Letter", file: "offer_letter.pdf", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", date: "Uploaded Mar 2020" },
-              { name: "Employment Contract", file: "contract.pdf", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4", date: "Uploaded Mar 2020" },
-              { name: "Tax Certificate", file: "tax_cert.pdf", icon: "M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z", date: "Uploaded Jan 2024" },
-              { name: "Academic Certificate", file: "degree.pdf", icon: "M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z", date: "Uploaded Mar 2020" },
+              { name: "Curriculum vitae",      file: employee.resume,         icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z", date: "Uploaded Mar 2020" },
+              { name: "National id / Ghana card",file: employee.idDocument,   icon: "M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5", date: "Uploaded Mar 2020" },
+              { name: "Offer letter",          file: "offer_letter.pdf",      icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", date: "Uploaded Mar 2020" },
+              { name: "Employment contract",   file: "contract.pdf",          icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4", date: "Uploaded Mar 2020" },
+              { name: "Tax certificate",       file: "tax_cert.pdf",          icon: "M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z", date: "Uploaded Jan 2024" },
+              { name: "Academic certificate",  file: "degree.pdf",            icon: "M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z", date: "Uploaded Mar 2020" },
             ].map(doc => (
               <div key={doc.name} className="bg-white rounded-2xl border border-gray-100 p-5 hover:border-[#c3d2e9] transition-colors">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="w-12 h-12 rounded-xl bg-[#eef3f9] flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={doc.icon} /></svg>
+                    <svg className="w-6 h-6 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={doc.icon} />
+                    </svg>
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-gray-900 mb-1">{doc.name}</h3>
@@ -1220,26 +1103,26 @@ export default function EmployeeProfilePage() {
               </div>
             ))}
           </div>
+
           <div className="bg-white rounded-2xl border-2 border-dashed border-[#c3d2e9] p-10 text-center hover:border-[#2c4a6a] transition-colors cursor-pointer">
             <div className="w-14 h-14 rounded-2xl bg-[#eef3f9] flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+              <svg className="w-7 h-7 text-[#2c4a6a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              </svg>
             </div>
-            <p className="text-sm font-semibold text-gray-700 mb-1">Upload New Document</p>
+            <p className="text-sm font-semibold text-gray-700 mb-1">Upload new document</p>
             <p className="text-xs text-gray-500">PDF, DOC, or image files up to 10MB</p>
           </div>
         </div>
       )}
 
-
-      {/* ══════════════════════════════════════════ */}
-      {/*  EDIT MODAL                                */}
-      {/* ══════════════════════════════════════════ */}
+      {/* ── Edit modal ───────────────────────────────────────────────────── */}
       {editModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col border border-gray-200">
             <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] px-6 py-5 flex items-center justify-between flex-shrink-0">
               <div>
-                <h2 className="text-lg font-bold text-white">Edit Employee</h2>
+                <h2 className="text-lg font-bold text-white">Edit employee</h2>
                 <p className="text-sm text-white/70 mt-0.5">{employee.id} · {employee.firstName} {employee.lastName}</p>
               </div>
               <button onClick={() => setEditModalOpen(false)} className="p-2 hover:bg-white/20 rounded-lg transition-colors text-white">
@@ -1248,153 +1131,70 @@ export default function EmployeeProfilePage() {
             </div>
 
             <div className="overflow-y-auto flex-1 p-6 space-y-6">
-              {/* Personal Info */}
-              <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Personal Information</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className={labelClass}>First Name</label>
-                    <input className={inputClass} value={editForm.firstName || ""} onChange={e => setEditForm({ ...editForm, firstName: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Other Names</label>
-                    <input className={inputClass} value={editForm.otherNames || ""} onChange={e => setEditForm({ ...editForm, otherNames: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Last Name</label>
-                    <input className={inputClass} value={editForm.lastName || ""} onChange={e => setEditForm({ ...editForm, lastName: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Date of Birth</label>
-                    <input type="date" className={inputClass} value={editForm.dateOfBirth || ""} onChange={e => setEditForm({ ...editForm, dateOfBirth: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Gender</label>
-                    <select className={inputClass} value={editForm.gender || ""} onChange={e => setEditForm({ ...editForm, gender: e.target.value })}>
-                      <option>Male</option><option>Female</option><option>Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Phone</label>
-                    <input className={inputClass} value={editForm.phone || ""} onChange={e => setEditForm({ ...editForm, phone: e.target.value })} />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className={labelClass}>Email</label>
-                    <input type="email" className={inputClass} value={editForm.email || ""} onChange={e => setEditForm({ ...editForm, email: e.target.value })} />
-                  </div>
-                  <div className="sm:col-span-3">
-                    <label className={labelClass}>Residential Address</label>
-                    <input className={inputClass} value={editForm.residentialAddress || ""} onChange={e => setEditForm({ ...editForm, residentialAddress: e.target.value })} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100" />
-
-              {/* Employment Info */}
-              <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Employment Details</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>Job Title</label>
-                    <input className={inputClass} value={editForm.jobTitle || ""} onChange={e => setEditForm({ ...editForm, jobTitle: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Department</label>
-                    <select className={inputClass} value={editForm.department || ""} onChange={e => setEditForm({ ...editForm, department: e.target.value })}>
-                      {["Engineering", "Sales", "Marketing", "HR", "Finance", "Operations"].map(d => <option key={d}>{d}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Employment Type</label>
-                    <select className={inputClass} value={editForm.employmentType || ""} onChange={e => setEditForm({ ...editForm, employmentType: e.target.value })}>
-                      {["Full-Time", "Part-Time", "Contract", "Intern"].map(t => <option key={t}>{t}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Employment Status</label>
-                    <select className={inputClass} value={editForm.employmentStatus || ""} onChange={e => setEditForm({ ...editForm, employmentStatus: e.target.value })}>
-                      {["Active", "On Leave", "Suspended", "Terminated"].map(s => <option key={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Date of Hire</label>
-                    <input type="date" className={inputClass} value={editForm.hireDate || ""} onChange={e => setEditForm({ ...editForm, hireDate: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Salary Type</label>
-                    <select className={inputClass} value={editForm.salaryType || ""} onChange={e => setEditForm({ ...editForm, salaryType: e.target.value })}>
-                      {["Monthly", "Weekly", "Daily", "Hourly"].map(s => <option key={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Basic Salary (GHS)</label>
-                    <input type="number" className={inputClass} value={editForm.basicSalary || ""} onChange={e => setEditForm({ ...editForm, basicSalary: Number(e.target.value) })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Allowances (GHS)</label>
-                    <input type="number" className={inputClass} value={editForm.allowances || ""} onChange={e => setEditForm({ ...editForm, allowances: Number(e.target.value) })} />
+              {[
+                {
+                  title: "Personal information",
+                  fields: [
+                    { label: "First name",   col: 1, render: () => <input className={inputClass} value={editForm.firstName || ""} onChange={e => setEditForm({ ...editForm, firstName: e.target.value })} /> },
+                    { label: "Other names",  col: 1, render: () => <input className={inputClass} value={editForm.otherNames || ""} onChange={e => setEditForm({ ...editForm, otherNames: e.target.value })} /> },
+                    { label: "Last name",    col: 1, render: () => <input className={inputClass} value={editForm.lastName || ""} onChange={e => setEditForm({ ...editForm, lastName: e.target.value })} /> },
+                    { label: "Date of birth",col: 1, render: () => <input type="date" className={inputClass} value={editForm.dateOfBirth || ""} onChange={e => setEditForm({ ...editForm, dateOfBirth: e.target.value })} /> },
+                    { label: "Gender",       col: 1, render: () => <select className={inputClass} value={editForm.gender || ""} onChange={e => setEditForm({ ...editForm, gender: e.target.value })}><option>Male</option><option>Female</option><option>Other</option></select> },
+                    { label: "Phone",        col: 1, render: () => <input className={inputClass} value={editForm.phone || ""} onChange={e => setEditForm({ ...editForm, phone: e.target.value })} /> },
+                    { label: "Email",        col: 2, render: () => <input type="email" className={inputClass} value={editForm.email || ""} onChange={e => setEditForm({ ...editForm, email: e.target.value })} /> },
+                    { label: "Address",      col: 3, render: () => <input className={inputClass} value={editForm.residentialAddress || ""} onChange={e => setEditForm({ ...editForm, residentialAddress: e.target.value })} /> },
+                  ],
+                  cols: 3,
+                },
+                {
+                  title: "Employment details",
+                  fields: [
+                    { label: "Job title",         col: 1, render: () => <input className={inputClass} value={editForm.jobTitle || ""} onChange={e => setEditForm({ ...editForm, jobTitle: e.target.value })} /> },
+                    { label: "Department",        col: 1, render: () => <select className={inputClass} value={editForm.department || ""} onChange={e => setEditForm({ ...editForm, department: e.target.value })}>{["Engineering","Sales","Marketing","HR","Finance","Operations"].map(d => <option key={d}>{d}</option>)}</select> },
+                    { label: "Employment type",   col: 1, render: () => <select className={inputClass} value={editForm.employmentType || ""} onChange={e => setEditForm({ ...editForm, employmentType: e.target.value })}>{["Full-Time","Part-Time","Contract","Intern"].map(t => <option key={t}>{t}</option>)}</select> },
+                    { label: "Employment status", col: 1, render: () => <select className={inputClass} value={editForm.employmentStatus || ""} onChange={e => setEditForm({ ...editForm, employmentStatus: e.target.value })}>{["Active","On Leave","Suspended","Terminated"].map(s => <option key={s}>{s}</option>)}</select> },
+                    { label: "Date of hire",      col: 1, render: () => <input type="date" className={inputClass} value={editForm.hireDate || ""} onChange={e => setEditForm({ ...editForm, hireDate: e.target.value })} /> },
+                    { label: "Salary type",       col: 1, render: () => <select className={inputClass} value={editForm.salaryType || ""} onChange={e => setEditForm({ ...editForm, salaryType: e.target.value })}>{["Monthly","Weekly","Daily","Hourly"].map(s => <option key={s}>{s}</option>)}</select> },
+                    { label: "Basic salary (GHS)",col: 1, render: () => <input type="number" className={inputClass} value={editForm.basicSalary || ""} onChange={e => setEditForm({ ...editForm, basicSalary: Number(e.target.value) })} /> },
+                    { label: "Allowances (GHS)",  col: 1, render: () => <input type="number" className={inputClass} value={editForm.allowances || ""} onChange={e => setEditForm({ ...editForm, allowances: Number(e.target.value) })} /> },
+                  ],
+                  cols: 2,
+                },
+                {
+                  title: "Bank & payment",
+                  fields: [
+                    { label: "Bank name",       col: 1, render: () => <input className={inputClass} value={editForm.bankName || ""} onChange={e => setEditForm({ ...editForm, bankName: e.target.value })} /> },
+                    { label: "Account name",    col: 1, render: () => <input className={inputClass} value={editForm.accountName || ""} onChange={e => setEditForm({ ...editForm, accountName: e.target.value })} /> },
+                    { label: "Account number",  col: 1, render: () => <input className={inputClass} value={editForm.accountNumber || ""} onChange={e => setEditForm({ ...editForm, accountNumber: e.target.value })} /> },
+                    { label: "Payment method",  col: 1, render: () => <select className={inputClass} value={editForm.paymentMethod || ""} onChange={e => setEditForm({ ...editForm, paymentMethod: e.target.value })}>{["Bank Transfer","Mobile Money","Cash","Cheque"].map(m => <option key={m}>{m}</option>)}</select> },
+                    { label: "Tax id (TIN)",    col: 1, render: () => <input className={inputClass} value={editForm.taxId || ""} onChange={e => setEditForm({ ...editForm, taxId: e.target.value })} /> },
+                    { label: "Ssnit",           col: 1, render: () => <input className={inputClass} value={editForm.ssnit || ""} onChange={e => setEditForm({ ...editForm, ssnit: e.target.value })} /> },
+                  ],
+                  cols: 2,
+                },
+                {
+                  title: "Emergency contact",
+                  fields: [
+                    { label: "Contact name",  col: 1, render: () => <input className={inputClass} value={editForm.emergencyContact?.name || ""} onChange={e => setEditForm({ ...editForm, emergencyContact: { ...editForm.emergencyContact, name: e.target.value } })} /> },
+                    { label: "Contact phone", col: 1, render: () => <input className={inputClass} value={editForm.emergencyContact?.phone || ""} onChange={e => setEditForm({ ...editForm, emergencyContact: { ...editForm.emergencyContact, phone: e.target.value } })} /> },
+                    { label: "Relationship",  col: 1, render: () => <select className={inputClass} value={editForm.emergencyContact?.relationship || ""} onChange={e => setEditForm({ ...editForm, emergencyContact: { ...editForm.emergencyContact, relationship: e.target.value } })}>{["Spouse","Parent","Sibling","Child","Friend","Other"].map(r => <option key={r}>{r}</option>)}</select> },
+                  ],
+                  cols: 3,
+                },
+              ].map((section, si) => (
+                <div key={si}>
+                  {si > 0 && <div className="border-t border-gray-100 mb-6" />}
+                  <h3 className="text-xs font-semibold text-gray-400 mb-3">{section.title}</h3>
+                  <div className={`grid grid-cols-1 sm:grid-cols-${section.cols} gap-4`}>
+                    {section.fields.map(f => (
+                      <div key={f.label} className={f.col > 1 ? `sm:col-span-${f.col}` : ""}>
+                        <label className={labelClass}>{f.label}</label>
+                        {f.render()}
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-
-              <div className="border-t border-gray-100" />
-
-              {/* Bank Info */}
-              <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Bank & Payment</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>Bank Name</label>
-                    <input className={inputClass} value={editForm.bankName || ""} onChange={e => setEditForm({ ...editForm, bankName: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Account Name</label>
-                    <input className={inputClass} value={editForm.accountName || ""} onChange={e => setEditForm({ ...editForm, accountName: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Account Number</label>
-                    <input className={inputClass} value={editForm.accountNumber || ""} onChange={e => setEditForm({ ...editForm, accountNumber: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Payment Method</label>
-                    <select className={inputClass} value={editForm.paymentMethod || ""} onChange={e => setEditForm({ ...editForm, paymentMethod: e.target.value })}>
-                      {["Bank Transfer", "Mobile Money", "Cash", "Cheque"].map(m => <option key={m}>{m}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className={labelClass}>Tax ID (TIN)</label>
-                    <input className={inputClass} value={editForm.taxId || ""} onChange={e => setEditForm({ ...editForm, taxId: e.target.value })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>SSNIT</label>
-                    <input className={inputClass} value={editForm.ssnit || ""} onChange={e => setEditForm({ ...editForm, ssnit: e.target.value })} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100" />
-
-              {/* Emergency Contact */}
-              <div>
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Emergency Contact</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className={labelClass}>Contact Name</label>
-                    <input className={inputClass} value={editForm.emergencyContact?.name || ""} onChange={e => setEditForm({ ...editForm, emergencyContact: { ...editForm.emergencyContact, name: e.target.value } })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Contact Phone</label>
-                    <input className={inputClass} value={editForm.emergencyContact?.phone || ""} onChange={e => setEditForm({ ...editForm, emergencyContact: { ...editForm.emergencyContact, phone: e.target.value } })} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Relationship</label>
-                    <select className={inputClass} value={editForm.emergencyContact?.relationship || ""} onChange={e => setEditForm({ ...editForm, emergencyContact: { ...editForm.emergencyContact, relationship: e.target.value } })}>
-                      {["Spouse", "Parent", "Sibling", "Child", "Friend", "Other"].map(r => <option key={r}>{r}</option>)}
-                    </select>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-gray-50 flex-shrink-0">
@@ -1403,17 +1203,14 @@ export default function EmployeeProfilePage() {
               </button>
               <button onClick={handleEditSave} className="px-6 py-2.5 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-xl text-sm font-semibold hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                Save Changes
+                Save changes
               </button>
             </div>
           </div>
         </div>
       )}
 
-
-      {/* ══════════════════════════════════════════ */}
-      {/*  SUSPEND / REINSTATE MODAL                 */}
-      {/* ══════════════════════════════════════════ */}
+      {/* ── Suspend / Reinstate modal ────────────────────────────────────── */}
       {suspendModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md border border-gray-200 overflow-hidden">
@@ -1421,53 +1218,52 @@ export default function EmployeeProfilePage() {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={employee.employmentStatus === "Suspended"
-                      ? "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      : "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"} />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={
+                      employee.employmentStatus === "Suspended"
+                        ? "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        : "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                    } />
                   </svg>
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white">
-                    {employee.employmentStatus === "Suspended" ? "Reinstate Employee" : "Suspend Employee"}
+                    {employee.employmentStatus === "Suspended" ? "Reinstate employee" : "Suspend employee"}
                   </h2>
                   <p className="text-sm text-white/80">{employee.firstName} {employee.lastName}</p>
                 </div>
               </div>
             </div>
-
             <div className="p-6">
               <p className="text-sm text-gray-600 mb-4">
                 {employee.employmentStatus === "Suspended"
                   ? "This will restore the employee's active status and reinstate their access to company systems."
-                  : "This will temporarily suspend the employee's access and mark their status as Suspended."}
+                  : "This will temporarily suspend the employee's access and mark their status as suspended."}
               </p>
               {employee.employmentStatus !== "Suspended" && (
                 <div>
-                  <label className={labelClass}>Reason for Suspension <span className="text-gray-400 font-normal">(optional)</span></label>
+                  <label className={labelClass}>Reason for suspension <span className="text-gray-400 font-normal">(optional)</span></label>
                   <textarea rows={3} className={`${inputClass} resize-none`}
                     placeholder="e.g. Pending disciplinary review..."
                     value={suspendReason} onChange={e => setSuspendReason(e.target.value)} />
                 </div>
               )}
             </div>
-
             <div className="px-6 pb-6 flex gap-3">
               <button onClick={() => setSuspendModalOpen(false)} className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                 Cancel
               </button>
               <button onClick={handleSuspend}
-                className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all ${employee.employmentStatus === "Suspended" ? "bg-[#2c4a6a] hover:bg-[#1e3147]" : "bg-[#4a6b8a] hover:bg-[#2c4a6a]"}`}>
-                {employee.employmentStatus === "Suspended" ? "Yes, Reinstate" : "Yes, Suspend"}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all ${
+                  employee.employmentStatus === "Suspended" ? "bg-[#2c4a6a] hover:bg-[#1e3147]" : "bg-[#4a6b8a] hover:bg-[#2c4a6a]"
+                }`}>
+                {employee.employmentStatus === "Suspended" ? "Yes, reinstate" : "Yes, suspend"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-
-      {/* ══════════════════════════════════════════ */}
-      {/*  DELETE CONFIRMATION MODAL                 */}
-      {/* ══════════════════════════════════════════ */}
+      {/* ── Delete modal ─────────────────────────────────────────────────── */}
       {deleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md border border-gray-200 overflow-hidden">
@@ -1479,12 +1275,11 @@ export default function EmployeeProfilePage() {
                   </svg>
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-white">Delete Employee</h2>
+                  <h2 className="text-lg font-bold text-white">Delete employee</h2>
                   <p className="text-sm text-white/80">{employee.firstName} {employee.lastName} · {employee.id}</p>
                 </div>
               </div>
             </div>
-
             <div className="p-6">
               <div className="bg-[#e8eef4] border border-[#c3d2e9] rounded-xl p-4 mb-5">
                 <p className="text-sm text-[#1e3147] font-medium">⚠️ This action cannot be undone</p>
@@ -1494,15 +1289,12 @@ export default function EmployeeProfilePage() {
                 <label className={labelClass}>
                   Type <span className="font-bold text-[#2c4a6a]">{employee.id}</span> to confirm deletion
                 </label>
-                <input
-                  className={`${inputClass} border-[#c3d2e9] focus:ring-[#2c4a6a]`}
+                <input className={`${inputClass} border-[#c3d2e9]`}
                   placeholder={employee.id}
                   value={deleteConfirmText}
-                  onChange={e => setDeleteConfirmText(e.target.value)}
-                />
+                  onChange={e => setDeleteConfirmText(e.target.value)} />
               </div>
             </div>
-
             <div className="px-6 pb-6 flex gap-3">
               <button onClick={() => { setDeleteModalOpen(false); setDeleteConfirmText(""); }}
                 className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
@@ -1511,7 +1303,7 @@ export default function EmployeeProfilePage() {
               <button onClick={handleDelete}
                 disabled={deleteConfirmText !== employee.id}
                 className="flex-1 px-4 py-2.5 bg-[#2c4a6a] hover:bg-[#1e3147] disabled:bg-[#c3d2e9] disabled:cursor-not-allowed rounded-xl text-sm font-semibold text-white transition-all">
-                Delete Permanently
+                Delete permanently
               </button>
             </div>
           </div>

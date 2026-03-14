@@ -9,7 +9,6 @@ import { role } from "@/lib/data";
 import {
   FiHome,
   FiUsers,
-  FiFileText,
   FiSettings,
   FiLogOut,
   FiBarChart2,
@@ -38,7 +37,6 @@ const menuItems = [
     items: [
       { icon: FiBarChart2, label: "Payroll Reports", href: "/reports/payrollreport", visible: ["admin", "finance"] },
       { icon: MdOutlineReceiptLong, label: "Payslips", href: "/reports/payslipreport", visible: ["admin", "finance", "employee"] },
-      { icon: FiFileText, label: "Tax & Deductions", href: "/reports/tax", visible: ["admin", "finance"] },
     ],
   },
   {
