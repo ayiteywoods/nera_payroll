@@ -6,34 +6,23 @@ import PayrollChart from "@/components/PayrollChart";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, Tooltip } from 'recharts';
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
-// Brand palette
 const C = {
   navy:    "#2c4a6a",
   navyMid: "#3d5a7c",
   navyDk:  "#1e3147",
   steel:   "#6b8ca3",
   fog:     "#a3c2d7",
-  iceA:    "#dbe7f1",   // odd secondary cards
-  iceB:    "#e7f0f5",   // even secondary cards
+  iceA:    "#dbe7f1",
+  iceB:    "#e7f0f5",
 };
 
-// Typography helpers – keeps font-size / weight / leading consistent.
-// Rule: ONE display size (3xl), ONE heading (lg/base), ONE body (sm),
-//       ONE caption (xs) — no rogue sizes outside these four stops.
 const T = {
-  // Section headings
   sectionTitle: "text-base font-semibold tracking-tight text-gray-900",
-  // Card-level numbers / hero values
   heroNum: "text-3xl font-bold leading-none text-[#1e3147]",
-  // Secondary numeric (e.g. percentage badges)
   subNum: "text-lg font-bold leading-none text-gray-900",
-  // Body copy
   body: "text-sm text-gray-600 leading-snug",
-  // Supporting / meta
   caption: "text-xs text-gray-500 leading-tight",
-  // Emphasis inside body (name, action)
   strong: "text-sm font-semibold text-gray-900",
-  // Labels inside stat cards on dark bg
   cardLabel: "text-xs font-medium text-white/60 uppercase tracking-wide",
   cardValue: "text-3xl font-bold tracking-tight",
   cardMeta:  "text-xs text-white/50",
@@ -49,7 +38,9 @@ export default function AdminDashboardPage() {
   const [selectedLeaveType, setSelectedLeaveType] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
-  const [currentTime, setCurrentTime] = useState(new Date());
+
+  // ── FIX: initialise to null to avoid SSR/client hydration mismatch ──────────
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   const [taskFormData, setTaskFormData] = useState({
     title: "", assignee: "", dueDate: "",
@@ -68,7 +59,10 @@ export default function AdminDashboardPage() {
     const t = setInterval(() => setCurrentAlertIndex(p => (p + 1) % systemAlerts.length), 5000);
     return () => clearInterval(t);
   }, []);
+
+  // ── FIX: set initial time on mount (client only), then tick every second ────
   useEffect(() => {
+    setCurrentTime(new Date());
     const t = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
@@ -174,8 +168,8 @@ export default function AdminDashboardPage() {
     leave:   "bg-[#6b8ca3]",
   }[c] ?? "bg-gray-400");
 
-  const formatTime = (d) => d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-  const formatDate = (d) => d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const formatTime = (d: Date) => d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+  const formatDate = (d: Date) => d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
 
   const getDaysInMonth = (d) => {
     const y = d.getFullYear(), m = d.getMonth();
@@ -213,12 +207,8 @@ export default function AdminDashboardPage() {
   ) : null;
 
   // ─── Shared panel anatomy ─────────────────────────────────────────────────
-  // Both "Top Attendees" and "Recent Activity" use this exact shell so they feel
-  // like siblings: same card bg, same header spacing, same row height (~68 px),
-  // same avatar size (w-10 h-10), same "View All" link style.
   const PanelShell = ({ title, count, countLabel, href, children }) => (
     <div className="bg-white rounded-2xl border border-gray-100 flex flex-col">
-      {/* Panel header */}
       <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
         <div>
           <h2 className={T.sectionTitle}>{title}</h2>
@@ -236,16 +226,12 @@ export default function AdminDashboardPage() {
           </button>
         )}
       </div>
-      {/* Panel body */}
       <div className="flex-1 px-6 py-3 space-y-1">
         {children}
       </div>
     </div>
   );
 
-  // Unified row used inside BOTH panels
-  // Left: rank badge OR status dot · avatar · name+sub
-  // Right: primary value · secondary value
   const PanelRow = ({ left, right }) => (
     <div className="flex items-center gap-3 py-2.5 rounded-xl px-2 -mx-2 hover:bg-gray-50 transition-colors cursor-default">
       {left}
@@ -255,7 +241,6 @@ export default function AdminDashboardPage() {
     </div>
   );
 
-  // Avatar
   const Avatar = ({ src, alt, size = "w-10 h-10" }) => (
     <div className={`relative flex-shrink-0 ${size} rounded-full overflow-hidden ring-2 ring-white`}>
       <Image src={src} alt={alt} fill className="object-cover" />
@@ -275,8 +260,13 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-[#2c4a6a] leading-tight">Welcome back, Ama!</h1>
-              <p className="text-sm font-mono text-gray-500 mt-0.5">{formatTime(currentTime)} GMT</p>
-              <p className={T.caption}>{formatDate(currentTime)}</p>
+              {/* ── FIX: render placeholder until currentTime is set on client ── */}
+              <p className="text-sm font-mono text-gray-500 mt-0.5">
+                {currentTime ? formatTime(currentTime) : "--:--:--"} GMT
+              </p>
+              <p className={T.caption}>
+                {currentTime ? formatDate(currentTime) : ""}
+              </p>
             </div>
           </div>
 
@@ -303,7 +293,6 @@ export default function AdminDashboardPage() {
                 ))}
               </div>
             </div>
-            {/* Prev / Next */}
             {[-1, 1].map((dir) => (
               <button key={dir}
                 onClick={() => setCurrentAlertIndex(p => (p + dir + systemAlerts.length) % systemAlerts.length)}
@@ -405,7 +394,10 @@ export default function AdminDashboardPage() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className={T.sectionTitle}>Today's Attendance</h2>
-            <p className={T.caption + " mt-0.5"}>{formatDate(currentTime)}</p>
+            {/* ── FIX: guard formatDate call ── */}
+            <p className={T.caption + " mt-0.5"}>
+              {currentTime ? formatDate(currentTime) : ""}
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <select value={selectedDepartment} onChange={e => setSelectedDepartment(e.target.value)}
@@ -554,7 +546,6 @@ export default function AdminDashboardPage() {
       {/* ── Top Attendees + Recent Activity ────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 
-        {/* Top Attendees */}
         <PanelShell title="Top Attendees" count={topAttendees.length} countLabel="this month" href="/attendance">
           {topAttendees.map((a, i) => (
             <PanelRow key={a.id}
@@ -580,7 +571,6 @@ export default function AdminDashboardPage() {
           ))}
         </PanelShell>
 
-        {/* Recent Activity */}
         <PanelShell title="Recent Activity" count={recentActivities.length} countLabel="latest events">
           {recentActivities.map((act) => (
             <PanelRow key={act.id}

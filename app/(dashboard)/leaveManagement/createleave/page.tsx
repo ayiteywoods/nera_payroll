@@ -109,7 +109,7 @@ export default function CreateLeaveRequestPage() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-4 mb-1">
-          <Link href="/leave" className="p-2 hover:bg-gray-200 rounded-lg transition-colors">
+          <Link href="/leave" className="p-2 hover:bg-gradient-to-br hover:from-[#dbe7f1] hover:to-[#e8f0f7] rounded-lg transition-all border border-gray-200 hover:border-[#8badc3]">
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>

@@ -5,6 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import QRCode from "qrcode";
 
+type Employee = {
+  name: string;
+  status: string;
+  time: string;
+  dept: string;
+  image: string;
+};
+
 export default function AttendancePage() {
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,6 +22,17 @@ export default function AttendancePage() {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+
+  // View employee modal state
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [selectedEmpIndex, setSelectedEmpIndex] = useState<number>(0);
+
+  const openViewModal = (emp: Employee, index: number) => {
+    setSelectedEmployee(emp);
+    setSelectedEmpIndex(index);
+    setShowViewModal(true);
+  };
 
   const openAttendanceModal = async () => {
     const attendanceUrl = `https://nerapay.com/attendance/checkin/${new Date().toISOString().split('T')[0]}`;
@@ -39,7 +58,6 @@ export default function AttendancePage() {
         const response = await fetch(qrCodeUrl);
         const blob = await response.blob();
         const file = new File([blob], `attendance-qr-${new Date().toISOString().split('T')[0]}.png`, { type: 'image/png' });
-        
         await navigator.share({
           title: 'Attendance QR Code',
           text: `Scan this QR code to mark attendance for ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}`,
@@ -55,7 +73,7 @@ export default function AttendancePage() {
     }
   };
 
-  const attendanceData = {
+  const attendanceData: Record<string, { present: number; absent: number; late: number; onLeave: number; total: number; details: Employee[] }> = {
     All: {
       present: 1089, absent: 45, late: 55, onLeave: 58, total: 1247,
       details: [
@@ -131,6 +149,8 @@ export default function AttendancePage() {
     s === "onLeave" ? "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]" :
     "bg-gray-100 text-gray-700 border-gray-200";
 
+
+
   const getInitials = (name: string) => {
     const parts = name.split(' ');
     if (parts.length >= 2) {
@@ -138,6 +158,9 @@ export default function AttendancePage() {
     }
     return name[0] + (name[1] || '');
   };
+
+  const formatStatusLabel = (s: string) =>
+    s === 'onLeave' ? 'On Leave' : s.charAt(0).toUpperCase() + s.slice(1);
 
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen overflow-x-hidden">
@@ -147,7 +170,7 @@ export default function AttendancePage() {
         <p className="text-sm text-gray-600">Track and manage employee attendance</p>
       </div>
 
-      {/* Stats - Matching Dashboard Gradient */}
+      {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
           { label: "Total Employees", value: currentAttendance.total, sub: "All in system" },
@@ -210,7 +233,6 @@ export default function AttendancePage() {
             </select>
           </div>
           <div className="flex items-center gap-2">
-            {/* View Mode Toggle */}
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => setViewMode("cards")}
@@ -287,7 +309,7 @@ export default function AttendancePage() {
                   </div>
                 </div>
                 <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(emp.status)}`}>
-                  {emp.status === 'onLeave' ? 'On Leave' : emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}
+                  {formatStatusLabel(emp.status)}
                 </span>
               </div>
               <div className="space-y-1.5 mb-4 flex-1">
@@ -295,28 +317,24 @@ export default function AttendancePage() {
                 <p className="text-xs text-gray-500">Check-in: {emp.time}</p>
                 <p className="text-xs text-gray-400 truncate">{emp.name.toLowerCase().replace(' ', '.')}@company.com</p>
                 <p className="text-xs text-gray-400">+233 XX XXX XXXX</p>
-                <p className="text-xs text-gray-400">Status: {emp.status === 'onLeave' ? 'On Leave' : emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}</p>
+                <p className="text-xs text-gray-400">Status: {formatStatusLabel(emp.status)}</p>
               </div>
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                 <div>
                   <p className="text-[10px] text-gray-400 mb-0.5">Clock In Time</p>
                   <p className="text-base font-bold text-[#2c4a6a]">{emp.time}</p>
                 </div>
-                <div className="flex gap-2">
-                  <button className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    View
-                  </button>
-                  <button className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                    Edit
-                  </button>
-                </div>
+                {/* View button only — Edit removed */}
+                <button
+                  onClick={() => openViewModal(emp, startIdx + index)}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  View
+                </button>
               </div>
             </div>
           ))}
@@ -371,23 +389,21 @@ export default function AttendancePage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(emp.status)}`}>
-                        {emp.status === 'onLeave' ? 'On Leave' : emp.status.charAt(0).toUpperCase() + emp.status.slice(1)}
+                        {formatStatusLabel(emp.status)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="View">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                        </button>
-                        <button className="p-2 hover:bg-[#eef3f9] rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="Edit">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-                      </div>
+                      {/* View button only — Edit removed */}
+                      <button
+                        onClick={() => openViewModal(emp, startIdx + index)}
+                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]"
+                        title="View"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -474,7 +490,94 @@ export default function AttendancePage() {
         </div>
       )}
 
-      {/* QR Modal */}
+      {/* ─── Employee View Modal ─── */}
+      {showViewModal && selectedEmployee && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md">
+            {/* Header — identical pattern to QR modal */}
+            <div className="bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
+              <div>
+                <h2 className="text-xl font-bold">Employee Details</h2>
+                <p className="text-sm text-white/70 mt-1">Attendance record for today</p>
+              </div>
+              <button onClick={() => setShowViewModal(false)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6">
+              {/* Avatar + Name — mirrors card/list row style */}
+              <div className="flex items-center gap-4 mb-5">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-lg flex-shrink-0 overflow-hidden relative">
+                  <Image
+                    src={selectedEmployee.image}
+                    alt={selectedEmployee.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <span className="text-lg font-bold z-10">{getInitials(selectedEmployee.name)}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-900">{selectedEmployee.name}</p>
+                  <p className="text-xs text-gray-400 mb-1.5">EMP{String(selectedEmpIndex + 1).padStart(4, '0')}</p>
+                  {/* Uses same statusColor as cards & table rows */}
+                  <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${statusColor(selectedEmployee.status)}`}>
+                    {formatStatusLabel(selectedEmployee.status)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-100 mb-5" />
+
+              {/* Info rows — same label/value style as card details */}
+              <div className="space-y-3 mb-5">
+                {[
+                  { label: "Department", value: selectedEmployee.dept },
+                  { label: "Check-in Time", value: selectedEmployee.time },
+                  { label: "Email", value: `${selectedEmployee.name.toLowerCase().replace(' ', '.')}@company.com` },
+                  { label: "Phone", value: "+233 24 123 4567" },
+                ].map(row => (
+                  <div key={row.label} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                    <p className="text-xs text-gray-400 font-medium">{row.label}</p>
+                    <p className="text-sm font-semibold text-gray-800 text-right max-w-[60%] truncate">{row.value}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Monthly summary — uses same navy tint as QR info box */}
+              <div className="bg-[#2c4a6a]/10 border border-[#2c4a6a]/30 rounded-lg p-4 mb-5">
+                <p className="text-xs font-semibold text-[#153453] mb-3 uppercase tracking-wide">This Month</p>
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  {[
+                    { label: "Present", value: "18", status: "present" },
+                    { label: "Absent",  value: "1",  status: "absent"  },
+                    { label: "Late",    value: "2",  status: "late"    },
+                    { label: "Leave",   value: "1",  status: "onLeave" },
+                  ].map(s => (
+                    <div key={s.label} className={`rounded-lg py-2 px-1 border ${statusColor(s.status)}`}>
+                      <p className="text-lg font-extrabold">{s.value}</p>
+                      <p className="text-[10px] font-medium opacity-80">{s.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Close — matches QR modal share button style */}
+              <button
+                onClick={() => setShowViewModal(false)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#2c4a6a] to-[#1e3147] text-white rounded-lg text-sm font-medium hover:from-[#1e3147] hover:to-[#2c4a6a] transition-all"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── QR Modal ─── */}
       {showQRModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl border border-gray-200 w-full max-w-md">
@@ -493,7 +596,6 @@ export default function AttendancePage() {
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 mb-4 border-2 border-dashed border-gray-200">
                 <Image src={qrCodeUrl} alt="QR Code" width={300} height={300} className="w-full rounded-lg" />
               </div>
-              
               <div className="bg-[#2c4a6a]/10 border border-[#2c4a6a]/30 rounded-lg p-4 mb-5">
                 <div className="flex items-start gap-3">
                   <div className="bg-[#2c4a6a] rounded-full p-1.5 flex-shrink-0">
@@ -509,7 +611,6 @@ export default function AttendancePage() {
                   </div>
                 </div>
               </div>
-
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => {

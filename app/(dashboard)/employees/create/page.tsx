@@ -283,7 +283,7 @@ export default function CreateEmployeePage() {
             </svg>
           </button>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Create New Employee</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#153453]">Add New Employee</h1>
             <p className="text-sm text-gray-600 mt-1">Add a new employee to the system</p>
           </div>
         </div>

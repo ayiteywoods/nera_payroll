@@ -12,7 +12,6 @@ const initialPayrolls = [
   { id: "PAY005", month: "May 2024",      period: "May 1 – May 31, 2024",           totalEmployees: 88, totalGrossPay: 174300, totalDeductions: 19640, totalNetPay: 154660, status: "Completed",  processedDate: "2024-05-29", processedBy: "Esi Owusu",   approvalStatus: "Approved", approvedBy: "Sarah Johnson",  approvedDate: "2024-05-28" },
 ];
 
-// ── Exact same badge pattern as employee + recruitment pages ──────────────────
 const statusColor = (s: string) =>
   s === "Completed" ? "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]"  :
   s === "Approved"  ? "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]"  :
@@ -57,7 +56,7 @@ export default function PayrollPage() {
 
   const filteredPayrolls = useMemo(() => {
     let r = [...payrolls];
-    if (searchTerm)          r = r.filter(p => `${p.id} ${p.month} ${p.processedBy}`.toLowerCase().includes(searchTerm.toLowerCase()));
+    if (searchTerm)               r = r.filter(p => `${p.id} ${p.month} ${p.processedBy}`.toLowerCase().includes(searchTerm.toLowerCase()));
     if (selectedStatus !== "All") r = r.filter(p => p.status === selectedStatus);
     if (selectedYear   !== "All") r = r.filter(p => p.month.includes(selectedYear));
     if (selectedMonth  !== "All") r = r.filter(p => p.month.startsWith(selectedMonth));
@@ -69,8 +68,8 @@ export default function PayrollPage() {
 
   useEffect(() => { setCurrentPage(1); }, [searchTerm, selectedStatus, selectedYear, selectedMonth, sortBy]);
 
-  const totalPages    = Math.max(1, Math.ceil(filteredPayrolls.length / itemsPerPage));
-  const startIndex    = (currentPage - 1) * itemsPerPage;
+  const totalPages      = Math.max(1, Math.ceil(filteredPayrolls.length / itemsPerPage));
+  const startIndex      = (currentPage - 1) * itemsPerPage;
   const currentPayrolls = filteredPayrolls.slice(startIndex, startIndex + itemsPerPage);
 
   const pageNums = () => {
@@ -125,10 +124,10 @@ export default function PayrollPage() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
-          { label: "Total employees", value: "1,000",                          sub: "In system"       },
-          { label: "Total payrolls",  value: payrolls.length,                  sub: "Processed"       },
-          { label: "Total deductions",value: "GHS 32,180",                     sub: "This cycle"      },
-          { label: "Showing",         value: filteredPayrolls.length,           sub: "From filters"    },
+          { label: "Total employees", value: "1,000",                sub: "In system"    },
+          { label: "Total payrolls",  value: payrolls.length,        sub: "Processed"    },
+          { label: "Total deductions",value: "GHS 32,180",           sub: "This cycle"   },
+          { label: "Showing",         value: filteredPayrolls.length, sub: "From filters" },
         ].map(c => (
           <div key={c.label} className="bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] rounded-xl p-5 text-white relative overflow-hidden transition-all hover:scale-[1.02]">
             <p className="text-xs text-white/80 mb-1 font-medium">{c.label}</p>
@@ -248,24 +247,16 @@ export default function PayrollPage() {
                       <p className="text-sm font-bold text-[#2c4a6a]">GHS {payroll.totalNetPay.toLocaleString()}</p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {/* Same badge style as employee page */}
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(payroll.status)}`}>
                         {payroll.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        {/* Same icon button style as employee page */}
                         <button onClick={() => { sessionStorage.setItem("view_payroll_detail", JSON.stringify(payroll)); router.push("/payroll/detail"); }}
                           className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="View">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                         </button>
-                        {payroll.approvalStatus === "Pending" && (
-                          <button onClick={() => { sessionStorage.setItem("payroll_to_approve", JSON.stringify(payroll)); router.push("/payroll/approve"); }}
-                            className="p-2 hover:bg-[#eef3f9] rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="Approve">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                          </button>
-                        )}
                         <button onClick={() => { setSelectedPayroll(payroll); setIsDeleteModalOpen(true); }}
                           className="p-2 hover:bg-[#eef3f9] rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="Delete">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -295,7 +286,6 @@ export default function PayrollPage() {
                     <p className="text-xs text-gray-400">{payroll.month}</p>
                   </div>
                 </div>
-                {/* Same badge style as employee page */}
                 <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(payroll.status)}`}>
                   {payroll.status}
                 </span>
@@ -319,26 +309,17 @@ export default function PayrollPage() {
                 </div>
               </div>
 
-              {/* Same card button style as employee page */}
               <div className="flex gap-2">
                 <button onClick={() => { sessionStorage.setItem("view_payroll_detail", JSON.stringify(payroll)); router.push("/payroll/detail"); }}
                   className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   View
                 </button>
-                {payroll.approvalStatus === "Pending" ? (
-                  <button onClick={() => { sessionStorage.setItem("payroll_to_approve", JSON.stringify(payroll)); router.push("/payroll/approve"); }}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Approve
-                  </button>
-                ) : (
-                  <button onClick={() => { setSelectedPayroll(payroll); setIsDeleteModalOpen(true); }}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    Delete
-                  </button>
-                )}
+                <button onClick={() => { setSelectedPayroll(payroll); setIsDeleteModalOpen(true); }}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                  Delete
+                </button>
               </div>
             </div>
           ))}
@@ -390,7 +371,7 @@ export default function PayrollPage() {
         </div>
       )}
 
-      {/* Delete modal — navy style, no red */}
+      {/* Delete modal */}
       {isDeleteModalOpen && selectedPayroll && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
