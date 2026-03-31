@@ -4,6 +4,23 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+interface Employee {
+  id: string;
+  name: string;
+  department: string;
+  position: string;
+  salary: number;
+  status: string;
+}
+
+interface DepartmentStats {
+  [key: string]: {
+    total: number;
+    selected: number;
+    salary: number;
+  };
+}
+
 // Ghanaian names list
 const ghanaianNames = [
   // Male names
@@ -38,7 +55,7 @@ const ghanaianNames = [
 ];
 
 // Generate 1000 realistic sample employees with Ghanaian names
-const generateEmployees = () => {
+const generateEmployees = (): Employee[] => {
   const departments = [
     { name: "Engineering", count: 250 },
     { name: "Sales", count: 200 },
@@ -53,7 +70,7 @@ const generateEmployees = () => {
   ];
 
   const positions = ["Manager", "Officer", "Specialist", "Executive", "Coordinator", "Lead", "Developer", "Analyst", "Supervisor", "Associate"];
-  const employees = [];
+  const employees: Employee[] = [];
   let empId = 1;
 
   // Shuffle the Ghanaian names array to distribute randomly
@@ -109,7 +126,7 @@ export default function CreatePayrollPage() {
   });
 
   // Get unique departments
-  const departments = useMemo(() => {
+  const departments: string[] = useMemo(() => {
     const depts = [...new Set(sampleEmployees.map(e => e.department))].sort();
     return depts;
   }, []);
@@ -133,8 +150,8 @@ export default function CreatePayrollPage() {
   const totalEmployeePages = Math.ceil(filteredEmployees.length / employeesPerPage);
 
   // Get department-wise breakdown
-  const departmentStats = useMemo(() => {
-    const stats = {};
+  const departmentStats = useMemo((): DepartmentStats => {
+    const stats: DepartmentStats = {};
     departments.forEach(dept => {
       const deptEmps = sampleEmployees.filter(e => e.department === dept);
       const selectedDeptEmps = deptEmps.filter(e => selectedEmployees.has(e.id));
@@ -153,7 +170,7 @@ export default function CreatePayrollPage() {
   }, [selectedEmployees]);
 
   // Toggle employee selection
-  const toggleEmployeeSelection = (employeeId) => {
+  const toggleEmployeeSelection = (employeeId: string) => {
     const newSelected = new Set(selectedEmployees);
     if (newSelected.has(employeeId)) {
       newSelected.delete(employeeId);
@@ -178,14 +195,14 @@ export default function CreatePayrollPage() {
   };
 
   // Select all employees in a department
-  const selectDepartment = (dept) => {
+  const selectDepartment = (dept: string) => {
     const newSelected = new Set(selectedEmployees);
     sampleEmployees.filter(e => e.department === dept).forEach(emp => newSelected.add(emp.id));
     setSelectedEmployees(newSelected);
   };
 
   // Deselect all employees in a department
-  const deselectDepartment = (dept) => {
+  const deselectDepartment = (dept: string) => {
     const newSelected = new Set(selectedEmployees);
     sampleEmployees.filter(e => e.department === dept).forEach(emp => newSelected.delete(emp.id));
     setSelectedEmployees(newSelected);
@@ -208,7 +225,7 @@ export default function CreatePayrollPage() {
       .reduce((sum, emp) => sum + emp.salary, 0);
   }, [selectedEmployees]);
 
-  const handleProcessPayroll = async (e) => {
+  const handleProcessPayroll = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (selectedEmployees.size === 0) {
@@ -376,15 +393,15 @@ export default function CreatePayrollPage() {
           <h2 className="text-lg font-bold text-[#153453] mb-5">Payroll Options</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { key: 'includeBonuses', label: 'Include Bonuses', desc: 'Add performance bonuses to payroll' },
-              { key: 'includeAllowances', label: 'Include Allowances', desc: 'Add housing, transport allowances' },
-              { key: 'deductTaxes', label: 'Deduct Taxes', desc: 'Calculate and deduct income tax' },
-              { key: 'deductSSNIT', label: 'Deduct SSNIT', desc: 'Calculate SSNIT contributions' }
+              { key: 'includeBonuses' as keyof typeof processFormData, label: 'Include Bonuses', desc: 'Add performance bonuses to payroll' },
+              { key: 'includeAllowances' as keyof typeof processFormData, label: 'Include Allowances', desc: 'Add housing, transport allowances' },
+              { key: 'deductTaxes' as keyof typeof processFormData, label: 'Deduct Taxes', desc: 'Calculate and deduct income tax' },
+              { key: 'deductSSNIT' as keyof typeof processFormData, label: 'Deduct SSNIT', desc: 'Calculate SSNIT contributions' }
             ].map(({ key, label, desc }) => (
               <label key={key} className="flex items-start gap-3 cursor-pointer p-4 rounded-lg hover:bg-gray-50 border border-gray-100 hover:border-gray-200">
                 <input
                   type="checkbox"
-                  checked={processFormData[key]}
+                  checked={processFormData[key] as boolean}
                   onChange={e => setProcessFormData({...processFormData, [key]: e.target.checked})}
                   className="w-5 h-5 text-[#2c4a6a] rounded focus:ring-[#2c4a6a] mt-0.5"
                 />

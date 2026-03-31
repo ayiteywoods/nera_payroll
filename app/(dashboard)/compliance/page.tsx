@@ -357,7 +357,7 @@ export default function TaxSSNITPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0"/>
                   <XAxis dataKey="dept" tick={{fontSize:11}} />
                   <YAxis tick={{fontSize:11}} tickFormatter={v=>`${(v/1000).toFixed(0)}k`} />
-                  <Tooltip formatter={(v:number) => ghs(v)} />
+                  <Tooltip formatter={(v:number|string|undefined) => ghs(typeof v === 'number' ? v : Number(v ?? 0))} />
                   <Bar dataKey="paye"  name="PAYE"        fill="#2c4a6a" radius={[4,4,0,0]} />
                   <Bar dataKey="ssnit" name="SSNIT (Emp)" fill="#5a8fc4" radius={[4,4,0,0]} />
                 </BarChart>
@@ -378,10 +378,10 @@ export default function TaxSSNITPage() {
               <ResponsiveContainer width="100%" height={180}>
                 <PieChart>
                   <Pie data={pieData} cx="50%" cy="50%" outerRadius={75} dataKey="value"
-                    label={({percent}) => `${(percent*100).toFixed(0)}%`} labelLine={false}>
+                    label={({percent}) => `${((percent ?? 0)*100).toFixed(0)}%`} labelLine={false}>
                     {pieData.map((_,i) => <Cell key={i} fill={PIE_COLS[i]}/>)}
                   </Pie>
-                  <Tooltip formatter={(v:number)=>ghs(v)}/>
+                  <Tooltip formatter={(v:number|string|undefined)=>ghs(typeof v === 'number' ? v : Number(v ?? 0))}/>
                 </PieChart>
               </ResponsiveContainer>
               <div className="space-y-2 mt-2">
@@ -408,7 +408,7 @@ export default function TaxSSNITPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0"/>
                   <XAxis dataKey="month" tick={{fontSize:11}}/>
                   <YAxis tick={{fontSize:11}} tickFormatter={v=>`${(v/1000).toFixed(0)}k`}/>
-                  <Tooltip formatter={(v:number)=>ghs(v)}/>
+                  <Tooltip formatter={(v:number|string|undefined)=>ghs(typeof v === 'number' ? v : Number(v ?? 0))}/>
                   <Line type="monotone" dataKey="paye"  name="PAYE"  stroke="#2c4a6a" strokeWidth={2} dot={{r:4,fill:"#2c4a6a"}}/>
                   <Line type="monotone" dataKey="ssnit" name="SSNIT" stroke="#5a8fc4" strokeWidth={2} dot={{r:4,fill:"#5a8fc4"}}/>
                 </LineChart>

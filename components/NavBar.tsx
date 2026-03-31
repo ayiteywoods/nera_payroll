@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<{ id: number; title: string; type: string; path: string; description: string; }[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   
   // New state for modals
@@ -24,9 +24,9 @@ const Navbar = () => {
     { id: 2, from: "Kofi Owusu", subject: "Leave Request Approved", preview: "Your annual leave request has been approved...", date: "1 day ago", read: true, important: false },
     { id: 3, from: "System", subject: "Monthly Report Ready", preview: "Your monthly HR analytics report is ready...", date: "2 days ago", read: false, important: false },
   ]);
-  const [drafts, setDrafts] = useState([]);
-  const [sentEmails, setSentEmails] = useState([]);
-  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [drafts, setDrafts] = useState<{ id: number; to: string; subject: string; body: string; date: string }[]>([]);
+  const [sentEmails, setSentEmails] = useState<{ id: number; to: string; subject: string; body: string; date: string }[]>([]);
+  const [selectedEmail, setSelectedEmail] = useState<{ id: number; from: string; subject: string; preview: string; date: string; read: boolean; important: boolean } | null>(null);
   const [composeEmail, setComposeEmail] = useState({ to: "", subject: "", body: "" });
   
   // Message states
@@ -35,8 +35,8 @@ const Navbar = () => {
     { id: 2, name: "John Mensah", avatar: "/profile.png", lastMessage: "Thanks for the update!", time: "Yesterday", unread: 1, online: false },
     { id: 3, name: "Kwame Boateng", avatar: "/profile.png", lastMessage: "See you at the meeting", time: "2 days ago", unread: 1, online: true },
   ]);
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [chatMessages, setChatMessages] = useState([]);
+  const [selectedChat, setSelectedChat] = useState<{ id: number; name: string; avatar: string; lastMessage: string; time: string; unread: number; online: boolean } | null>(null);
+  const [chatMessages, setChatMessages] = useState<{ id: number; text: string; sender: string; time: string }[]>([]);
   const [newMessage, setNewMessage] = useState("");
   
   // Profile states
@@ -59,12 +59,12 @@ const Navbar = () => {
     { id: 4, type: "leave", title: "Leave Approved", message: "Your leave request was approved", time: "1 day ago", read: true },
   ]);
   
-  const searchRef = useRef(null);
-  const emailRef = useRef(null);
-  const messageRef = useRef(null);
-  const profileRef = useRef(null);
-  const notificationRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const emailRef = useRef<HTMLDivElement>(null);
+  const messageRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   // Comprehensive search data - Updated with actual existing pages
@@ -126,7 +126,7 @@ const Navbar = () => {
   ];
 
   // Search function
-  const handleSearch = (query) => {
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
     setIsSearching(true);
 
@@ -150,7 +150,7 @@ const Navbar = () => {
   };
 
   // Navigate to result
-  const handleResultClick = (path) => {
+  const handleResultClick = (path: string) => {
     router.push(path);
     setSearchQuery("");
     setSearchResults([]);
@@ -193,7 +193,7 @@ const Navbar = () => {
     alert("Draft saved successfully!");
   };
 
-  const handleLoadDraft = (draft) => {
+  const handleLoadDraft = (draft: { id: number; to: string; subject: string; body: string; date: string }) => {
     setComposeEmail({
       to: draft.to,
       subject: draft.subject === "(No Subject)" ? "" : draft.subject,
@@ -203,13 +203,13 @@ const Navbar = () => {
     setDrafts(drafts.filter(d => d.id !== draft.id));
   };
 
-  const handleEmailClick = (email) => {
+  const handleEmailClick = (email: { id: number; from: string; subject: string; preview: string; date: string; read: boolean; important: boolean }) => {
     setSelectedEmail(email);
     setEmails(emails.map(e => e.id === email.id ? { ...e, read: true } : e));
   };
 
   // Message functions
-  const handleSelectChat = (message) => {
+  const handleSelectChat = (message: { id: number; name: string; avatar: string; lastMessage: string; time: string; unread: number; online: boolean }) => {
     setSelectedChat(message);
     setChatMessages([
       { id: 1, text: message.lastMessage, sender: "them", time: message.time },
@@ -239,12 +239,12 @@ const Navbar = () => {
   };
 
   // Profile functions
-  const handleProfileImageChange = (e) => {
-    const file = e.target.files[0];
+  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setTempProfileData({ ...tempProfileData, avatar: reader.result });
+        setTempProfileData({ ...tempProfileData, avatar: reader.result as string });
       };
       reader.readAsDataURL(file);
     }
@@ -262,7 +262,7 @@ const Navbar = () => {
   };
 
   // Notification functions
-  const handleMarkAsRead = (id) => {
+  const handleMarkAsRead = (id: number) => {
     setNotifications(notifications.map(n => 
       n.id === id ? { ...n, read: true } : n
     ));
@@ -278,21 +278,22 @@ const Navbar = () => {
 
   // Close modals on outside click
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (searchRef.current && !searchRef.current.contains(target)) {
         setSearchOpen(false);
         setSearchResults([]);
       }
-      if (emailRef.current && !emailRef.current.contains(event.target)) {
+      if (emailRef.current && !emailRef.current.contains(target)) {
         setEmailModalOpen(false);
       }
-      if (messageRef.current && !messageRef.current.contains(event.target)) {
+      if (messageRef.current && !messageRef.current.contains(target)) {
         setMessageModalOpen(false);
       }
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
+      if (profileRef.current && !profileRef.current.contains(target)) {
         setProfileModalOpen(false);
       }
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      if (notificationRef.current && !notificationRef.current.contains(target)) {
         setNotificationModalOpen(false);
       }
     };
@@ -302,7 +303,7 @@ const Navbar = () => {
   }, []);
 
   // Get icon for result type
-  const getTypeIcon = (type) => {
+  const getTypeIcon = (type: string) => {
     switch (type) {
       case "page":
         return (
@@ -356,8 +357,8 @@ const Navbar = () => {
   };
 
   // Get badge color for type
-  const getTypeBadge = (type) => {
-    const colors = {
+  const getTypeBadge = (type: string) => {
+    const colors: Record<string, string> = {
       page: "bg-blue-100 text-blue-700",
       employee: "bg-purple-100 text-purple-700",
       payroll: "bg-green-100 text-green-700",
@@ -370,7 +371,7 @@ const Navbar = () => {
   };
 
   // Get notification icon
-  const getNotificationIcon = (type) => {
+  const getNotificationIcon = (type: string) => {
     switch (type) {
       case "task":
         return (

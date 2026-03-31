@@ -29,20 +29,49 @@ const T = {
 };
 
 export default function AdminDashboardPage() {
+  type TaskStatus = "pending" | "in-progress" | "completed";
+  type Priority = "high" | "medium" | "low";
+  type Category = "general" | "payroll" | "review" | "leave" | "compliance" | "training" | "benefits" | "meeting" | "admin";
+
+  interface Task {
+    id: number;
+    title: string;
+    assignee: string;
+    dueDate: string;
+    priority: Priority;
+    category: Category;
+    status: TaskStatus;
+    description: string;
+  }
+
+  interface TaskFormData {
+    title: string;
+    assignee: string;
+    dueDate: string;
+    priority: Priority;
+    category: Category;
+    description: string;
+  }
+
+  interface LeaveType {
+    type: string;
+    count: number;
+    percentage: number;
+    employees: { name: string; image: string }[];
+  }
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
   const [leaveModalOpen, setLeaveModalOpen] = useState(false);
-  const [selectedLeaveType, setSelectedLeaveType] = useState(null);
-  const [selectedDepartment, setSelectedDepartment] = useState("All");
+  const [selectedLeaveType, setSelectedLeaveType] = useState<LeaveType | null>(null);
   const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
 
-  // ── FIX: initialise to null to avoid SSR/client hydration mismatch ──────────
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
-  const [taskFormData, setTaskFormData] = useState({
+  const [taskFormData, setTaskFormData] = useState<TaskFormData>({
     title: "", assignee: "", dueDate: "",
     priority: "medium", category: "general", description: "",
   });
@@ -60,7 +89,6 @@ export default function AdminDashboardPage() {
     return () => clearInterval(t);
   }, []);
 
-  // ── FIX: set initial time on mount (client only), then tick every second ────
   useEffect(() => {
     setCurrentTime(new Date());
     const t = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -98,9 +126,12 @@ export default function AdminDashboardPage() {
     Operations:  { present: 175, absent: 10, late:  8, onLeave: 5, total: 198, details: [] },
   };
 
+  // ── FIX: typed as keyof typeof attendanceData so TS can safely index it ──
+  const [selectedDepartment, setSelectedDepartment] = useState<keyof typeof attendanceData>("All");
+
   const currentAttendance = attendanceData[selectedDepartment];
 
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState<Task[]>([
     { id: 1, title: "Review Q1 Performance Reports", assignee: "John Mensah",  dueDate: "2026-02-05", priority: "high",   category: "review",  status: "pending",     description: "Complete quarterly performance reviews" },
     { id: 2, title: "Process February Payroll",      assignee: "Ama Serwaa",   dueDate: "2026-02-28", priority: "high",   category: "payroll", status: "pending",     description: "Run and verify payroll" },
     { id: 3, title: "Approve Leave Requests",         assignee: "Sarah Johnson",dueDate: "2026-02-10", priority: "medium", category: "leave",   status: "in-progress", description: "Review pending requests" },
@@ -156,58 +187,125 @@ export default function AdminDashboardPage() {
   ];
 
   // ─── Utility fns ──────────────────────────────────────────────────────────
-  const getPriorityColor = (p) => ({
-    high:   "bg-[#2c4a6a] text-white",
-    medium: "bg-[#6b8ca3] text-white",
-    low:    "bg-gray-200 text-gray-700",
-  }[p] ?? "bg-gray-100 text-gray-700");
+  const getPriorityColor = (p: Priority) => ({
+  high: "bg-[#2c4a6a] text-white",
+  medium: "bg-[#6b8ca3] text-white",
+  low: "bg-gray-200 text-gray-700",
+}[p]);
 
-  const getCategoryDot = (c) => ({
-    payroll: "bg-[#2c4a6a]",
-    review:  "bg-[#4a6b82]",
-    leave:   "bg-[#6b8ca3]",
-  }[c] ?? "bg-gray-400");
+const getCategoryDot = (c: Category) => ({
+  payroll: "bg-[#2c4a6a]",
+  review: "bg-[#4a6b82]",
+  leave: "bg-[#6b8ca3]",
+  general: "bg-gray-400",
+  compliance: "bg-[#8ca3b0]",
+  training: "bg-[#a3b0c2]",
+  benefits: "bg-[#b0c2d3]",
+  meeting: "bg-[#c2d3e5]",
+  admin: "bg-[#d3e5f0]",
+}[c] ?? "bg-gray-400");
 
-  const formatTime = (d: Date) => d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-  const formatDate = (d: Date) => d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+    const formatTime = (d: Date) => 
+    d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
 
-  const getDaysInMonth = (d) => {
-    const y = d.getFullYear(), m = d.getMonth();
-    return { daysInMonth: new Date(y, m + 1, 0).getDate(), startingDayOfWeek: new Date(y, m, 1).getDay() };
+  const formatDate = (d: Date) => 
+    d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+  // Fixed: Proper typing
+  const getDaysInMonth = (d: Date) => {
+    const y = d.getFullYear();
+    const m = d.getMonth();
+    return { 
+      daysInMonth: new Date(y, m + 1, 0).getDate(), 
+      startingDayOfWeek: new Date(y, m, 1).getDay() 
+    };
   };
-  const getTasksForDate = (d) => {
+
+  // Fixed: Proper typing
+  const getTasksForDate = (d: Date) => {
     const s = d.toISOString().split("T")[0];
     return tasks.filter(t => t.dueDate === s);
   };
 
-  const handlePrevMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-  const handleNextMonth = () => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-  const handleTaskStatusChange = (id, s) => setTasks(tasks.map(t => t.id === id ? { ...t, status: s } : t));
-  const handleDeleteTask = (id) => { setTasks(tasks.filter(t => t.id !== id)); setIsTaskModalOpen(false); setSelectedTask(null); };
+  // ─── Handlers (Fixed with proper TypeScript types) ────────────────────────
+  const handlePrevMonth = () => 
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
 
-  const handleCreateTask = (e) => {
+  const handleNextMonth = () => 
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+
+  // Fixed: Added types for id and s
+  const handleTaskStatusChange = (id: number, s: TaskStatus) => 
+    setTasks(tasks.map(t => t.id === id ? { ...t, status: s } : t));
+
+  // Fixed: Added type for id
+  const handleDeleteTask = (id: number) => {
+    setTasks(tasks.filter(t => t.id !== id));
+    setIsTaskModalOpen(false);
+    setSelectedTask(null);
+  };
+
+  // Fixed: Added proper event type
+  const handleCreateTask = (e: React.FormEvent) => {
     e.preventDefault();
-    setTasks([...tasks, { id: tasks.length + 1, ...taskFormData, status: "pending" }]);
+    setTasks([...tasks, { 
+      id: tasks.length + 1, 
+      ...taskFormData, 
+      status: "pending" 
+    }]);
     setIsCreateTaskModalOpen(false);
-    setTaskFormData({ title: "", assignee: "", dueDate: "", priority: "medium", category: "general", description: "" });
+    setTaskFormData({ 
+      title: "", 
+      assignee: "", 
+      dueDate: "", 
+      priority: "medium", 
+      category: "general", 
+      description: "" 
+    });
     alert("Task created successfully!");
   };
 
+  // ─── Calendar Setup ───────────────────────────────────────────────────────
   const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const dayNames   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
-  const calendarDays = [...Array(startingDayOfWeek).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)];
 
-  const CustomTooltip = ({ active, payload }) => active && payload?.length ? (
-    <div className="bg-white px-4 py-3 rounded-xl shadow-lg border border-gray-200">
-      <p className={T.strong}>{payload[0].payload.name}</p>
-      <p className={T.body}><span className="font-semibold text-[#2c4a6a]">{payload[0].value}</span> employees</p>
-      <p className={T.caption + " mt-1"}>{((payload[0].value / stats.totalEmployees) * 100).toFixed(1)}% of total</p>
-    </div>
-  ) : null;
+  // Fixed: Destructuring with proper types from getDaysInMonth
+  const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
+
+  const calendarDays = [
+    ...Array(startingDayOfWeek).fill(null), 
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1)
+  ];
+
+  // Fixed: Proper typing for Recharts CustomTooltip
+  const CustomTooltip = ({ active, payload }: any) => 
+    active && payload?.length ? (
+      <div className="bg-white px-4 py-3 rounded-xl shadow-lg border border-gray-200">
+        <p className={T.strong}>{payload[0].payload.name}</p>
+        <p className={T.body}>
+          <span className="font-semibold text-[#2c4a6a]">{payload[0].value}</span> employees
+        </p>
+        <p className={T.caption + " mt-1"}>
+          {((payload[0].value / stats.totalEmployees) * 100).toFixed(1)}% of total
+        </p>
+      </div>
+    ) : null;
+
 
   // ─── Shared panel anatomy ─────────────────────────────────────────────────
-  const PanelShell = ({ title, count, countLabel, href, children }) => (
+  const PanelShell = ({ 
+    title, 
+    count, 
+    countLabel, 
+    href, 
+    children 
+  }: {
+    title: string;
+    count?: number;
+    countLabel?: string;
+    href?: string;
+    children: React.ReactNode;
+  }) => (
     <div className="bg-white rounded-2xl border border-gray-100 flex flex-col">
       <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
         <div>
@@ -232,7 +330,14 @@ export default function AdminDashboardPage() {
     </div>
   );
 
-  const PanelRow = ({ left, right }) => (
+   // ─── PanelRow Component ───────────────────────────────────────────────────
+  const PanelRow = ({ 
+    left, 
+    right 
+  }: { 
+    left: React.ReactNode; 
+    right: React.ReactNode; 
+  }) => (
     <div className="flex items-center gap-3 py-2.5 rounded-xl px-2 -mx-2 hover:bg-gray-50 transition-colors cursor-default">
       {left}
       <div className="ml-auto flex-shrink-0">
@@ -241,12 +346,25 @@ export default function AdminDashboardPage() {
     </div>
   );
 
-  const Avatar = ({ src, alt, size = "w-10 h-10" }) => (
+   // ─── Avatar Component ─────────────────────────────────────────────────────
+  const Avatar = ({ 
+    src, 
+    alt, 
+    size = "w-10 h-10" 
+  }: { 
+    src: string; 
+    alt: string; 
+    size?: string; 
+  }) => (
     <div className={`relative flex-shrink-0 ${size} rounded-full overflow-hidden ring-2 ring-white`}>
-      <Image src={src} alt={alt} fill className="object-cover" />
+      <Image 
+        src={src} 
+        alt={alt} 
+        fill 
+        className="object-cover" 
+      />
     </div>
   );
-
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen">
 
@@ -260,7 +378,6 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-[#2c4a6a] leading-tight">Welcome back, Ama!</h1>
-              {/* ── FIX: render placeholder until currentTime is set on client ── */}
               <p className="text-sm font-mono text-gray-500 mt-0.5">
                 {currentTime ? formatTime(currentTime) : "--:--:--"} GMT
               </p>
@@ -359,6 +476,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* ── Charts ─────────────────────────────────────────────────────────── */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <PayrollChart />
 
@@ -374,13 +492,37 @@ export default function AdminDashboardPage() {
               </svg>
             </div>
             <ResponsiveContainer width="100%" height="100%">
-              <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="90%" barSize={13} data={departmentData} startAngle={90} endAngle={-270}>
-                <RadialBar minAngle={15} background clockWise dataKey="value" cornerRadius={5} label={{ position: "insideStart", fill: "#fff", fontSize: 11 }} />
+              <RadialBarChart 
+                cx="50%" 
+                cy="50%" 
+                innerRadius="20%" 
+                outerRadius="90%" 
+                barSize={13} 
+                data={departmentData} 
+                startAngle={90} 
+                endAngle={-270}
+              >
+                <RadialBar 
+                  background 
+                  dataKey="value" 
+                  cornerRadius={5} 
+                  label={{ 
+                    position: "insideStart", 
+                    fill: "#fff", 
+                    fontSize: 11 
+                  }} 
+                />
                 <Tooltip content={<CustomTooltip />} cursor={false} />
-                <Legend iconSize={9} layout="horizontal" verticalAlign="bottom" align="center"
+                <Legend 
+                  iconSize={9} 
+                  layout="horizontal" 
+                  verticalAlign="bottom" 
+                  align="center"
                   wrapperStyle={{ paddingTop: "16px" }}
-                  formatter={(_, entry) => (
-                    <span className="text-xs text-gray-600">{entry.payload.name} ({entry.payload.value})</span>
+                  formatter={(value) => (
+                    <span className="text-xs text-gray-600">
+                      {value}
+                    </span>
                   )}
                 />
               </RadialBarChart>
@@ -394,15 +536,17 @@ export default function AdminDashboardPage() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className={T.sectionTitle}>Today's Attendance</h2>
-            {/* ── FIX: guard formatDate call ── */}
             <p className={T.caption + " mt-0.5"}>
               {currentTime ? formatDate(currentTime) : ""}
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <select value={selectedDepartment} onChange={e => setSelectedDepartment(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white">
-              {["All","Engineering","Sales","Marketing","HR","Finance","Operations"].map(d => (
+            <select
+              value={selectedDepartment}
+              onChange={e => setSelectedDepartment(e.target.value as keyof typeof attendanceData)}
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
+            >
+              {(Object.keys(attendanceData) as Array<keyof typeof attendanceData>).map(d => (
                 <option key={d} value={d}>{d === "All" ? "All Departments" : d}</option>
               ))}
             </select>
@@ -451,39 +595,82 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-7 gap-1.5">
-            {dayNames.map(d => (
-              <div key={d} className="text-center text-[11px] font-semibold text-gray-400 uppercase tracking-wide py-2">{d}</div>
+         <div className="grid grid-cols-7 gap-1.5">
+  {dayNames.map((d) => (
+    <div
+      key={d}
+      className="text-center text-[11px] font-semibold text-gray-400 uppercase tracking-wide py-2"
+    >
+      {d}
+    </div>
+  ))}
+
+  {calendarDays.map((day, idx) => {
+    if (!day) return <div key={`e-${idx}`} className="aspect-square" />;
+
+    const date = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      day
+    );
+
+    const tasksForDay = getTasksForDate(date);
+
+    const isToday =
+      date.toDateString() === new Date().toDateString();
+
+    const isSelected =
+      selectedDate &&
+      date.toDateString() === selectedDate.toDateString();
+
+    return (
+      <div
+        key={day}
+        onClick={() => setSelectedDate(date)}
+        className={`aspect-square p-1.5 rounded-lg border cursor-pointer transition-all ${
+          isToday
+            ? "bg-[#2c4a6a] border-[#2c4a6a]"
+            : isSelected
+            ? "bg-[#2c4a6a]/10 border-[#2c4a6a]"
+            : tasksForDay.length
+            ? "bg-gray-50 border-gray-200 hover:bg-gray-100"
+            : "border-gray-100 hover:bg-gray-50"
+        }`}
+      >
+        <span
+          className={`text-xs font-semibold ${
+            isToday ? "text-white" : "text-gray-800"
+          }`}
+        >
+          {day}
+        </span>
+
+        {tasksForDay.length > 0 && (
+          <div className="mt-0.5 flex gap-0.5 flex-wrap">
+            {tasksForDay.slice(0, 3).map((t) => (
+              <span
+                key={t.id}
+                className={`w-1.5 h-1.5 rounded-full ${getCategoryDot( 
+                  t.category
+                )}`}
+              />
             ))}
-            {calendarDays.map((day, idx) => {
-              if (!day) return <div key={`e-${idx}`} className="aspect-square" />;
-              const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-              const tasksForDay = getTasksForDate(date);
-              const isToday    = date.toDateString() === new Date().toDateString();
-              const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
-              return (
-                <div key={day} onClick={() => setSelectedDate(date)}
-                  className={`aspect-square p-1.5 rounded-lg border cursor-pointer transition-all ${
-                    isToday    ? "bg-[#2c4a6a] border-[#2c4a6a]" :
-                    isSelected ? "bg-[#2c4a6a]/10 border-[#2c4a6a]" :
-                    tasksForDay.length ? "bg-gray-50 border-gray-200 hover:bg-gray-100" :
-                                         "border-gray-100 hover:bg-gray-50"
-                  }`}>
-                  <span className={`text-xs font-semibold ${isToday ? "text-white" : "text-gray-800"}`}>{day}</span>
-                  {tasksForDay.length > 0 && (
-                    <div className="mt-0.5 flex gap-0.5 flex-wrap">
-                      {tasksForDay.slice(0, 3).map(t => (
-                        <span key={t.id} className={`w-1.5 h-1.5 rounded-full ${getCategoryDot(t.category)}`} />
-                      ))}
-                      {tasksForDay.length > 3 && (
-                        <span className={`text-[9px] leading-none ${isToday ? "text-white" : "text-gray-400"}`}>+{tasksForDay.length - 3}</span>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+
+            {tasksForDay.length > 3 && (
+              <span
+                className={`text-[9px] leading-none ${
+                  isToday ? "text-white" : "text-gray-400"
+                }`}
+              >
+                +{tasksForDay.length - 3}
+              </span>
+            )}
           </div>
+        )}
+      </div>
+    );
+  })}
+</div>
 
           <div className="mt-5 pt-5 border-t border-gray-100">
             <button onClick={() => setIsCreateTaskModalOpen(true)}
@@ -693,21 +880,28 @@ export default function AdminDashboardPage() {
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
+                {([
                   { label: "Assign To", key: "assignee", type: "select", options: ["","John Mensah","Ama Serwaa","Sarah Johnson","Kofi Boateng","Efua Addo"], placeholder: "Select assignee" },
                   { label: "Due Date",  key: "dueDate",  type: "date" },
                   { label: "Priority",  key: "priority", type: "select", options: ["low","medium","high"] },
                   { label: "Category",  key: "category", type: "select", options: ["general","payroll","review","leave","compliance","training","benefits","meeting","admin"] },
-                ].map(({ label, key, type, options, placeholder }) => (
+                ] as Array<{
+                  label: string;
+                  key: keyof TaskFormData;
+                  type: "select" | "date";
+                  options?: string[];
+                  placeholder?: string;
+                }> )
+                .map(({ label, key, type, options, placeholder }) => (
                   <div key={key}>
                     <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">{label} *</label>
                     {type === "select" ? (
-                      <select value={taskFormData[key]} onChange={e => setTaskFormData({...taskFormData, [key]: e.target.value})}
+                      <select value={taskFormData[key] as string} onChange={e => setTaskFormData(prev => ({ ...prev, [key]: e.target.value } as TaskFormData))}
                         required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white capitalize">
-                        {options.map(o => <option key={o} value={o}>{o || placeholder}</option>)}
+                        {options?.map(o => <option key={o} value={o}>{o || placeholder}</option>)}
                       </select>
                     ) : (
-                      <input type={type} value={taskFormData[key]} onChange={e => setTaskFormData({...taskFormData, [key]: e.target.value})}
+                      <input type={type} value={taskFormData[key] as string} onChange={e => setTaskFormData(prev => ({ ...prev, [key]: e.target.value } as TaskFormData))}
                         required className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]" />
                     )}
                   </div>
@@ -773,7 +967,7 @@ export default function AdminDashboardPage() {
                 </div>
                 <div className="bg-gray-50 rounded-xl p-4 col-span-2">
                   <p className={T.caption + " mb-2"}>Status</p>
-                  <select value={selectedTask.status} onChange={e => handleTaskStatusChange(selectedTask.id, e.target.value)}
+                  <select value={selectedTask.status} onChange={e => handleTaskStatusChange(selectedTask.id, e.target.value as TaskStatus)}
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white">
                     <option value="pending">Pending</option>
                     <option value="in-progress">In Progress</option>

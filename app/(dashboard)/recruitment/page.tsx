@@ -4,6 +4,48 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+interface Job {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  experience: string;
+  salary: string;
+  status: string;
+  postedDate: string;
+  deadline: string;
+  applicants: number;
+  description: string;
+  requirements: string;
+}
+
+interface Application {
+  id: string;
+  jobId: string;
+  jobTitle: string;
+  candidateName: string;
+  email: string;
+  phone: string;
+  appliedDate: string;
+  status: string;
+  experience: string;
+  skills: string[];
+}
+
+interface Candidate {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  skills: string[];
+  experience: string;
+  location: string;
+  status: string;
+  registeredDate: string;
+  applications: number;
+}
+
 const initialJobs = [
   { id: "JOB001", title: "Senior Software Engineer", department: "Engineering", location: "Accra, Ghana", type: "Full-Time", experience: "5+ years", salary: "GHS8,000 - GHS12,000", status: "Open", postedDate: "2025-01-15", deadline: "2025-02-28", applicants: 24, description: "We are looking for an experienced software engineer to join our team and contribute to building scalable applications.", requirements: "Bachelor's degree in Computer Science, 5+ years experience with React, Node.js, and cloud platforms." },
   { id: "JOB002", title: "HR Manager", department: "HR", location: "Accra, Ghana", type: "Full-Time", experience: "3+ years", salary: "GHS6,000 - GHS9,000", status: "Open", postedDate: "2025-01-20", deadline: "2025-03-15", applicants: 15, description: "Seeking an HR professional to manage employee relations and recruitment processes.", requirements: "Bachelor's degree in HR Management, 3+ years experience in HR operations." },
@@ -49,11 +91,11 @@ const Th = ({ children, right = false }: { children: React.ReactNode; right?: bo
 
 export default function RecruitmentPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab]       = useState("jobs");
-  const [jobs, setJobs]                 = useState(initialJobs);
-  const [applications, setApplications] = useState(initialApplications);
-  const [candidates, setCandidates]     = useState(initialCandidates);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [activeTab, setActiveTab] = useState<"jobs" | "applications" | "candidates">("jobs");
+  const [jobs, setJobs]                 = useState<Job[]>(initialJobs);
+  const [applications, setApplications] = useState<Application[]>(initialApplications);
+  const [candidates, setCandidates]     = useState<Candidate[]>(initialCandidates);
+  const [selectedItem, setSelectedItem] = useState<Job | Application | Candidate | null>(null);
   const [isCreateJobModalOpen, setIsCreateJobModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen]       = useState(false);
   const [searchTerm, setSearchTerm]     = useState("");
@@ -67,7 +109,7 @@ export default function RecruitmentPage() {
     salary: "", description: "", requirements: "", deadline: "",
   });
 
-  const handleCreateJob = (e) => {
+  const handleCreateJob = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newJob = {
       id: `JOB${String(jobs.length + 1).padStart(3, "0")}`,
@@ -80,7 +122,9 @@ export default function RecruitmentPage() {
   };
 
   const handleDeleteJob = () => {
-    setJobs(jobs.filter(j => j.id !== selectedItem.id));
+    if (selectedItem) {
+      setJobs(jobs.filter(j => j.id !== selectedItem.id));
+    }
     setIsDeleteModalOpen(false);
     setSelectedItem(null);
   };
@@ -91,8 +135,8 @@ export default function RecruitmentPage() {
     candidates:   ["All", "Active", "Passed Interview", "Inactive"],
   };
 
-  const getFilteredData = () => {
-    let data = activeTab === "jobs" ? jobs : activeTab === "applications" ? applications : candidates;
+  const getFilteredData = (): (Job | Application | Candidate)[] => {
+    let data: (Job | Application | Candidate)[] = activeTab === "jobs" ? jobs : activeTab === "applications" ? applications : candidates;
     if (searchTerm)             data = data.filter(item => JSON.stringify(item).toLowerCase().includes(searchTerm.toLowerCase()));
     if (filterStatus !== "All") data = data.filter(item => item.status === filterStatus);
     return data;
@@ -113,7 +157,7 @@ export default function RecruitmentPage() {
   };
 
   const goTo     = (n: number) => { setCurrentPage(n); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  const switchTab = (tab: string) => { setActiveTab(tab); setFilterStatus("All"); setCurrentPage(1); setSearchTerm(""); };
+  const switchTab = (tab: "jobs" | "applications" | "candidates") => { setActiveTab(tab); setFilterStatus("All"); setCurrentPage(1); setSearchTerm(""); };
 
   return (
     <div className="p-4 md:p-6 xl:p-8 bg-gray-50 min-h-screen overflow-x-hidden">
@@ -152,7 +196,7 @@ export default function RecruitmentPage() {
                 onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                 className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]" />
             </div>
-            <select value={activeTab} onChange={e => switchTab(e.target.value)}
+            <select value={activeTab} onChange={e => switchTab(e.target.value as "jobs" | "applications" | "candidates")}
               className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#2c4a6a]">
               <option value="jobs">Jobs</option>
               <option value="applications">Applications</option>
@@ -210,36 +254,38 @@ export default function RecruitmentPage() {
       {/* ── Jobs cards ────────────────────────────────────────────────────── */}
       {activeTab === "jobs" && viewMode === "cards" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
-          {visible.map(job => (
-            <div key={job.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
+          {visible.map(job => {
+            const j = job as Job;
+            return (
+            <div key={j.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0">
-                    {job.id.slice(-2)}
+                    {j.id.slice(-2)}
                   </div>
-                  <div><p className="font-semibold text-gray-900 text-sm">{job.title}</p><p className="text-xs text-gray-400">{job.id}</p></div>
+                  <div><p className="font-semibold text-gray-900 text-sm">{j.title}</p><p className="text-xs text-gray-400">{j.id}</p></div>
                 </div>
-                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(job.status)}`}>{job.status}</span>
+                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(j.status)}`}>{j.status}</span>
               </div>
               <div className="space-y-1.5 mb-4 flex-1">
-                <p className="text-sm font-medium text-gray-800 truncate">{job.department}</p>
-                <p className="text-xs text-gray-500">{job.location} · {job.type}</p>
-                <p className="text-xs text-gray-400">Experience: {job.experience}</p>
-                <p className="text-xs text-gray-400 truncate">Salary: {job.salary}</p>
-                <p className="text-xs text-gray-400">{job.applicants} applicants</p>
+                <p className="text-sm font-medium text-gray-800 truncate">{j.department}</p>
+                <p className="text-xs text-gray-500">{j.location} · {j.type}</p>
+                <p className="text-xs text-gray-400">Experience: {j.experience}</p>
+                <p className="text-xs text-gray-400 truncate">Salary: {j.salary}</p>
+                <p className="text-xs text-gray-400">{j.applicants} applicants</p>
               </div>
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                 <div>
                   <p className="text-[10px] text-gray-400 mb-0.5">Deadline</p>
-                  <p className="text-sm font-bold text-[#2c4a6a]">{new Date(job.deadline).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
+                  <p className="text-sm font-bold text-[#2c4a6a]">{new Date(j.deadline).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => { sessionStorage.setItem("selected_job", JSON.stringify(job)); router.push("/recruitment/job-detail"); }}
+                  <button onClick={() => { sessionStorage.setItem("selected_job", JSON.stringify(j)); router.push("/recruitment/job-detail"); }}
                     className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                     View
                   </button>
-                  <button onClick={() => { setSelectedItem(job); setIsDeleteModalOpen(true); }}
+                  <button onClick={() => { setSelectedItem(j); setIsDeleteModalOpen(true); }}
                     className="flex items-center gap-1.5 px-3 py-2 bg-[#2c4a6a] hover:bg-[#1e3147] text-white rounded-lg text-xs font-semibold transition-all">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                     Delete
@@ -247,7 +293,7 @@ export default function RecruitmentPage() {
                 </div>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       )}
 
@@ -268,37 +314,39 @@ export default function RecruitmentPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {visible.map(job => (
-                  <tr key={job.id} className="hover:bg-gray-50 transition-colors">
+                {visible.map(job => {
+                  const j = job as Job;
+                  return (
+                  <tr key={j.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                          {job.id.slice(-2)}
+                          {j.id.slice(-2)}
                         </div>
-                        <div><p className="text-sm font-semibold text-gray-900">{job.title}</p><p className="text-xs text-gray-400">{job.id}</p></div>
+                        <div><p className="text-sm font-semibold text-gray-900">{j.title}</p><p className="text-xs text-gray-400">{j.id}</p></div>
                       </div>
                     </td>
-                    <td className="px-6 py-4"><p className="text-sm text-gray-900">{job.department}</p><p className="text-xs text-gray-400">{job.type}</p></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{job.location}</p></td>
-                    <td className="px-6 py-4"><p className="text-sm font-bold text-[#2c4a6a]">{job.salary}</p></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{job.applicants}</p></td>
+                    <td className="px-6 py-4"><p className="text-sm text-gray-900">{j.department}</p><p className="text-xs text-gray-400">{j.type}</p></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{j.location}</p></td>
+                    <td className="px-6 py-4"><p className="text-sm font-bold text-[#2c4a6a]">{j.salary}</p></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{j.applicants}</p></td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(job.status)}`}>{job.status}</span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(j.status)}`}>{j.status}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => { sessionStorage.setItem("selected_job", JSON.stringify(job)); router.push("/recruitment/job-detail"); }}
+                        <button onClick={() => { sessionStorage.setItem("selected_job", JSON.stringify(j)); router.push("/recruitment/job-detail"); }}
                           className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="View">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                         </button>
-                        <button onClick={() => { setSelectedItem(job); setIsDeleteModalOpen(true); }}
+                        <button onClick={() => { setSelectedItem(j); setIsDeleteModalOpen(true); }}
                           className="p-2 hover:bg-[#eef3f9] rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="Delete">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
                       </div>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
@@ -308,33 +356,35 @@ export default function RecruitmentPage() {
       {/* ── Applications cards ───────────────────────────────────────────── */}
       {activeTab === "applications" && viewMode === "cards" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
-          {visible.map(app => (
-            <div key={app.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
+          {visible.map(app => {
+            const a = app as Application;
+            return (
+            <div key={a.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0">
-                    {getInitials(app.candidateName)}
+                    {getInitials(a.candidateName)}
                   </div>
-                  <div><p className="font-semibold text-gray-900 text-sm">{app.candidateName}</p><p className="text-xs text-gray-400">{app.id}</p></div>
+                  <div><p className="font-semibold text-gray-900 text-sm">{a.candidateName}</p><p className="text-xs text-gray-400">{a.id}</p></div>
                 </div>
-                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(app.status)}`}>{app.status}</span>
+                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(a.status)}`}>{a.status}</span>
               </div>
               <div className="space-y-1.5 mb-4 flex-1">
-                <p className="text-sm font-medium text-gray-800 truncate">{app.jobTitle}</p>
-                <p className="text-xs text-gray-500 truncate">{app.email}</p>
-                <p className="text-xs text-gray-400">{app.phone}</p>
-                <p className="text-xs text-gray-400">Experience: {app.experience}</p>
-                <p className="text-xs text-gray-400">Applied: {new Date(app.appliedDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
+                <p className="text-sm font-medium text-gray-800 truncate">{a.jobTitle}</p>
+                <p className="text-xs text-gray-500 truncate">{a.email}</p>
+                <p className="text-xs text-gray-400">{a.phone}</p>
+                <p className="text-xs text-gray-400">Experience: {a.experience}</p>
+                <p className="text-xs text-gray-400">Applied: {new Date(a.appliedDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
               </div>
               <div className="pt-3 border-t border-gray-100 flex items-center justify-end">
-                <button onClick={() => { sessionStorage.setItem("selected_application", JSON.stringify(app)); router.push("/recruitment/application-detail"); }}
+                <button onClick={() => { sessionStorage.setItem("selected_application", JSON.stringify(a)); router.push("/recruitment/application-detail"); }}
                   className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   View
                 </button>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       )}
 
@@ -354,32 +404,34 @@ export default function RecruitmentPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {visible.map(app => (
-                  <tr key={app.id} className="hover:bg-gray-50 transition-colors">
+                {visible.map(app => {
+                  const a = app as Application;
+                  return (
+                  <tr key={a.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                          {getInitials(app.candidateName)}
+                          {getInitials(a.candidateName)}
                         </div>
-                        <div><p className="text-sm font-semibold text-gray-900">{app.candidateName}</p><p className="text-xs text-gray-400">{app.id}</p></div>
+                        <div><p className="text-sm font-semibold text-gray-900">{a.candidateName}</p><p className="text-xs text-gray-400">{a.id}</p></div>
                       </div>
                     </td>
-                    <td className="px-6 py-4"><p className="text-sm text-gray-900">{app.jobTitle}</p></td>
-                    <td className="px-6 py-4"><p className="text-sm text-gray-900 truncate max-w-[200px]">{app.email}</p><p className="text-xs text-gray-400">{app.phone}</p></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{new Date(app.appliedDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p></td>
+                    <td className="px-6 py-4"><p className="text-sm text-gray-900">{a.jobTitle}</p></td>
+                    <td className="px-6 py-4"><p className="text-sm text-gray-900 truncate max-w-[200px]">{a.email}</p><p className="text-xs text-gray-400">{a.phone}</p></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{new Date(a.appliedDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p></td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(app.status)}`}>{app.status}</span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(a.status)}`}>{a.status}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => { sessionStorage.setItem("selected_application", JSON.stringify(app)); router.push("/recruitment/application-detail"); }}
+                        <button onClick={() => { sessionStorage.setItem("selected_application", JSON.stringify(a)); router.push("/recruitment/application-detail"); }}
                           className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="View">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                         </button>
                       </div>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
@@ -389,39 +441,41 @@ export default function RecruitmentPage() {
       {/* ── Candidates cards ─────────────────────────────────────────────── */}
       {activeTab === "candidates" && viewMode === "cards" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
-          {visible.map(candidate => (
-            <div key={candidate.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
+          {visible.map(candidate => {
+            const c = candidate as Candidate;
+            return (
+            <div key={c.id} className="bg-white rounded-2xl border border-gray-100 hover:border-[#c3d2e9] transition-all p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-base flex-shrink-0">
-                    {getInitials(candidate.name)}
+                    {getInitials(c.name)}
                   </div>
-                  <div><p className="font-semibold text-gray-900 text-sm">{candidate.name}</p><p className="text-xs text-gray-400">{candidate.id}</p></div>
+                  <div><p className="font-semibold text-gray-900 text-sm">{c.name}</p><p className="text-xs text-gray-400">{c.id}</p></div>
                 </div>
-                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(candidate.status)}`}>{candidate.status}</span>
+                <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border flex-shrink-0 ${statusColor(c.status)}`}>{c.status}</span>
               </div>
               <div className="space-y-1.5 mb-4 flex-1">
-                <p className="text-sm font-medium text-gray-800 truncate">{candidate.location}</p>
-                <p className="text-xs text-gray-500 truncate">{candidate.email}</p>
-                <p className="text-xs text-gray-400">{candidate.phone}</p>
-                <p className="text-xs text-gray-400">Experience: {candidate.experience}</p>
+                <p className="text-sm font-medium text-gray-800 truncate">{c.location}</p>
+                <p className="text-xs text-gray-500 truncate">{c.email}</p>
+                <p className="text-xs text-gray-400">{c.phone}</p>
+                <p className="text-xs text-gray-400">Experience: {c.experience}</p>
                 <div className="flex flex-wrap gap-1 pt-2">
-                  {candidate.skills.slice(0, 3).map((skill, idx) => (
+                  {c.skills.slice(0, 3).map((skill, idx) => (
                     <span key={idx} className="px-2 py-1 bg-[#d4e1ed] text-[#2c4a6a] rounded text-xs font-medium">{skill}</span>
                   ))}
-                  {candidate.skills.length > 3 && <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{candidate.skills.length - 3}</span>}
+                  {c.skills.length > 3 && <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">+{c.skills.length - 3}</span>}
                 </div>
               </div>
               <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-                <div><p className="text-[10px] text-gray-400 mb-0.5">Applications</p><p className="text-base font-bold text-[#2c4a6a]">{candidate.applications}</p></div>
-                <button onClick={() => { sessionStorage.setItem("selected_candidate", JSON.stringify(candidate)); router.push("/recruitment/candidate-detail"); }}
+                <div><p className="text-[10px] text-gray-400 mb-0.5">Applications</p><p className="text-base font-bold text-[#2c4a6a]">{c.applications}</p></div>
+                <button onClick={() => { sessionStorage.setItem("selected_candidate", JSON.stringify(c)); router.push("/recruitment/candidate-detail"); }}
                   className="flex items-center gap-1.5 px-3 py-2 bg-[#eef3f9] hover:bg-[#c3d2e9] text-[#2c4a6a] rounded-lg text-xs font-semibold transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   View
                 </button>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       )}
 
@@ -441,32 +495,34 @@ export default function RecruitmentPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {visible.map(candidate => (
-                  <tr key={candidate.id} className="hover:bg-gray-50 transition-colors">
+                {visible.map(candidate => {
+                  const c = candidate as Candidate;
+                  return (
+                  <tr key={c.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2c4a6a] to-[#1e3147] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                          {getInitials(candidate.name)}
+                          {getInitials(c.name)}
                         </div>
-                        <div><p className="text-sm font-semibold text-gray-900">{candidate.name}</p><p className="text-xs text-gray-400">{candidate.id}</p></div>
+                        <div><p className="text-sm font-semibold text-gray-900">{c.name}</p><p className="text-xs text-gray-400">{c.id}</p></div>
                       </div>
                     </td>
-                    <td className="px-6 py-4"><p className="text-sm text-gray-900 truncate max-w-[200px]">{candidate.email}</p><p className="text-xs text-gray-400">{candidate.phone}</p></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm font-bold text-[#2c4a6a]">{candidate.experience}</p></td>
-                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{candidate.applications}</p></td>
+                    <td className="px-6 py-4"><p className="text-sm text-gray-900 truncate max-w-[200px]">{c.email}</p><p className="text-xs text-gray-400">{c.phone}</p></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm font-bold text-[#2c4a6a]">{c.experience}</p></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><p className="text-sm text-gray-900">{c.applications}</p></td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(candidate.status)}`}>{candidate.status}</span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColor(c.status)}`}>{c.status}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => { sessionStorage.setItem("selected_candidate", JSON.stringify(candidate)); router.push("/recruitment/candidate-detail"); }}
+                        <button onClick={() => { sessionStorage.setItem("selected_candidate", JSON.stringify(c)); router.push("/recruitment/candidate-detail"); }}
                           className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-[#2c4a6a]" title="View">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                         </button>
                       </div>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
@@ -530,11 +586,11 @@ export default function RecruitmentPage() {
             <form onSubmit={handleCreateJob} className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {[
-                  { label: "Job title",           key: "title",      placeholder: ""                         },
-                  { label: "Department",          key: "department", placeholder: ""                         },
-                  { label: "Location",            key: "location",   placeholder: ""                         },
-                  { label: "Experience required", key: "experience", placeholder: "e.g. 3+ years"            },
-                  { label: "Salary range",        key: "salary",     placeholder: "e.g. GHS5,000 - GHS8,000" },
+                  { label: "Job title",           key: "title" as keyof typeof jobFormData,      placeholder: ""                         },
+                  { label: "Department",          key: "department" as keyof typeof jobFormData, placeholder: ""                         },
+                  { label: "Location",            key: "location" as keyof typeof jobFormData,   placeholder: ""                         },
+                  { label: "Experience required", key: "experience" as keyof typeof jobFormData, placeholder: "e.g. 3+ years"            },
+                  { label: "Salary range",        key: "salary" as keyof typeof jobFormData,     placeholder: "e.g. GHS5,000 - GHS8,000" },
                 ].map(f => (
                   <div key={f.key}>
                     <label className="block text-xs font-semibold text-gray-600 mb-1.5">{f.label} *</label>

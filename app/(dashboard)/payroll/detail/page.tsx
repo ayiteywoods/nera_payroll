@@ -3,6 +3,36 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+interface Payroll {
+  id: string;
+  month: string;
+  totalEmployees: number;
+  totalGrossPay: number;
+  totalNetPay: number;
+  status?: string;
+  approvalStatus?: string;
+  [key: string]: any; // For other potential properties
+}
+
+interface PayrollEmployee {
+  id: string;
+  name: string;
+  dept: string;
+  pos: string;
+  empStatus: string;
+  bank: string;
+  method: string;
+  base: number;
+  allowance: number;
+  bonus: number;
+  gross: number;
+  tax: number;
+  ssnit: number;
+  other: number;
+  totalDeduct: number;
+  net: number;
+}
+
 // Status badge helpers — mirrors the rest of the app
 const statusBadge = (s: string) => ({
   Completed:  { pill: "bg-[#2c4a6a]/10 text-[#2c4a6a] border border-[#2c4a6a]/25", dot: "bg-[#2c4a6a]" },
@@ -45,7 +75,7 @@ function seededRand(seed: number) {
   return () => { s = (s * 1664525 + 1013904223) & 0xffffffff; return Math.abs(s) / 0x7fffffff; };
 }
 
-function generatePayrollEmployees(payroll: any) {
+function generatePayrollEmployees(payroll: Payroll): PayrollEmployee[] {
   const count        = payroll.totalEmployees || 85;
   const grossPerHead = payroll.totalGrossPay / count;
   const rand         = seededRand(parseInt(payroll.id.replace(/\D/g, "") || "1") * 7919);
@@ -79,8 +109,8 @@ type Tab = "overview" | "employees" | "deductions" | "departments";
 
 export default function PayrollDetailPage() {
   const router = useRouter();
-  const [payroll, setPayroll]     = useState<any>(null);
-  const [employees, setEmployees] = useState<any[]>([]);
+  const [payroll, setPayroll]     = useState<Payroll | null>(null);
+  const [employees, setEmployees] = useState<PayrollEmployee[]>([]);
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [search, setSearch]       = useState("");
   const [deptFilter, setDeptFilter] = useState("All");
@@ -145,8 +175,8 @@ export default function PayrollDetailPage() {
     </div>
   );
 
-  const sb = statusBadge(payroll.status);
-  const ab = approvalBadge(payroll.approvalStatus);
+  const sb = statusBadge(payroll?.status || "Pending");
+  const ab = approvalBadge(payroll?.approvalStatus || "Pending");
 
   const tabs: { key: Tab; label: string; icon: string }[] = [
     { key: "overview",    label: "Overview",    icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },

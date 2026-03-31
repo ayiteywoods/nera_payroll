@@ -34,7 +34,7 @@ export default function CreateLeaveRequestPage() {
     return 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.employeeId || !formData.employeeName || !formData.department || !formData.leaveType || !formData.startDate || !formData.endDate || !formData.reason) {

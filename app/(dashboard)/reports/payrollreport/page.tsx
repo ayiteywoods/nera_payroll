@@ -2,6 +2,17 @@
 
 import React, { useState } from "react";
 
+interface Report {
+  id: string;
+  title: string;
+  period: string;
+  type: string;
+  generatedDate: string;
+  generatedBy: string;
+  size: string;
+  status: string;
+}
+
 // Sample report data
 const initialReports = [
   { id: "RPT001", title: "Monthly Payroll Summary", period: "January 2024", type: "Summary", generatedDate: "2024-01-31", generatedBy: "John Mensah", size: "245 KB", status: "Ready" },
@@ -27,8 +38,8 @@ const initialReports = [
 ];
 
 export default function PayrollReportPage() {
-  const [reports, setReports] = useState(initialReports);
-  const [selectedReport, setSelectedReport] = useState(null);
+  const [reports, setReports] = useState<Report[]>(initialReports);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [filterType, setFilterType] = useState("All");
@@ -107,7 +118,7 @@ export default function PayrollReportPage() {
     type === "Analysis"  ? "bg-[#abd4ea]/10 text-[#abd4ea]" :
                            "bg-gray-100 text-gray-700";
 
-  const handleGenerateReport = (e) => {
+  const handleGenerateReport = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newReport = {
       id: `RPT${String(reports.length + 1).padStart(3, '0')}`,
@@ -125,20 +136,20 @@ export default function PayrollReportPage() {
     alert("Report generation initiated!");
   };
 
-  const handleDownloadReport = (report) => {
+  const handleDownloadReport = (report: Report) => {
     alert(`Downloading ${report.title} as PDF...`);
   };
 
-  const handleExportReport = (report, format) => {
+  const handleExportReport = (report: Report, format: string) => {
     alert(`Exporting ${report.title} as ${format}...`);
   };
 
-  const handlePreviewReport = (report) => {
+  const handlePreviewReport = (report: Report) => {
     setSelectedReport(report);
     setIsPreviewModalOpen(true);
   };
 
-  const handleDeleteReport = (reportId) => {
+  const handleDeleteReport = (reportId: string) => {
     if (confirm("Are you sure you want to delete this report?")) {
       setReports(reports.filter(r => r.id !== reportId));
       alert("Report deleted!");

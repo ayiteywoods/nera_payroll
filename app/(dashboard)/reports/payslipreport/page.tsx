@@ -2,6 +2,35 @@
 
 import React, { useState } from "react";
 
+interface SalaryHistory {
+  month: string;
+  grossPay: number;
+  deductions: number;
+  netPay: number;
+  isPaid: boolean;
+}
+
+interface Payslip {
+  id: number;
+  employeeId: string;
+  name: string;
+  department: string;
+  position: string;
+  basicSalary: number;
+  allowances: number;
+  grossPay: number;
+  deductions: number;
+  netPay: number;
+  isPaid: boolean;
+  paymentDate: string | null;
+  period: string;
+  taxAmount: number;
+  ssnitAmount: number;
+  salaryHistory: SalaryHistory[];
+}
+
+
+
 const generatePayslips = () => {
   const names = [
     "John Mensah", "Abena Osei", "Kwame Boateng", "Ama Asante", "Kofi Owusu",
@@ -68,7 +97,7 @@ const generatePayslips = () => {
 export default function PayslipReportPage() {
   const [payslips, setPayslips] = useState(generatePayslips());
   const [filteredPayslips, setFilteredPayslips] = useState(payslips);
-  const [selectedPayslip, setSelectedPayslip] = useState(null);
+  const [selectedPayslip, setSelectedPayslip] = useState<Payslip | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [filterDepartment, setFilterDepartment] = useState("All");
   const [filterPaymentStatus, setFilterPaymentStatus] = useState("All");
@@ -121,8 +150,8 @@ export default function PayslipReportPage() {
 
   const goTo = (n: number) => { setCurrentPage(n); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
-  const handleViewDetails = (payslip) => { setSelectedPayslip(payslip); setIsDetailModalOpen(true); };
-  const handleMarkAsPaid  = (payslipId) => {
+  const handleViewDetails = (payslip: Payslip) => { setSelectedPayslip(payslip); setIsDetailModalOpen(true); };
+  const handleMarkAsPaid  = (payslipId: number) => {
     setPayslips(payslips.map(p =>
       p.id === payslipId ? { ...p, isPaid: true, paymentDate: new Date().toISOString().split('T')[0] } : p
     ));

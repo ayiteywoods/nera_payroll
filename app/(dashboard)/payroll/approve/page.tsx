@@ -3,12 +3,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+interface Payroll {
+  id: string;
+  month: string;
+  totalEmployees: number;
+  totalGrossPay: number;
+  totalNetPay: number;
+  approvalStatus?: string;
+  approvedBy?: string;
+  approvedDate?: string;
+  approverImage?: string;
+}
+
 export default function PayrollApprovalAuthPage() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
-  const [payroll, setPayroll] = useState(null);
+  const [payroll, setPayroll] = useState<Payroll | null>(null);
   const [step, setStep] = useState<"position" | "camera" | "confirm">("position");
   const [position, setPosition] = useState("");
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -69,6 +81,8 @@ export default function PayrollApprovalAuthPage() {
   };
 
   const handleApprove = async () => {
+    if (!payroll) return;
+    
     setIsApproving(true);
 
     // Simulate approval process
@@ -76,8 +90,8 @@ export default function PayrollApprovalAuthPage() {
       // Update payroll in storage
       const payrollsData = sessionStorage.getItem('payrolls');
       if (payrollsData) {
-        const payrolls = JSON.parse(payrollsData);
-        const updatedPayrolls = payrolls.map(p => 
+        const payrolls: Payroll[] = JSON.parse(payrollsData);
+        const updatedPayrolls = payrolls.map((p: Payroll) => 
           p.id === payroll.id 
             ? { 
                 ...p, 
@@ -152,7 +166,7 @@ export default function PayrollApprovalAuthPage() {
               <h3 className="text-3xl font-bold text-[#2c4a6a] mb-3">✓ Approved!</h3>
               <p className="text-gray-900 font-semibold mb-2">Payroll Successfully Approved</p>
               <p className="text-gray-600 text-sm mb-1">
-                Payroll {payroll.id} has been approved
+                Payroll {payroll?.id} has been approved
               </p>
               <p className="text-gray-500 text-xs mt-4">
                 Redirecting to payroll management...
@@ -175,7 +189,7 @@ export default function PayrollApprovalAuthPage() {
           </button>
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-[#153453]">Approve Payroll</h1>
-            <p className="text-sm text-gray-600 mt-1">Authenticate your identity to approve payroll {payroll.id}</p>
+            <p className="text-sm text-gray-600 mt-1">Authenticate your identity to approve payroll {payroll?.id}</p>
           </div>
         </div>
 
@@ -185,19 +199,19 @@ export default function PayrollApprovalAuthPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <p className="text-white/70 text-xs mb-1">Period</p>
-              <p className="font-semibold">{payroll.month}</p>
+              <p className="font-semibold">{payroll?.month}</p>
             </div>
             <div>
               <p className="text-white/70 text-xs mb-1">Employees</p>
-              <p className="text-2xl font-bold">{payroll.totalEmployees}</p>
+              <p className="text-2xl font-bold">{payroll?.totalEmployees}</p>
             </div>
             <div>
               <p className="text-white/70 text-xs mb-1">Gross Pay</p>
-              <p className="text-xl font-bold">₵{payroll.totalGrossPay.toLocaleString()}</p>
+              <p className="text-xl font-bold">₵{payroll?.totalGrossPay.toLocaleString()}</p>
             </div>
             <div>
               <p className="text-white/70 text-xs mb-1">Net Pay</p>
-              <p className="text-xl font-bold">₵{payroll.totalNetPay.toLocaleString()}</p>
+              <p className="text-xl font-bold">₵{payroll?.totalNetPay.toLocaleString()}</p>
             </div>
           </div>
         </div>

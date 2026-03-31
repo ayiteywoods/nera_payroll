@@ -21,7 +21,7 @@ export default function CreateEmployeePage() {
     address: "",
   });
 
-  const [profilePicture, setProfilePicture] = useState({
+  const [profilePicture, setProfilePicture] = useState<{ file: File | null; preview: string | null }>({
     file: null,
     preview: null,
   });
@@ -88,13 +88,13 @@ export default function CreateEmployeePage() {
     { number: 4, name: "Emergency Contact", icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" },
   ];
 
-  const handleEmployeeChange = (e) => {
+  const handleEmployeeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEmployeeData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
+  const handleProfilePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       // Validate file type
       const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
@@ -115,7 +115,7 @@ export default function CreateEmployeePage() {
       reader.onloadend = () => {
         setProfilePicture({
           file: file,
-          preview: reader.result,
+          preview: typeof reader.result === 'string' ? reader.result : null,
         });
       };
       reader.readAsDataURL(file);
@@ -129,18 +129,19 @@ export default function CreateEmployeePage() {
     });
   };
 
-  const handleDetailsChange = (e) => {
+  const handleDetailsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEmployeeDetails(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleBankChange = (e) => {
+  const handleBankChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setBankAccount(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleContactChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const target = e.target as HTMLInputElement;
+    const { name, value, type, checked } = target;
     setContact(prev => ({ 
       ...prev, 
       [name]: type === 'checkbox' ? checked : value 
@@ -212,7 +213,7 @@ export default function CreateEmployeePage() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 

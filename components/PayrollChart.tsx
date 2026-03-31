@@ -23,7 +23,7 @@ const T = {
 };
 
 // ─── Custom tooltip ────────────────────────────────────────────────────────────
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { color: string; name: string; value: number }[]; label?: string }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-white px-4 py-3 rounded-xl shadow-lg border border-gray-200 min-w-[140px]">
@@ -41,7 +41,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 // ─── Custom legend ─────────────────────────────────────────────────────────────
-const CustomLegend = ({ payload }) => (
+const CustomLegend = ({ payload }: { payload?: { color: string; value: string }[] }) => (
   <div className="flex items-center justify-center gap-5 pt-3">
     {payload?.map((entry, i) => (
       <div key={i} className="flex items-center gap-1.5">
@@ -58,7 +58,7 @@ const PayrollChart = () => {
 
   const avg     = data.reduce((s, d) => s + d.payroll, 0) / data.length;
   const highest = Math.max(...data.map(d => d.payroll));
-  const growth  = (((data.at(-1).payroll - data[0].payroll) / data[0].payroll) * 100).toFixed(1);
+  const growth  = ((((data.at(-1)?.payroll ?? 0) - data[0].payroll) / data[0].payroll) * 100).toFixed(1);
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 flex flex-col h-full">

@@ -3,14 +3,37 @@
 import React, { useState } from "react";
 
 export default function BenefitsAndDeductionsPage() {
-  const [activeTab, setActiveTab] = useState("benefits");
+  type ItemStatus = "Active" | "Inactive";
+  type Tab = "benefits" | "deductions";
+
+  interface BenefitDeductionItem {
+    id: number;
+    name: string;
+    type: string;
+    amount: string;
+    status: ItemStatus;
+  }
+
+  interface FormData {
+    name: string;
+    type: string;
+    amount: string;
+    status: ItemStatus;
+  }
+
+  interface CategoryItem {
+    id: number;
+    name: string;
+  }
+
+  const [activeTab, setActiveTab] = useState<Tab>("benefits");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<BenefitDeductionItem | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     type: "",
     amount: "",
@@ -22,9 +45,8 @@ export default function BenefitsAndDeductionsPage() {
     description: "",
   });
 
-  const [benefits, setBenefits] = useState([
-    { id: 1, name: "Housing Allowance", type: "Allowances", amount: "GHS 500 / month", status: "Active" },
-    { id: 2, name: "Transport Allowance", type: "Allowances", amount: "GHS 300 / month", status: "Active" },
+  const [benefits, setBenefits] = useState<BenefitDeductionItem[]>([
+    { id: 1, name: "Housing Allowance", type: "Allowances", amount: "GHS 500 / month", status: "Active" },    { id: 2, name: "Transport Allowance", type: "Allowances", amount: "GHS 300 / month", status: "Active" },
     { id: 3, name: "Meal Allowance", type: "Allowances", amount: "GHS 200 / month", status: "Active" },
     { id: 4, name: "Base Salary", type: "Compensation", amount: "GHS 2000 / month", status: "Active" },
     { id: 5, name: "Performance Bonus", type: "Compensation", amount: "GHS 800 / month", status: "Active" },
@@ -37,9 +59,8 @@ export default function BenefitsAndDeductionsPage() {
     { id: 12, name: "Dependents", type: "Beneficiaries", amount: "GHS 150 / month", status: "Active" },
   ]);
 
-  const [deductions, setDeductions] = useState([
-    { id: 1, name: "PAYE Tax", type: "Deductions Category", amount: "15%", status: "Active" },
-    { id: 2, name: "Withholding Tax", type: "Deductions Category", amount: "7.5%", status: "Active" },
+  const [deductions, setDeductions] = useState<BenefitDeductionItem[]>([
+    { id: 1, name: "PAYE Tax", type: "Deductions Category", amount: "15%", status: "Active" },    { id: 2, name: "Withholding Tax", type: "Deductions Category", amount: "7.5%", status: "Active" },
     { id: 3, name: "Employee Contribution", type: "SSNIT", amount: "5.5%", status: "Active" },
     { id: 4, name: "Employer Contribution", type: "SSNIT", amount: "13%", status: "Active" },
     { id: 5, name: "Tier 1", type: "Pension", amount: "5%", status: "Active" },
@@ -72,9 +93,9 @@ export default function BenefitsAndDeductionsPage() {
     return activeTab === "benefits" ? benefitCategories : deductionCategories;
   };
 
-  const handleCreate = (e) => {
+  const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newItem = {
+    const newItem: BenefitDeductionItem = {
       id: getCurrentData().length + 1,
       name: formData.name,
       type: formData.type,
@@ -93,7 +114,7 @@ export default function BenefitsAndDeductionsPage() {
     alert(`${activeTab === "benefits" ? "Benefit" : "Deduction"} created successfully!`);
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (item: BenefitDeductionItem) => {
     setSelectedItem(item);
     setFormData({
       name: item.name,
@@ -104,9 +125,10 @@ export default function BenefitsAndDeductionsPage() {
     setIsEditModalOpen(true);
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedItem = {
+    if (!selectedItem) return;
+    const updatedItem: BenefitDeductionItem = {
       ...selectedItem,
       name: formData.name,
       type: formData.type,
@@ -126,12 +148,14 @@ export default function BenefitsAndDeductionsPage() {
     alert(`${activeTab === "benefits" ? "Benefit" : "Deduction"} updated successfully!`);
   };
 
-  const handleDisable = (item) => {
+  const handleDisable = (item: BenefitDeductionItem) => {
     setSelectedItem(item);
     setIsDeleteModalOpen(true);
   };
 
   const confirmDisable = () => {
+    if (!selectedItem) return;
+
     if (activeTab === "benefits") {
       setBenefits(benefits.map(b => 
         b.id === selectedItem.id ? { ...b, status: "Inactive" } : b
@@ -152,7 +176,7 @@ export default function BenefitsAndDeductionsPage() {
     alert("Exporting data to PDF...");
   };
 
-  const handleAddCategory = (e) => {
+  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Adding new category:", categoryFormData);
     setIsCategoryModalOpen(false);
@@ -188,7 +212,7 @@ export default function BenefitsAndDeductionsPage() {
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
         {/* Tabs */}
         <div className="border-b border-gray-100 px-6 pt-4 flex">
-          {["benefits", "deductions"].map((tab) => (
+          {(["benefits", "deductions"] as Tab[]).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -387,7 +411,7 @@ export default function BenefitsAndDeductionsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
                   <select
                     value={formData.status}
-                    onChange={(e) => setFormData({...formData, status: e.target.value})}
+                    onChange={(e) => setFormData({...formData, status: e.target.value as ItemStatus})}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
                   >
                     <option value="Active">Active</option>
@@ -479,7 +503,7 @@ export default function BenefitsAndDeductionsPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
                   <select
                     value={formData.status}
-                    onChange={(e) => setFormData({...formData, status: e.target.value})}
+                    onChange={(e) => setFormData({...formData, status: e.target.value as ItemStatus})}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#2c4a6a] bg-white"
                   >
                     <option value="Active">Active</option>

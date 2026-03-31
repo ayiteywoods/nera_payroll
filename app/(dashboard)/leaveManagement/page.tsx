@@ -4,6 +4,23 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+interface LeaveRequest {
+  id: string;
+  employeeId: string;
+  profileImage: string;
+  employeeName: string;
+  department: string;
+  leaveType: string;
+  startDate: string;
+  endDate: string;
+  totalDays: number;
+  reason: string;
+  status: string;
+  appliedDate: string;
+  approvedBy: string | null;
+  approvedDate: string | null;
+}
+
 const generateLeaveRequests = () => {
   const names = [
     "John Mensah", "Abena Osei", "Kwame Boateng", "Ama Asante", "Kofi Owusu",
@@ -54,14 +71,14 @@ const initialLeaveRequests = generateLeaveRequests();
 export default function LeaveManagementPage() {
   const [leaveRequests, setLeaveRequests]         = useState(initialLeaveRequests);
   const [filteredRequests, setFilteredRequests]   = useState(initialLeaveRequests);
-  const [selectedRequest, setSelectedRequest]     = useState<any>(null);
+  const [selectedRequest, setSelectedRequest]     = useState<LeaveRequest | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [modalStatus, setModalStatus]             = useState<string>("");   // local status inside modal
   const [filterStatus, setFilterStatus]           = useState("All");
   const [filterType, setFilterType]               = useState("All");
   const [searchTerm, setSearchTerm]               = useState("");
-  const [notification, setNotification]           = useState<any>(null);
+  const [notification, setNotification]           = useState<{ type: string; message: string } | null>(null);
   const [sortBy, setSortBy]                       = useState("date");
   const [viewMode, setViewMode]                   = useState<"cards" | "list">("list");
   const [currentPage, setCurrentPage]             = useState(1);
@@ -108,13 +125,13 @@ export default function LeaveManagementPage() {
   };
 
   // Open view modal and seed local status picker
-  const openView = (request) => {
+  const openView = (request: LeaveRequest) => {
     setSelectedRequest(request);
     setModalStatus(request.status);
     setIsDetailModalOpen(true);
   };
 
-  const openDelete = (request) => {
+  const openDelete = (request: LeaveRequest) => {
     setSelectedRequest(request);
     setIsDeleteModalOpen(true);
   };
@@ -138,6 +155,7 @@ export default function LeaveManagementPage() {
   };
 
   const handleDeleteRequest = () => {
+    if (!selectedRequest) return;
     setLeaveRequests(prev => prev.filter(r => r.id !== selectedRequest.id));
     setIsDeleteModalOpen(false);
     if (isDetailModalOpen) setIsDetailModalOpen(false);
@@ -145,14 +163,14 @@ export default function LeaveManagementPage() {
     showNotification('success', `Leave request ${selectedRequest.id} has been deleted.`);
   };
 
-  const handleApprove = (requestId) => {
+  const handleApprove = (requestId: string) => {
     setLeaveRequests(prev => prev.map(r =>
       r.id === requestId ? { ...r, status: "Approved", approvedBy: "Current User", approvedDate: new Date().toISOString().split('T')[0] } : r
     ));
     showNotification('success', 'Leave request approved successfully.');
   };
 
-  const handleReject = (requestId) => {
+  const handleReject = (requestId: string) => {
     setLeaveRequests(prev => prev.map(r =>
       r.id === requestId ? { ...r, status: "Rejected", approvedBy: "Current User", approvedDate: new Date().toISOString().split('T')[0] } : r
     ));
@@ -170,14 +188,16 @@ export default function LeaveManagementPage() {
 
   const goTo = (n: number) => { setCurrentPage(n); window.scrollTo({top:0,behavior:"smooth"}); };
 
-  const getStatusColor = (status) => ({
+  const statusColors = {
     Approved: "bg-[#d4e1ed] text-[#2c4a6a] border-[#a8c5db]",
     Pending:  "bg-[#e8eef4] text-[#4a6b8a] border-[#c3d2e9]",
     Rejected: "bg-[#bfcfde] text-[#1e3147] border-[#96b3cc]",
-  }[status] ?? "bg-gray-100 text-gray-700 border-gray-200");
+  };
+
+  const getStatusColor = (status: string) => statusColors[status as keyof typeof statusColors] ?? "bg-gray-100 text-gray-700 border-gray-200";
 
   // ─── Reusable action buttons ───────────────────────────────────────────────
-  const ActionButtons = ({ request, compact = false }: { request: any; compact?: boolean }) => (
+  const ActionButtons = ({ request, compact = false }: { request: LeaveRequest; compact?: boolean }) => (
     <div className={`flex items-center gap-2 ${compact ? "justify-end" : "flex-wrap"}`}>
       {/* View */}
       <button

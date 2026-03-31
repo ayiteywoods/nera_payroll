@@ -4,7 +4,30 @@ import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const initialPayrolls = [
+interface Payroll {
+  id: string;
+  month: string;
+  period: string;
+  totalEmployees: number;
+  totalGrossPay: number;
+  totalDeductions: number;
+  totalNetPay: number;
+  status: string;
+  processedDate: string;
+  processedBy: string;
+  approvalStatus: string;
+  approvedBy: string | null;
+  approvedDate: string | null;
+}
+
+interface Notification {
+  type: string;
+  title: string;
+  message: string;
+  payrollId?: string;
+}
+
+const initialPayrolls: Payroll[] = [
   { id: "PAY001", month: "January 2024",  period: "January 1 – January 31, 2024",   totalEmployees: 84, totalGrossPay: 162400, totalDeductions: 18450, totalNetPay: 143950, status: "Completed",  processedDate: "2024-01-28", processedBy: "John Mensah",  approvalStatus: "Approved", approvedBy: "Sarah Johnson",  approvedDate: "2024-01-27" },
   { id: "PAY002", month: "February 2024", period: "February 1 – February 29, 2024", totalEmployees: 85, totalGrossPay: 165200, totalDeductions: 18700, totalNetPay: 146500, status: "Completed",  processedDate: "2024-02-27", processedBy: "Ama Serwaa",  approvalStatus: "Approved", approvedBy: "Michael Owusu", approvedDate: "2024-02-26" },
   { id: "PAY003", month: "March 2024",    period: "March 1 – March 31, 2024",       totalEmployees: 86, totalGrossPay: 168900, totalDeductions: 19120, totalNetPay: 149780, status: "Completed",  processedDate: "2024-03-29", processedBy: "Kofi Boateng", approvalStatus: "Approved", approvedBy: "Sarah Johnson",  approvedDate: "2024-03-28" },
@@ -23,10 +46,10 @@ const statusColor = (s: string) =>
 
 export default function PayrollPage() {
   const router = useRouter();
-  const [payrolls, setPayrolls]           = useState(initialPayrolls);
-  const [selectedPayroll, setSelectedPayroll] = useState(null);
+  const [payrolls, setPayrolls]           = useState<Payroll[]>(initialPayrolls);
+  const [selectedPayroll, setSelectedPayroll] = useState<Payroll | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [notification, setNotification]   = useState(null);
+  const [notification, setNotification]   = useState<Notification | null>(null);
 
   const [searchTerm, setSearchTerm]       = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
@@ -84,6 +107,7 @@ export default function PayrollPage() {
   const goTo = (n: number) => { setCurrentPage(n); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   const handleDeletePayroll = () => {
+    if (!selectedPayroll) return;
     setPayrolls(payrolls.filter(p => p.id !== selectedPayroll.id));
     setIsDeleteModalOpen(false);
     setNotification({ type: "success", title: "Payroll deleted", message: `Payroll ${selectedPayroll.id} has been successfully deleted.` });
